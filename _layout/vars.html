@@ -1,0 +1,127 @@
+<style>
+:root {
+    /* GEOMETRY */
+
+    --topbar-height:    55px;
+    --topbar-ph:        60px;
+
+    --menu-width:       300px;
+
+    /* BG IMGS */
+    --x-square:      url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>');
+    --x-square-fill: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/></svg>');
+    --burger:        url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="floralwhite"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/></svg>');
+
+    /* COLORS */
+    --col-cream:        #fffefc;
+    --col-chalk: 	    #c6cbd3;
+    --col-xlight:       #e7eaf6;
+    --col-light:        #a2a8d3;
+    --col-dark:         #38598b;
+    --col-xdark:        #113f67;
+    --col-lblue:        #03a7dd;
+
+    --col-gray:         gray;
+    --col-black: 	    #000;
+    --col-blue:		    #118cfd;
+    --col-graphite:     #4f5a66;
+    --col-green: 		#12ca93;
+    --col-ivory: 		#f0f0f0;
+    --col-lgray: 		#f8f8f8;
+    --col-purple:	    #8470be;
+    --col-red: 		    #e95f6a;
+    --col-shale: 		#939eae;
+    --col-slate: 	    #384248;
+    --col-yellow: 	    #f7c543;
+    --col-brown: 		#7a461c;
+    --col-coral: 		#ff758c;
+    --col-fuchsia: 	    #cf66c3;
+    --col-gold: 		#9d8714;
+    --col-indigo: 	    #6b7ede;
+    --col-lavender:     #abc3ff;
+    --col-lime: 		#9ace5a;
+    --col-olive: 		#837400;
+    --col-orange: 	    #fe8e4f;
+    --col-pink: 		#e15ca5;
+    --col-teal: 		#00b6e6;
+    --col-tiffany: 	    #00beaa;
+    --col-bluePastel:   #a8edff;
+    --col-greenPastel:  #9bfff6;
+    --col-orangePastel: #f5bc90;
+    --col-purplePastel: #e8d0ff;
+    --col-redPastel: 	#ffc4c9;
+    --col-yellowPastel: #ffffa7;
+
+    --blue0:   #002077;
+    --blue10:  #003290;
+    --blue20:  #0047aa;
+    --blue30:  #005dc5;
+    --blue40:  #0074e1;
+    --blue50:  #118cfd;
+    --blue60:  #619efe;
+    --blue70:  #8ab0ff;
+    --blue80:  #abc3ff;
+    --blue90:  #c8d7ff;
+    --blue100: #e4ebff;
+
+    --green0:   #002e02;
+    --green10:  #00491f;
+    --green20:  #00683a;
+    --green30:  #008756;
+    --green40:  #00a874;
+    --green50:  #12ca93;
+    --green60:  #59d4a4;
+    --green70:  #81ddb6;
+    --green80:  #a3e6c8;
+    --green90:  #c3efda;
+    --green100: #e1f7ec;
+
+    --gray0:   #12181b;
+    --gray10:  #242e34;
+    --gray20:  #384248;
+    --gray30:  #4f5a66;
+    --gray40:  #637288;
+    --gray50:  #7b889b;
+    --gray60:  #939eae;
+    --gray70:  #adb4c1;
+    --gray80:  #c6cbd3;
+    --gray90:  #f0f0f0;
+    --gray100: #f8f8f8;
+
+    --purple0:   #110e4d;
+    --purple10:  #2a1f63;
+    --purple20:  #403278;
+    --purple30:  #56468f;
+    --purple40:  #6d5ba6;
+    --purple50:  #8470be;
+    --purple60:  #9987c9;
+    --purple70:  #ae9ed4;
+    --purple80:  #c2b5df;
+    --purple90:  #d6cdea;
+    --purple100: #ebe6f4;
+
+    --red0:   #570000;
+    --red10:  #730014;
+    --red20:  #900027;
+    --red30:  #ad273c;
+    --red40:  #cb4452;
+    --red50:  #e95f6a;
+    --red60:  #f17c81;
+    --red70:  #f79799;
+    --red80:  #fcb1b2;
+    --red90:  #ffcbcb;
+    --red100: #ffe5e5;
+
+    --yellow0:   #3e1d00;
+    --yellow10:  #5a3c00;
+    --yellow20:  #7d5b00;
+    --yellow30:  #a57d00;
+    --yellow40:  #cda017;
+    --yellow50:  #f7c543;
+    --yellow60:  #fcce66;
+    --yellow70:  #ffd885;
+    --yellow80:  #ffe1a4;
+    --yellow90:  #ffebc2;
+    --yellow100: #fff5e0;
+}
+</style>
