@@ -12,16 +12,38 @@
 <style>
 :root {
     /* GEOMETRY */
+    --topbar-height:     55px;
+    --topbar-ph:         60px;
+    --menu-width:        225px;
+    --content-max-width: 800px;
+    --wide-leftpad:      calc(0.5 * (100% - 2*var(--menu-width) - var(--content-max-width)));
 
-    --topbar-height:    55px;
-    --topbar-ph:        60px;
-
-    --menu-width:       300px;
 
     /* BG IMGS */
     --x-square:      url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="floralWhite"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>');
     --x-square-fill: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="floralWhite"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/></svg>');
     --burger:        url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="floralwhite"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/></svg>');
+    --franklin:      url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 50"><path d="M15.1 2.8c-2.3 1.6-3 1.8-5.2 1.5-3.6-.5-4.9-.1-5.4 1.6-.3 1-.4 3.1-.3 6 0 1.6 0 2.5-.1 2.8-.1.2-.8.9-1.7 1.6-.8.6-1.7 1.3-1.8 1.5-.3.4-.3 1 .1 1 .1 0 7.1-1.3 15.4-2.9 16.5-3.2 15.8-3 15.6-3.8-.1-.4-.9-.9-1.6-.9-.3 0-1 0-1.5-.1-1.8-.1-2.7-.8-3.5-2.5-1.5-3.5-3.1-6.5-4-7.5-.3-.3-.7-.6-1-.7-1-.1-2.1.4-5 2.4z" fill="white"/><path d="M9.3 36.6V26.2c0-2.1-.7-3.2-2.2-3.2-.4 0-.7 0-.8.1-.5.1-.8.2-1.1.2-.4 0-.7-.1-.9-.4-.3-.3-.4-.6-.4-1 0-1 .6-1.5 1.8-1.5h.6l3 .3c1.1.1 2.4.2 3.7.2.7 0 2.3 0 4.8-.1l4.9-.2c.7 0 1.4-.1 2.3-.1.4-.1.8-.1 1.3-.1 1.5 0 2.3.7 2.3 2 0 .5-.1 1.3-.2 2.4-.1 1.1-.2 1.9-.2 2.4s0 1 .1 1.7.1 1.3.1 1.9c0 1.2-.5 1.8-1.5 1.8-1.1 0-1.6-.7-1.6-2 0-.4 0-1 .1-1.8s.1-1.4.1-1.8c0-1.5-.4-2.5-1.3-2.9-.9-.4-2.9-.6-6.1-.6-2.7 0-4.3.2-4.6.7-.3.4-.4 1.7-.4 3.9v3.2c0 .8.1 1.3.3 1.5s.8.3 1.8.3h1.4c1.9 0 2.8-.7 2.8-2.1 0-.3 0-.7-.1-1.3-.3-.7-.3-1.1-.3-1.4 0-1.1.5-1.6 1.5-1.6s1.5.6 1.5 1.9c0 .2 0 .5-.1 1l-.3 2.3c-.1 1-.2 1.8-.2 2.3 0 1.2.2 2.7.4 4.5.1.6.2 1.2.2 1.7 0 1.1-.5 1.7-1.5 1.7s-1.5-.6-1.5-1.8c0-.3 0-.7.1-1.3 0-.6.1-1 .1-1.3 0-.9-.2-1.5-.7-1.7-.3-.2-1-.3-2-.3h-1.3c-1 0-1.6.1-1.8.3-.2.2-.3.8-.3 1.9V43c0 1.3.1 2.2.4 2.7.3.5.9.7 1.7.7H17c1.3 0 2 .5 2 1.5 0 .4-.1.7-.4 1-.3.3-.7.4-1.1.4-.5 0-1.1-.1-2-.2-1.3-.2-2.7-.3-4.3-.3-1 0-2.1.1-3.3.3l-1.5.2h-.6c-1.3 0-1.9-.5-1.9-1.5 0-.9.4-1.4 1.3-1.4.1 0 .5 0 1.1.1.3.1.6.1.9.1.8 0 1.3-.2 1.6-.7.3-.5.5-1.3.5-2.5v-6.8z" fill="white"/></svg>');
+
+    /* FONTS etc */
+    --text-sm:     0.95em;
+    --text-lg:     1.2em;
+    --text-xl:     1.4em;
+	--text-h4: 		 1.2em;
+    --text-h3:     1.5em;
+    --text-h2:     2em;
+	--text-h1: 		 3em;
+    --text-col:    hsl(0, 0%, 20%);
+    --text-font:   system-ui,-apple-system,"Segoe UI",Roboto,
+                    "Helvetica Neue",Arial,"Noto Sans",
+                    "Liberation Sans",sans-serif,"Apple Color Emoji",
+                    "Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    --text-line-height:  1.5;
+
+    --code-font:   SFMono-Regular,Menlo,Monaco,Consolas,
+						     "Liberation Mono","Courier New",monospace;
+    --code-size:   .875em;
+	--code-col:    #d63384;
 
     /* COLORS */
     --col-cream:        #fffefc;
@@ -147,11 +169,72 @@
 
     Breakpoints:
         48em (768px)  for narrow screens / handheld devices
-        75em (1200px) for large screens
- */
+        79em (1264px) for large screens
+*/
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
+    width: 100%;
+    font-family: var(--text-font);
+    color: var(--text-col);
+    line-height: var(--text-line-height);
     background-color: var(--col-cream);
 }
+
+a {
+    color: var(--blue30);
+    text-decoration: none;
+}
+
+:is(h1, h2, h3, h4) a {
+	text-decoration: none;
+	color: var(--col-dark);
+}
+:is(h1, h2, h3, h4) {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+h1 {
+	font-size: var(--text-h1);
+	font-weight: 600;
+}
+
+h2 {
+	font-size:   var(--text-h2);
+	padding-top: 1em;
+	font-weight: 550;
+}
+
+h3 {
+	font-size:   var(--text-h3);
+	padding-top: 1em;
+	font-weight: 450;
+}
+
+h4 {
+	font-size: var(--text-h4);
+	padding-top: 1em;
+	font-weight: 350;
+}
+
+code {
+	font-family: var(--code-font);
+	font-size:   var(--code-size);
+	color:       var(--code-col);
+	word-wrap:   break-word;
+}
+
+pre code.hljs {
+	background-color: var(--block-background);
+	border-radius: 7px;
+	padding-left: 1.5em;
+}
+
+/* Skeleton elements */
 
 #topbar {
 	position: fixed;
@@ -185,26 +268,6 @@ body {
             height: 65%;
         }
 
-#lunrSearchForm {
-    visibility: hidden;
-	padding-top: 13px;
-	margin-left: 15px;
-}
-    #lunrSearchForm input {
-        line-height: 1.5em;
-    }
-
-       #lunrSearchForm input.search-input {
-            width: var(--search-input-width);
-            padding-left: 10px;
-        }
-
-        #lunrSearchForm input[type=submit] {
-            visibility: hidden;
-            width: 0;
-            /* cursor: pointer; */
-        }
-
 #layout {
 	position: relative;
 	left: 0;
@@ -226,13 +289,17 @@ body {
 	}
 }
 
+@media (min-width: 79em) {
+    #layout {
+        padding-left: calc(var(--menu-width) + var(--wide-leftpad));
+    }
+}
+
 </style>
 
 
 
-<div id="topbar">
-    
-</div>
+<div id="topbar"></div>
 
 <div id="layout">
     <style>
@@ -261,7 +328,7 @@ body {
 	left: 0;
 	bottom: 0;
 	z-index: 500; 			/* so the menu or its navicon stays above all content */
-	background: #191818;
+	/* background: #191818; */
 	overflow-y: auto;
 }
 	/* All anchors inside the menu should be styled like this. */
@@ -279,10 +346,10 @@ body {
 	}
 
 	/* Add that light border to separate items into groups. */
-	#menu .pure-menu ul,
+	/* #menu .pure-menu ul,
 	#menu .pure-menu .menu-item-divided {
 		border-top: 1px solid #333;
-	}
+	} */
 		/* Change color of the anchor links on hover/focus.	*/
 		#menu .pure-menu li a:hover,
 		#menu .pure-menu li a:focus {
@@ -302,8 +369,8 @@ body {
 	#menu-top {
 		color: white;
 		height: var(--topbar-height);
-		background: red;
-		border-right: 1px solid white;
+		background: var(--col-dark);
+		border-right: 1px solid var(--col-cream);
 	}
 
 /*
@@ -358,6 +425,46 @@ small screens.
 		display: block;
 	}
 
+#lunrSearchForm {
+	/* visibility: hidden; */
+	padding-top: 13px;
+	padding-left: calc(0.09 * var(--menu-width));
+}
+	#lunrSearchForm input {
+		line-height: 1.5em;
+	}
+
+		#lunrSearchForm input.search-input {
+			width: calc(0.75 * var(--menu-width));
+			padding-left: 10px;
+		}
+
+		#lunrSearchForm input[type=submit] {
+			visibility: hidden;
+			width: 0;
+			/* cursor: pointer; */
+		}
+
+#logo {
+	position: fixed;
+	display: block;
+	height: var(--topbar-height);
+	width: var(--topbar-height);
+	z-index: 500;
+	top: 0;
+	right: 0;
+	/* background-color: red; */
+}
+	#logoLogo {
+		pointer-events:none;
+		height: calc(0.8*var(--topbar-height));
+		width: calc(0.8*var(--topbar-height));
+		margin-left: auto;
+		margin-right: auto;
+		background: var(--franklin) no-repeat;
+		background-size: contain;
+		display: block;
+	}
 
 /* Add transition to containers so they can push in and out. */
 #menu,
@@ -405,6 +512,12 @@ small screens.
 	}
 }
 
+@media (min-width: 79em) {
+	#menu {
+		padding-left: var(--wide-leftpad);
+	}
+}
+
 </style>
 
 
@@ -415,16 +528,22 @@ small screens.
 	<div class="v-spacer-menulink"></div>
 </a>
 
-<a href="#menu" id="menuDismiss" class="menu-link">
+
+
+<a href="/layout-tester/" id="logo">
 	<div class="v-spacer-menulink"></div>
-	<div id="menuDismissIcon"></div>
+	<div id="logoLogo"></div>
 	<div class="v-spacer-menulink"></div>
 </a>
 
 <div id="menu">
 	<div class="pure-menu">
-		
-		<div id="menu-top"></div>
+		<div id="menu-top">
+			<form id="lunrSearchForm" name="lunrSearchForm">
+				<input class="search-input" name="q" placeholder="Search the docs..." type="text">
+				<input type="submit" value="🔍" formaction="/layout-tester/search/index.html">
+			</form>
+		</div>
 
 		<ul class="pure-menu-list">
 			<li class="pure-menu-item"><a href="#home" class="pure-menu-link">Home</a></li>
@@ -452,16 +571,16 @@ small screens.
 			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
 		</ul>
 	</div>
-</div> 
+</div>           
     <style>
-#main {
+#mainContainer {
     padding-top: var(--topbar-height);
 }
 
 .content {
     margin: 0 auto;
     padding: 0 2em;
-    max-width: 800px;
+    max-width: var(--content-max-width);
     margin-bottom: 50px;
     line-height: 1.6em;
 }
@@ -472,6 +591,7 @@ small screens.
     text-align: center;
     padding: 2.5em 2em 0;
     border-bottom: 1px solid #eee;
+    max-width: var(--content-max-width);
 }
     .header h1 {
         margin: 0.2em 0;
@@ -493,11 +613,11 @@ small screens.
 
 /* -- When layout is active ----------------------------------------------- */
 
-#layout.active #main {
+#layout.active #mainContainer {
 	width: 100%;
 }
 
-#layout.active #main:after {
+#layout.active #mainContainer:after {
 	content: " ";
 	z-index: 10;
 	display: block;
@@ -521,18 +641,55 @@ small screens.
 	}
 }
 
+@media (min-width: 79em) { /* (250 + 1000 + 200)/16
+    /* 1200px min */
+    #mainContainer {
+        width: calc(var(--content-max-width) + var(--menu-width));
+    }
+    #mainContainer1 {
+        width: var(--content-max-width);
+        float: left;
+    }
+}
+
 </style>
 
 
-<div id="main">
-    <div class="header">
-        <h1>Page Title</h1>
-        <h2>A subtitle for your page goes here</h2>
-    </div>
+<div id="mainContainer">
+    <div id="mainContainer1">
+        <div class="header">
+            <h1>Page Title</h1>
+            <h2>A subtitle for your page goes here</h2>
+        </div>
 
-    <div class="content">
-        
-        <h1 id="section" ><a href="#section"> Section</a></h1><p>Miso dressing lentils kimchi green grapes raspberry fizz habanero golden pasta Indian spiced sesame soba noodles seeds pesto maple orange tempeh crunchy seaweed tabasco pepper. Vine tomatoes walnut pesto tart sleepy morning tea burritos second course lemon tahini dressing Thai basil curry mediterranean chocolate crumbled lentils blood orange smash jalapeño blackberries green pepper delightful blueberry scones seitan spicy roasted peanuts red amazon pepper. Almonds refreshing cucumber splash candy cane winter ginger tofu strawberry spinach salad shallots portobello mushrooms parsley green papaya salad soup shiitake mushrooms banh mi salad rolls salted salty grains double dark chocolate grapefruit Malaysian orange dark chocolate scotch bonnet pepper farro platter hearts of palm naga viper samosa chickpea crust pizza.</p>
+        <div class="content">
+            
+            <h1 id="section" ><a href="#section"> Section</a></h1><p>Miso dressing lentils kimchi green grapes raspberry fizz habanero golden pasta Indian spiced sesame soba noodles seeds pesto maple orange tempeh crunchy seaweed tabasco pepper.</p>
+<p>Text formatting: <em>italic</em> <strong>bold</strong> <strong>bold italic</strong> then also <a href="https://franklinjl.org">links</a>.</p>
+<p>Vine tomatoes walnut pesto tart sleepy morning tea burritos second course lemon tahini dressing Thai basil curry mediterranean chocolate crumbled lentils blood orange smash jalapeño blackberries green pepper delightful blueberry scones seitan spicy roasted peanuts red amazon pepper.</p>
+<ul>
+<li>list item</li>
+<li>list item<ul>
+<li>sublist item</li>
+<li>sublist item</li>
+</ul>
+</li>
+<li>list item</li>
+</ul>
+<p>Almonds refreshing cucumber splash candy cane winter ginger tofu strawberry spinach salad shallots portobello mushrooms parsley green papaya salad soup shiitake mushrooms banh mi salad rolls salted salty grains double dark chocolate grapefruit Malaysian orange dark chocolate scotch bonnet pepper farro platter hearts of palm naga viper samosa chickpea crust pizza.</p>
+<ol>
+<li>enum item</li>
+<li>enum item<ol>
+<li>enum subitem</li>
+<li>enum subitem</li>
+</ol>
+</li>
+<li>enum item</li>
+</ol>
+<p>Almonds refreshing cucumber splash candy cane winter ginger tofu strawberry spinach salad shallots portobello mushrooms parsley green papaya salad soup shiitake mushrooms banh mi salad rolls salted salty grains double dark chocolate grapefruit Malaysian orange dark chocolate scotch bonnet pepper farro platter hearts of palm naga viper samosa chickpea crust pizza.</p>
+<pre><code class="julia">function foo()
+    return 1+1
+end</code></pre>
 <h2 id="subsection" ><a href="#subsection"> Subsection</a></h2><p>Coconut lime mint lime taco salsa shaved almonds summertime lavender lemonade plums eating together vitamin glow fig arugula cashew salad Mexican fiesta kale caesar salad basil. Sandwiches dragon fruit dill figs red lentil curry crunchy red curry tofu noodles Chinese five-spice powder a delicious meal cumin elderberry creamy cauliflower alfredo sauce lemon golden cayenne pepper fresh lemon red lentil soup.</p>
 <h2 id="subsection_(5)" ><a href="#subsection_(5)"> Subsection (5)</a></h2><p>Spring cauliflower ghost pepper sweet potato arugula salad Thai curry veggie burgers artichoke hearts lingonberry hazelnut shiitake tempeh instant pot chili cozy butternut strawberries chai tea paprika vegan cool enchiladas four-layer matcha pineapple salsa. Mocha chocolate summer fruit salad dessert leek pumpkin peppermint edamame hummus lime mango crisp sparkling pomegranate punch cinnamon chia seeds oranges balsamic vinaigrette cilantro zesty tofu pad thai Italian linguine puttanesca cocoa comforting pumpkin spice latte ginger carrot spiced juice quinoa flatbread lemongrass.</p>
 <h3 id="subsubsection" ><a href="#subsubsection"> Subsubsection</a></h3><p>Sweet potato black bean burrito cinnamon toast bananas mushroom risotto entree apple vinaigrette black bean chili dip bento box seasonal cool off guacamole cookies basmati cremini mushrooms açai apples peanut butter peanut butter crunch green tea. Soba noodles picnic salad sriracha pecans blueberry chia seed jam chilies casserole coconut sugar winter cherries salad chocolate cookie pomegranate Thai kale macadamia nut cookies udon noodles fiery fruit miso turmeric glazed aubergine almond milk muffins.</p>
@@ -541,8 +698,33 @@ small screens.
 <p>One bowl earl grey latte creamy cauliflower alfredo mediterranean vegetables alfalfa sprouts cool cucumbers ultra creamy avocado pesto almond milk chai latte onion green onions blueberries walnut mushroom tart homemade balsamic. Creamiest Bulgarian carrot cozy cinnamon oatmeal chocolate peanut butter dip roasted brussel sprouts broccoli tomato and basil red pepper avocado cranberry spritzer fruit smash smoked tofu Italian pepperoncini cayenne.</p>
 
 
+        </div>
     </div>
-</div> 
+    <style>
+@media (min-width: 79em){
+    #rightMargin {
+        position: fixed;
+        /* width: calc(100% - var(--menu-width) * 2 - var(--content-max-width)); */
+        top: 250px;
+        padding-left: var(--content-max-width);
+        /* right: 0; */
+        display: block;
+        width: var(--menu-width);
+        /* position: sticky; */
+        float: right;
+    }
+}
+</style>
+
+<div id="rightMargin">
+    <div id="margin-toc">
+        
+          <div id="margin-toc-legend"><a href="#top-bar">Contents</a></div>
+          <div class="toc"><ol><li><a href="#subsection"> Subsection</a></li><li><a href="#subsection_(5)"> Subsection (5)</a><ol><li><a href="#subsubsection"> Subsubsection</a></li></ol></li><li><a href="#subsection__2"> Subsection</a></li></ol></div>
+        
+    </div>
+</div>
+</div>  
 </div>
 
 
