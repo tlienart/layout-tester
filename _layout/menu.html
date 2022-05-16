@@ -173,6 +173,10 @@ small screens.
 	transition: all 0.2s ease-out;
 }
 
+.pure-menu-list .pure-menu-list {
+	padding-left: 1.5em;
+}
+
 /* -- When layout is active ----------------------------------------------- */
 
 #layout.active #menu {
@@ -224,12 +228,6 @@ small screens.
 	<div class="v-spacer-menulink"></div>
 </a>
 
-<!-- <a href="#menu" id="menuDismiss" class="menu-link">
-	<div class="v-spacer-menulink"></div>
-	<div id="menuDismissIcon"></div>
-	<div class="v-spacer-menulink"></div>
-</a> -->
-
 <a href="/" id="logo">
 	<div class="v-spacer-menulink"></div>
 	<div id="logoLogo"></div>
@@ -245,8 +243,38 @@ small screens.
 			</form>
 		</div>
 
+		<div class="menu-symbols" style="width:100%;height:2em;background-color: red;"></div>
+
+		{{generate_menu}}
+
+
 		<ul class="pure-menu-list">
-			<li class="pure-menu-item"><a href="#home" class="pure-menu-link">Home</a></li>
+
+
+			<!-- WORKFLOW -->
+			<!-- <li class="pure-menu-item">
+				<a href="/workflow/getting-started/" class="pure-menu-link">Workflow</a>
+				{{ispage /workflow/*}}
+				<ul class="pure-menu-list">
+					<li class="pure-menu-item">
+						<a href="/workflow/getting-started/" class="pure-menu-link">Getting Started</a>
+					</li>
+					<li class="pure-menu-item">
+						<a href="/workflow/folder-structure/" class="pure-menu-link">Folder Structure</a>
+					</li>
+					<li class="pure-menu-item">
+						<a href="/workflow/adapting-layout/" class="pure-menu-link">Adapting a Layout</a>
+					</li>
+					<li class="pure-menu-item">
+						<a href="/workflow/deployment/" class="pure-menu-link">Deployment</a>
+					</li>
+				</ul>
+				{{end}}
+			</li>
+ -->
+			<!-- SYNTAX -->
+			
+
 			<li class="pure-menu-item"><a href="#about" class="pure-menu-link">About</a></li>
 
 			<li class="pure-menu-item menu-item-divided pure-menu-selected">
