@@ -14,6 +14,7 @@ jobs:
       - uses: tlienart/xranklin-build-action@v3.2
         with:
           # ADJUST THE FOLLOWING
+          BRANCH: "dev"
           # if it's a personal site, use "" otherwise use the name of the repo
           BASE_URL_PREFIX: "layout-tester"
 
