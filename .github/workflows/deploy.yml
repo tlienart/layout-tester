@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: tlienart/xranklin-build-action@v3.1
+      - uses: tlienart/xranklin-build-action@v3.2
         with:
           # ADJUST THE FOLLOWING
           # if it's a personal site, use "" otherwise use the name of the repo
