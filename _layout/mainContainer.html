@@ -1,12 +1,12 @@
 <style>
-#main {
+#mainContainer {
     padding-top: var(--topbar-height);
 }
 
 .content {
     margin: 0 auto;
     padding: 0 2em;
-    max-width: 800px;
+    max-width: var(--content-max-width);
     margin-bottom: 50px;
     line-height: 1.6em;
 }
@@ -17,6 +17,7 @@
     text-align: center;
     padding: 2.5em 2em 0;
     border-bottom: 1px solid #eee;
+    max-width: var(--content-max-width);
 }
     .header h1 {
         margin: 0.2em 0;
@@ -38,11 +39,11 @@
 
 /* -- When layout is active ----------------------------------------------- */
 
-#layout.active #main {
+#layout.active #mainContainer {
 	width: 100%;
 }
 
-#layout.active #main:after {
+#layout.active #mainContainer:after {
 	content: " ";
 	z-index: 10;
 	display: block;
@@ -66,18 +67,32 @@
 	}
 }
 
+@media (min-width: 79em) { /* (250 + 1000 + 200)/16
+    /* 1200px min */
+    #mainContainer {
+        width: calc(var(--content-max-width) + var(--menu-width));
+    }
+    #mainContainer1 {
+        width: var(--content-max-width);
+        float: left;
+    }
+}
+
 </style>
 <!-- ===================================================================== -->
 
-<div id="main">
-    <div class="header">
-        <h1>Page Title</h1>
-        <h2>A subtitle for your page goes here</h2>
-    </div>
+<div id="mainContainer">
+    <div id="mainContainer1">
+        <div class="header">
+            <h1>Page Title</h1>
+            <h2>A subtitle for your page goes here</h2>
+        </div>
 
-    <div class="content">
-        
-        {{page_content}}
+        <div class="content">
+            
+            {{page_content}}
 
+        </div>
     </div>
+    {{insert toc.html}}
 </div>

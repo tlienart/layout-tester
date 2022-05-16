@@ -1,0 +1,24 @@
+<style>
+@media (min-width: 79em){
+    #rightMargin {
+        position: fixed;
+        /* width: calc(100% - var(--menu-width) * 2 - var(--content-max-width)); */
+        top: 250px;
+        padding-left: var(--content-max-width);
+        /* right: 0; */
+        display: block;
+        width: var(--menu-width);
+        /* position: sticky; */
+        float: right;
+    }
+}
+</style>
+
+<div id="rightMargin">
+    <div id="margin-toc">
+        {{if showtoc}}
+          <div id="margin-toc-legend"><a href="#top-bar">Contents</a></div>
+          {{toc 2 3}}
+        {{end}}
+    </div>
+</div>

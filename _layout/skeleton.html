@@ -21,11 +21,72 @@
 
     Breakpoints:
         48em (768px)  for narrow screens / handheld devices
-        75em (1200px) for large screens
- */
+        79em (1264px) for large screens
+*/
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
+    width: 100%;
+    font-family: var(--text-font);
+    color: var(--text-col);
+    line-height: var(--text-line-height);
     background-color: var(--col-cream);
 }
+
+a {
+    color: var(--blue30);
+    text-decoration: none;
+}
+
+:is(h1, h2, h3, h4) a {
+	text-decoration: none;
+	color: var(--col-dark);
+}
+:is(h1, h2, h3, h4) {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+h1 {
+	font-size: var(--text-h1);
+	font-weight: 600;
+}
+
+h2 {
+	font-size:   var(--text-h2);
+	padding-top: 1em;
+	font-weight: 550;
+}
+
+h3 {
+	font-size:   var(--text-h3);
+	padding-top: 1em;
+	font-weight: 450;
+}
+
+h4 {
+	font-size: var(--text-h4);
+	padding-top: 1em;
+	font-weight: 350;
+}
+
+code {
+	font-family: var(--code-font);
+	font-size:   var(--code-size);
+	color:       var(--code-col);
+	word-wrap:   break-word;
+}
+
+pre code.hljs {
+	background-color: var(--block-background);
+	border-radius: 7px;
+	padding-left: 1.5em;
+}
+
+/* Skeleton elements */
 
 #topbar {
 	position: fixed;
@@ -59,26 +120,6 @@ body {
             height: 65%;
         }
 
-#lunrSearchForm {
-    visibility: hidden;
-	padding-top: 13px;
-	margin-left: 15px;
-}
-    #lunrSearchForm input {
-        line-height: 1.5em;
-    }
-
-       #lunrSearchForm input.search-input {
-            width: var(--search-input-width);
-            padding-left: 10px;
-        }
-
-        #lunrSearchForm input[type=submit] {
-            visibility: hidden;
-            width: 0;
-            /* cursor: pointer; */
-        }
-
 #layout {
 	position: relative;
 	left: 0;
@@ -100,25 +141,21 @@ body {
 	}
 }
 
+@media (min-width: 79em) {
+    #layout {
+        padding-left: calc(var(--menu-width) + var(--wide-leftpad));
+    }
+}
+
 </style>
 <!-- ===================================================================== -->
 
 
-<div id="topbar">
-    <!-- <div id="topbar-nav">
-        <a href="/">
-            <img src="/assets/icons/franklin.svg" alt="franklin">
-        </a>
-        <form id="lunrSearchForm" name="lunrSearchForm">
-            <input class="search-input" name="q" placeholder="Search the docs..." type="text">
-            <input type="submit" value="🔍" formaction="/search/index.html">
-        </form>
-    </div> -->
-</div>
+<div id="topbar"></div>
 
 <div id="layout">
-    {{insert menu.html}} <!-- container: #menu -->
-    {{insert main.html}} <!-- container: #main -->
+    {{insert menu.html}}           <!-- container: #menu          -->
+    {{insert mainContainer.html}}  <!-- container: #mainContainer -->
 </div>
 
 {{insert toggle.html}}

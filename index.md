@@ -4,7 +4,33 @@ loc_a = 5
 
 # Section
 
-Miso dressing lentils kimchi green grapes raspberry fizz habanero golden pasta Indian spiced sesame soba noodles seeds pesto maple orange tempeh crunchy seaweed tabasco pepper. Vine tomatoes walnut pesto tart sleepy morning tea burritos second course lemon tahini dressing Thai basil curry mediterranean chocolate crumbled lentils blood orange smash jalapeño blackberries green pepper delightful blueberry scones seitan spicy roasted peanuts red amazon pepper. Almonds refreshing cucumber splash candy cane winter ginger tofu strawberry spinach salad shallots portobello mushrooms parsley green papaya salad soup shiitake mushrooms banh mi salad rolls salted salty grains double dark chocolate grapefruit Malaysian orange dark chocolate scotch bonnet pepper farro platter hearts of palm naga viper samosa chickpea crust pizza.
+Miso dressing lentils kimchi green grapes raspberry fizz habanero golden pasta Indian spiced sesame soba noodles seeds pesto maple orange tempeh crunchy seaweed tabasco pepper.
+
+Text formatting: *italic* **bold** **bold italic** then also [links](https://franklinjl.org).
+
+Vine tomatoes walnut pesto tart sleepy morning tea burritos second course lemon tahini dressing Thai basil curry mediterranean chocolate crumbled lentils blood orange smash jalapeño blackberries green pepper delightful blueberry scones seitan spicy roasted peanuts red amazon pepper.
+
+* list item
+* list item
+  * sublist item
+  * sublist item
+* list item
+
+Almonds refreshing cucumber splash candy cane winter ginger tofu strawberry spinach salad shallots portobello mushrooms parsley green papaya salad soup shiitake mushrooms banh mi salad rolls salted salty grains double dark chocolate grapefruit Malaysian orange dark chocolate scotch bonnet pepper farro platter hearts of palm naga viper samosa chickpea crust pizza.
+
+1. enum item
+1. enum item
+  1. enum subitem
+  1. enum subitem
+1. enum item
+
+Almonds refreshing cucumber splash candy cane winter ginger tofu strawberry spinach salad shallots portobello mushrooms parsley green papaya salad soup shiitake mushrooms banh mi salad rolls salted salty grains double dark chocolate grapefruit Malaysian orange dark chocolate scotch bonnet pepper farro platter hearts of palm naga viper samosa chickpea crust pizza.
+
+```julia
+function foo()
+    return 1+1
+end
+```
 
 ## Subsection
 
