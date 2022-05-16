@@ -102,7 +102,8 @@ small screens.
 #menuDismiss {
 	width: var(--topbar-height);
 	height: var(--topbar-height);
-	position: absolute;
+	position: fixed;
+	top: 0;
 	/* margin-left: calc(var(--menu-width) - var(--topbar-height)); */
 	z-index: 1000;
 	display: block;
@@ -115,7 +116,7 @@ small screens.
 		width: calc(0.8*var(--topbar-height));
 		margin-left: auto;
 		margin-right: auto;
-		background: var(--x-square-fill) no-repeat;
+		background: var(--x-square) no-repeat;
 		background-size: contain;
 		display: block;
 	}
