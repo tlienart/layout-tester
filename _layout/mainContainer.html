@@ -6,36 +6,38 @@
 .content {
     margin: 0 auto;
     padding: 0 2em;
+    padding-top: 4em;
     max-width: var(--content-max-width);
     margin-bottom: 50px;
     line-height: 1.6em;
 }
 
-.header {
-    margin: 0;
-    color: #333;
-    text-align: center;
-    padding: 2.5em 2em 0;
-    border-bottom: 1px solid #eee;
-    max-width: var(--content-max-width);
+.sub-header {
+  font-size: 1.5em;
+  font-weight: 300;
+  line-height: 1.3em;
 }
-    .header h1 {
-        margin: 0.2em 0;
-        font-size: 3em;
-        font-weight: 300;
-    }
-        .header h2 {
-        font-weight: 300;
-        color: #ccc;
-        padding: 0;
-        margin-top: 0;
-    }
+.flist p {
+  display:inline;
+}
+.flist ul {
+  list-style: none;
+  padding-left: 1em;
+}
+.flist a#goto {
+  padding-right: 10px;
+  margin-left: -15px;
+}
+.flist a#goto #arrow{
+  display:none;
+}
+.flist a#goto:hover #check {
+  display: none;
+}
+.flist a#goto:hover #arrow {
+  display: inline;
+}
 
-.content-subhead {
-    margin: 50px 0 20px 0;
-    font-weight: 300;
-    color: #888;
-}
 
 /* -- When layout is active ----------------------------------------------- */
 
@@ -83,14 +85,21 @@
 
 <div id="mainContainer">
     <div id="mainContainer1">
-        <div class="header">
+        <!-- <div class="header">
             <h1>Page Title</h1>
             <h2>A subtitle for your page goes here</h2>
-        </div>
+        </div> -->
 
         <div class="content">
             
             {{page_content}}
+
+            {{footnotes}}
+
+            <div id="pg-foot">
+              Website built with <a href="https://franklinjl.org">Franklin.jl</a>
+              and the <a href="https://julialang.org">Julia programming language</a>.
+            </div>
 
         </div>
     </div>

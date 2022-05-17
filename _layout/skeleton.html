@@ -5,89 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
     <title>Responsive Side Menu &ndash; Layout Examples &ndash; Pure</title>
+
     <link rel="stylesheet" href="/css/pure.min.css">
+
+    {{if hasmath}}
+        <link rel="stylesheet" href="/libs/katex/katex.min.css">
+    {{end}}
+
+    {{if hascode}}
+        <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+    {{end}}
+
 </head>
 <body>
 
-{{insert vars.html}}
-
 <!-- ===================================================================== -->
+{{insert _vars.html}}
+{{insert _main_style.html}}
+
 <style>
-/*
-    Z-Index
-
-    #menuLink 500
-    #menu 500
-
-    Breakpoints:
-        48em (768px)  for narrow screens / handheld devices
-        79em (1264px) for large screens
-*/
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    width: 100%;
-    font-family: var(--text-font);
-    color: var(--text-col);
-    line-height: var(--text-line-height);
-    background-color: var(--col-cream);
-}
-
-a {
-    color: var(--blue30);
-    text-decoration: none;
-}
-
-:is(h1, h2, h3, h4) a {
-	text-decoration: none;
-	color: var(--col-dark);
-}
-:is(h1, h2, h3, h4) {
-	margin-top: 0;
-	margin-bottom: 0;
-}
-
-h1 {
-	font-size: var(--text-h1);
-	font-weight: 600;
-}
-
-h2 {
-	font-size:   var(--text-h2);
-	padding-top: 1em;
-	font-weight: 550;
-}
-
-h3 {
-	font-size:   var(--text-h3);
-	padding-top: 1em;
-	font-weight: 450;
-}
-
-h4 {
-	font-size: var(--text-h4);
-	padding-top: 1em;
-	font-weight: 350;
-}
-
-code {
-	font-family: var(--code-font);
-	font-size:   var(--code-size);
-	color:       var(--code-col);
-	word-wrap:   break-word;
-}
-
-pre code.hljs {
-	background-color: var(--block-background);
-	border-radius: 7px;
-	padding-left: 1.5em;
-}
-
-/* Skeleton elements */
-
 #topbar {
 	position: fixed;
 	top: 0;
@@ -158,7 +94,18 @@ pre code.hljs {
     {{insert mainContainer.html}}  <!-- container: #mainContainer -->
 </div>
 
-{{insert toggle.html}}
+{{insert _toggle.html}}
+
+{{hasmath}}
+    <script src="/libs/katex/katex.min.js"></script>
+    <script src="/libs/katex/contrib/auto-render.min.js"></script>
+    <script>renderMathInElement(document.body)</script>
+{{end}}
+
+{{hascode}}
+    <script src="/libs/highlight/highlight.min.js"></script>
+    <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+{{end}}
 
 </body>
 </html>
