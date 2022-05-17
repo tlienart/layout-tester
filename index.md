@@ -1,3 +1,7 @@
++++
+showtoc = false
++++
+
 # Building websites with Franklin
 
 \newcommand{\goto}[1]{

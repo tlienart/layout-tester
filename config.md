@@ -9,8 +9,7 @@ github = "https://github.com/tlienart/Franklin.jl"
 content_tag = ""
 skiplatex = true
 showtoc = true
-
-
+table_class = "pure-table"
 
 menu = [
     ("workflow" => "Workflow") => [
@@ -28,6 +27,10 @@ menu = [
         "utils" => "Utils" 
     ],
 ]
+
+# Misc
+
+a_global_variable = "hello from a global variable!"
 
 +++
 
