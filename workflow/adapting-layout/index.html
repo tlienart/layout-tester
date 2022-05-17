@@ -1056,135 +1056,287 @@ small screens.
 
         <div class="content">
             
-            <h1 id="getting_started" ><a href="#getting_started"> Getting Started</a></h1><h2 id="generate_a_site_from_a_template" ><a href="#generate_a_site_from_a_template"> Generate a site from a template</a></h2><p>To get started with Franklin, you can use the <code>FranklinTemplates.newsite</code> function
-in a Julia REPL.
-That function will generate a <em>website folder</em> on your computer that's ready
-to be built by Franklin, and that you can modify at will:</p>
-<pre><code class="julia">using FranklinTemplates: newsite
-using Franklin, FranklinTemplates
-newsite(&quot;TestWebsite&quot;; template=&quot;hyde&quot;)</code></pre>
-<p>The execution of this command will also move you to that folder (i.e. <code>cd TestWebsite/</code>).</p>
-<p>The first argument of <code>newsite</code> is the title of the folder that will be created,
-and moved to (you can change that later).
-If you are already in a folder that you previous created for this purpose, just indicate the
-current path with <code>&quot;.&quot;</code> (i.e.: <code>newsite(&quot;.&quot;, ...)</code>).</p>
-<p>The <code>template=</code> keyword argument allows you to specify one of the few
-<a href="https://tlienart.github.io/FranklinTemplates.jl/">simple templates</a>
-that can get you started with Franklin.
-In particular, if you just want a super basic template to experiment with, the
-<code>&quot;sandbox&quot;</code> template should prove useful.</p>
+            <h1 id="adapting_a_layout" ><a href="#adapting_a_layout"> Adapting a Layout</a></h1><h2 id="overview" ><a href="#overview"> Overview</a></h2><p>Have you seen a great website layout online that you would like to imitate and that is
+not already available for Franklin?
+This is the page where we explain how you can adapt a layout fairly easily.</p>
+<p>Building a great website layout from scratch is difficult, especially if you don't have
+a lot of web-dev experience.
+We therefore recommend that you either start from one of the
+<a href="https://tlienart.github.io/FranklinTemplates.jl/">Franklin-ready templates</a> or from an
+established website template that you found.</p>
+<h2 id="tips_and_tricks" ><a href="#tips_and_tricks"> Tips and tricks</a></h2><h3 id="using_page_variables" ><a href="#using_page_variables"> Using page variables</a></h3><p>When working on the layout, a key tool will be to leverage <a href="/layout-tester/syntax/vars+funs/">page variables</a>
+so that you can enable specific parts of the layout on specific pages (conditionals) and
+extract page information to use in the layout.</p>
+<p>For instance, you may have articles in <code>/posts/...</code> and would like that all such pages
+show a publication date.
+You could use a page variable <code>date</code> for this with for instance on <code>/posts/page1.md</code>:</p>
+<pre><code class="md">+++
+using Dates
+date = Date(2022, 2, 15)
++++
+
+&lt;!-- Here the rest of the page content --&gt;</code></pre>
+<p>and in your <code>head.html</code> you might have something like</p>
+<pre><code class="html">...
+&lt;head&gt;
+  &lbrace;&lbrace;ispage posts/*&rbrace;&rbrace;
+    &lt;title&gt;Post - &lbrace;&lbrace;date&rbrace;&rbrace;&lt;/title&gt;
+  &lbrace;&lbrace;else&rbrace;&rbrace;
+    &lt;title&gt;My Website&lt;/title&gt;
+  &lbrace;&lbrace;end&rbrace;&rbrace;
+&lt;/head&gt;
+...</code></pre>
+<p>Of course that's a simplistic example, but it should hopefully demonstrate that
+page variables can be very handy to control the layout of your website.</p>
+<h3 id="organising_layout_files" ><a href="#organising_layout_files"> Organising layout files</a></h3><p>You might find it convenient to define additional layout files in order to separate
+(and de-clutter) layout elements.
+For instance, let's say your layout includes a menu, you might begin with
+a <code>head.html</code> looking like</p>
+<pre><code class="html">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; The title &lt;/title&gt;
+&lt;/head&gt;
+
+&lt;nav&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;/home/&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;/posts/&quot;&gt;Posts&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;/about/&quot;&gt;About&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;body&gt;</code></pre>
+<p>As your site grows, this might become more complex, and it then becomes helpful
+to have a dedicated file <code>menu.html</code> with</p>
+<pre><code class="html">&lt;nav&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;/home/&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;/posts/&quot;&gt;Posts&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;/about/&quot;&gt;About&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+<p>and indicate that this file should be <em>inserted</em> in the <code>head.html</code>:</p>
+<pre><code class="html">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; The title &lt;/title&gt;
+&lt;/head&gt;
+
+&lbrace;&lbrace;insert menu.html&rbrace;&rbrace;
+
+&lt;body&gt;</code></pre>
+<p>This allows to split your layout in smaller bits that are easier to maintain.
+The <code>&lbrace;&lbrace;...&rbrace;&rbrace;</code> syntax indicates we're calling the <a href="/layout-tester/syntax/vars+funs/">"HTML" function</a> <code>insert</code>.
+For that function, paths are taken relative to the <code>_layout</code> folder (so here <code>menu.html</code> is assumed to be next to <code>head.html</code>).</p>
+<h2 id="example_1_"minima_reboot"_template" ><a href="#example_1_"minima_reboot"_template"> Example 1: "Minima-Reboot" template</a></h2><h3 id="overview__2" ><a href="#overview__2"> Overview</a></h3><p>This is an MIT-licensed template which is a Bootstrap port of Jekyll's default theme, designed by <a href="https://github.com/aterenin/minima-reboot/">Alexander Terenin</a>.</p>
+<ul>
+<li>Demo site: <a href="https://aterenin.github.io/minima-reboot/">https://aterenin.github.io/minima-reboot/</a>,</li>
+<li>Source repo: <a href="https://github.com/aterenin/minima-reboot">https://github.com/aterenin/minima-reboot</a> (MIT Licensed),</li>
+<li><a href="https://tlienart.github.io/coder-minima-reboot-demo/">Result site</a> and <a href="https://github.com/tlienart/minima-reboot-xranklin-demo">repo</a>.</li>
+</ul>
+<p>The way we will go about this is by looking at the source HTML of the demo site and taking the parts we need to rebuild this with Franklin.
+Specifically:</p>
+<ol>
+<li>what is the HTML structure (or structures) of pages on that site (the general skeleton of each page),</li>
+<li>what are the <em>assets</em> of the site, things that would potentially be hosted on the server (e.g. stylesheets, icons, ...)</li>
+<li>what are information in the structure that should be controlled by either the <code>config.md</code> or pages (e.g. author, publication date, meta tag, ...)</li>
+</ol>
 <fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
 
-Most of these templates are adapted, and simplified versions of common standard
-static site templates.
-They are not meant to be fully polished but should be easy to adjust to your liking
-once you're familiar with how Franklin operates.
-<br>
+This was done in January 2022, the template may have changed a little bit since then but the
+procedure should show you how to adapt or update it easily.
 
-Your help to add new templates or make existing ones better is very welcome!
-
-</fieldset><h2 id="building_and_editing_the_website" ><a href="#building_and_editing_the_website"> Building and editing the website</a></h2><p>Once you have a website folder &#8212; e.g. <code>TestWebsite</code> &#8212; you can start the Franklin
-server from within it:</p>
-<pre><code class="plaintext">serve()  # or serve(&quot;path/to/TestWebsite&quot;)
-
-[...]
-
-✓ LiveServer listening on http://localhost:8000/ ...
-  (use CTRL+C to shut down)</code></pre>
-<p>You can now visit your site at <code>http://localhost:8000</code> (the page should have been
-  opened automatically in your browser).</p>
-<p>At a high level, the <code>serve</code> function does the following:</p>
-<ol>
-<li>goes through all your pages in a first initial pass and (re)builds them if necessary,</li>
-<li>starts <a href="https://github.com/tlienart/LiveServer.jl">LiveServer</a> which<ul>
-<li>starts a browser,</li>
-<li>watches files for changes and reloads updated pages.</li>
+</fieldset><h3 id="page_structure" ><a href="#page_structure"> Page structure</a></h3><p>When inspecting the HTML f the landing page (and other pages), the structure is more or less
+as follows:</p>
+<h2 id="example_2_"hugo_coder"_template" ><a href="#example_2_"hugo_coder"_template"> Example 2: "Hugo-Coder" template</a></h2><h3 id="overview__3" ><a href="#overview__3"> Overview</a></h3><p>This is an MIT-licensed template designed for Hugo by <a href="https://github.com/luizdepra">Luiz F. A. de Prá</a>.</p>
+<ul>
+<li>Demo site: <a href="https://hugo-coder.netlify.app">https://hugo-coder.netlify.app</a>,</li>
+<li>Source repo: <a href="https://github.com/luizdepra/hugo-coder">https://github.com/luizdepra/hugo-coder</a> (MIT Licensed),</li>
+<li><a href="https://tlienart.github.io/coder-xranklin-demo/">Result site</a> and <a href="https://github.com/tlienart/coder-xranklin-demo">repo</a>.</li>
 </ul>
-</li>
-</ol>
-<p>There's a number of keyword arguments to <code>serve</code> which you might find useful, do <code>?serve</code>
-in your REPL to get the relevant docstring.</p>
-<h3 id="modifying_files" ><a href="#modifying_files"> Modifying files</a></h3><p>Once the server is running, you can edit the file <code>index.md</code> and see the effect it
-has in your browser.
-If you're familiar with Markdown, this step should hopefully be fairly intuitive.
-Otherwise, you might want to check out the <a href="/layout-tester/syntax/basics/">Markdown basics</a>.
-The <code>index.md</code> file also  has a few indications for how to do things which you might
-find useful.</p>
-<p>Once you have a feel for things, you might want to check out the
-Franklin-specific <a href="/layout-tester/syntax/extensions/">extensions</a> and related topics.</p>
-<h3 id="interrupting_and_restarting_the_server" ><a href="#interrupting_and_restarting_the_server"> Interrupting and restarting the server</a></h3><p>You can interrupt the server at any time by hitting <kbd>Ctrl</kbd> + <kbd>C</kbd> in the Julia REPL.
-And, of course, you can re-start it with <code>serve(...)</code>.</p>
-<p>Passing <code>launch=false</code> to <code>serve</code> can be convenient as you may already have a
-browser tab pointing to the right address (e.g. <code>localhost:8000</code>) and may not want to open
-a new one every time you restart the server.</p>
-<fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
+<p>We will proceed as with the Minima Reboot example.</p>
+<h3 id="page_structure__2" ><a href="#page_structure__2"> Page structure</a></h3><p>When inspecting the HTML of the landing page (and other pages) (after un-minification using
+something like <a href="https://www.unminify2.com/">unminify2</a>), we can observe that the structure
+is more or less as follows:</p>
+<pre><code class="html">...
+&lt;head&gt;
+  ...
+&lt;/head&gt;
 
-It is strongly recommended to use Franklin in a REPL and not do something like <code>julia -e &quot;using Franklin; ...&quot;</code>.
-Indeed, you may have to stop or restart the servers occasionally and doing so in a "hot" REPL session will be
-significantly faster.
-
-</fieldset><h2 id="page_structure" ><a href="#page_structure"> Page structure</a></h2><h3 id="head/foot_structure" ><a href="#head/foot_structure"> Head/Foot structure</a></h3><p>When using Franklin, it is useful to have a rough understanding of how the HTML pages
-are generated.
-For a source page with the following Markdown:</p>
-<pre><code class="markdown"># Hello
-
-Some **text** here.</code></pre>
-<p>a HTML page will (typically) be generated with the following structure:</p>
-<pre><code class="plaintext">┌──────────────────────────────────────────────┐
-│ ┌──────────────────┐                         │
-│ │ &lt;!doctype html&gt;  │                         │
-│ │ &lt;html lang=&quot;en&quot;&gt; │                         │
-│ │ &lt;head&gt;           │                         │
-│ │ ...              │  (_layout/head.html)    │
-│ │ &lt;/head&gt;          │                         │
-│ │ &lt;body&gt;           │                         │
-│ │ ...              │                         │
-│ └──────────────────┘                         │
-│ ┌──────────────────────────────────────────┐ │
-│ │ &lt;h1&gt;Hello&lt;/h1&gt;                           │ │
-│ │ &lt;p&gt;Some &lt;strong&gt;text&lt;/strong&gt; here.&lt;/p&gt;  │ │
-│ └──────────────────────────────────────────┘ │
-│ ┌──────────┐                                 │
-│ │ ...      │                                 │
-│ │ &lt;/body&gt;  │          (_layout/foot.html)    │
-│ │ &lt;/html&gt;  │                                 │
-│ └──────────┘                                 │
-└──────────────────────────────────────────────┘</code></pre>
-<p>The top box corresponds to the file <code>_layout/head.html</code> in your website folder.
-Correspondingly, the bottom box corresponds to the file <code>_layout/foot.html</code>.
-The middle box is the HTML that is generated by Franklin when converting the source Markdown.</p>
-<p>Note that what gets effectively placed at the "top" or "bottom" of your page can be finely controlled
-via <a href="/layout-tester/syntax/vars+funs/">page variables</a> but, for now, the important bit is just to have this simple
-high-level view in mind.</p>
-<h3 id="skeleton_structure" ><a href="#skeleton_structure"> Skeleton structure</a></h3><p>Though the <code>head.html</code>/<code>foot.html</code> approach above is recommended as it allows re-using the
-<code>head.html</code> and <code>foot.html</code> elsewhere, including in raw-HTML pages, by doing</p>
-<pre><code class="html">&lbrace;&lbrace;insert head.html&rbrace;&rbrace;
-
-Your HTML here
-
-&lbrace;&lbrace;insert foot.html&rbrace;&rbrace;</code></pre>
-<p>some users might prefer having a single <code>_layout/skeleton.html</code> file which describes the structure of pages.
-For instance it could look like</p>
-<pre><code class="html">&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt; ... &lt;/head&gt;
 &lt;body&gt;
-  &lbrace;&lbrace;page_content&rbrace;&rbrace;  &lt;!-- this inserts the partially converted Markdown --&gt;
+  &lt;header ...&gt;
+  &lt;/header&gt;
+
+  &lt;main ...&gt;
+  &lt;/main&gt;
+
+  &lt;footer ...&gt;
+  &lt;/footer&gt;
+
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<p>and so, instead of separating the head, content and foot, it's a single file where you just indicate where the content goes.</p>
-<p>If you do have a skeleton file in your <code>_layout</code> folder, and also have a head and foot files, only the skeleton will be considered.</p>
-<h2 id="next_steps" ><a href="#next_steps"> Next steps</a></h2><p>Now that you have a working website that you can render locally and experiment with,
-you should try to further modify the <code>.md</code> file(s) in the folder, and the <code>.html</code> files in the
-<code>_layout</code> folder, and try to get an intuition for how things work.</p>
-<p>The rest of the docs is there to help you when things don't work like you might expect them to.
-You may also want to:</p>
-<ul>
-<li>join the <code>#franklin</code> channel of the <a href="https://join.slack.com/t/julialang/shared_invite/zt-w0pifg7p-18IUSkZy_WpofNumiTTROQ">Julia Slack</a> to get help with small questions quickly,</li>
-<li>ask questions on the <a href="https://discourse.julialang.org/">Julia Discourse</a> adding the tag <code>franklin</code>, and</li>
-<li>open issues in <a href="https://github.com/tlienart/Franklin.jl">the repository</a> if you encounter a bug.</li>
-</ul>
+<p>This is easy to adapt to Franklin by defining a <code>_layout/head.html</code> to contain
+everything above <code>&lt;div class=&quot;content&quot;&gt;</code> and <code>_layout/foot.html</code> to
+contain everything below it.</p>
+<h4 id="content" ><a href="#content"> Content</a></h4><p>The content is where the Markdown converted to HTML will go.
+Here, it's going to be most of what's in the <code>&lt;main&gt;</code> part.
+Roughly speaking things above of that will go in <code>head.html</code> and thing below the
+closing tag will go in <code>foot.html</code>.</p>
+<p>If we inspect it more closely, we will see that the <em>landing</em> page looks like</p>
+<pre><code class="html">&lt;main aria-label=&quot;Content&quot;&gt;
+  &lt;div id=&quot;content-container&quot; class=&quot;container&quot;&gt;
+      &lt;header class=&quot;pt-3 mb-3&quot;&gt;
+          &lt;p&gt;Posts&lt;p&gt;
+      &lt;/header&gt;
+      &lt;div id=&quot;content&quot;&gt;
 
+...</code></pre>
+<p>whereas the <em>about</em> page looks like</p>
+<pre><code class="html">&lt;main aria-label=&quot;Content&quot;&gt;
+  &lt;article&gt;
+    &lt;header class=&quot;pt-4 pb-3&quot;&gt;
+        &lt;h1&gt;About&lt;/h1&gt;
+    &lt;/header&gt;
+    &lt;div id=&quot;content&quot;&gt;
+...</code></pre>
+<p>and a <em>post</em> page looks like</p>
+<pre><code class="html">&lt;main aria-label=&quot;Content&quot;&gt;
+  &lt;div id=&quot;content-container&quot; class=&quot;container&quot;&gt;
+    &lt;article itemscope itemtype=&quot;http://schema.org/BlogPosting&quot;&gt;
+      &lt;header class=&quot;pt-4 pb-3&quot;&gt;
+        &lt;h1 itemprop=&quot;name headline&quot;&gt;Welcome to minima-reboot&lt;/h1&gt;
+          &lt;p class=&quot;text-secondary&quot;&gt;
+            &lt;time datetime=&quot;2017-12-26T00:00:00+00:00&quot; itemprop=&quot;datePublished&quot;&gt;
+              Dec 26, 2017
+            &lt;/time&gt;
+          &lt;/p&gt;
+      &lt;/header&gt;
+      &lt;div class=&quot;text-justify&quot; itemprop=&quot;articleBody&quot; id=&quot;content&quot;&gt;</code></pre>
+<p>So there are some differences that we need to take into account.</p>
+<h4 id="head_(1)" ><a href="#head_(1)"> Head (1)</a></h4><p>In the head we basically put everything that's above the <code>&lt;main&gt;</code> block as
+well as the start of that main block with conditionals based on the differences
+highlighted in the previous point.</p>
+<p>Let's start with the simple bit first.
+In most layouts, there's a recurring part that you find on pretty  much all pages "as is".</p>
+<p>In the current case, everything above <code>&lt;main&gt;</code> is pretty much like this so you can just
+copy paste it in the <code>head.html</code>. A couple of points things to bear in mind (illustrated further below):</p>
+<ul>
+<li>for assets (<code>.js</code>, <code>.css</code>), figure out whether you want or need to host them statically, if so download them and put them in the <code>_css</code> or <code>_libs</code> and adjust the references accordingly,</li>
+<li>for meta tags, you will typically want to use <a href="/layout-tester/syntax/vars+funs/">page-variables</a> to make
+it (much) easier to maintain them from the <code>config.md</code> file,</li>
+</ul>
+<p>In our case, to simplify the presentation, we will make very asset (css, js, images) static.
+You can choose to do this or not, there are pros and cons in both cases (e.g. see <a href="https://stackoverflow.com/questions/26192897/should-i-use-bootstrap-from-cdn-or-make-a-copy-on-my-server">this SO post</a>).</p>
+<p>So for instance we replace</p>
+<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css&quot; ...&gt;</code></pre>
+<p>by</p>
+<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/bootstrap.min.css&quot;&gt;</code></pre>
+<p>after having saved the CSS at <code>_css/bootstrap.min.css</code>.</p>
+<p>In terms of the point on meta tags, we replace for instance</p>
+<pre><code class="html">&lt;meta name=&quot;author&quot; content=&quot;GitHub User&quot; /&gt;</code></pre>
+<p>by</p>
+<pre><code class="html">&lt;meta name=&quot;author&quot; content=&quot;&lbrace;&lbrace;author&rbrace;&rbrace;&quot; /&gt;</code></pre>
+<p>and in <code>config.md</code> we correspondingly put</p>
+<pre><code class="plaintext">+++
+
+...
+author = &quot;The Author&quot;
+...
+
++++</code></pre>
+<h4 id="head_(2)_(xxx)" ><a href="#head_(2)_(xxx)"> Head (2) (XXX)</a></h4><p>Now let's turn to the different ways to open the main part.
+We just need to add conditionals via <code>ispage</code> to check that the relevant block
+is applied on the relevant page(s).</p>
+<pre><code class="html">&lt;main aria-label=&quot;Content&quot;&gt;
+  &lt;div id=&quot;content-container&quot; class=&quot;container&quot;&gt;
+
+&lbrace;&lbrace;ispage index.html&rbrace;&rbrace;  &lt;!-- specific to the landing page --&gt;
+  &lt;header class=&quot;pt-3 mb-3&quot;&gt;
+    &lt;p&gt; &lbrace;&lbrace;header&rbrace;&rbrace; &lt;p&gt;
+  &lt;/header&gt;
+  &lt;div id=&quot;content&quot;&gt;
+&lbrace;&lbrace;end&rbrace;&rbrace;
+
+&lbrace;&lbrace;ispage about.html&rbrace;&rbrace; &lt;!-- specific to the about page --&gt;
+  &lt;article&gt;
+    &lt;header class=&quot;pt-4 pb-3&quot;&gt;
+        &lt;h1&gt;&lbrace;&lbrace;header&rbrace;&rbrace;&lt;/h1&gt;
+    &lt;/header&gt;
+    &lt;div id=&quot;content&quot;&gt;
+&lbrace;&lbrace;end&rbrace;&rbrace;
+
+&lbrace;&lbrace;ispage posts/*&rbrace;&rbrace;
+  &lbrace;&lbrace;ispage posts/index.html&rbrace;&rbrace; &lt;!-- posts landing page --&gt;
+  &lbrace;&lbrace;else&rbrace;&rbrace; &lt;!-- specific posts --&gt;
+    &lt;article itemscope itemtype=&quot;http://schema.org/BlogPosting&quot;&gt;
+      &lt;header class=&quot;pt-4 pb-3&quot;&gt;
+        &lt;h1 itemprop=&quot;name headline&quot;&gt;&lbrace;&lbrace;header&rbrace;&rbrace;&lt;/h1&gt;
+          &lt;p class=&quot;text-secondary&quot;&gt; &lt;time datetime=&quot;&quot; itemprop=&quot;datePublished&quot;&gt; &lt;/time&gt; &lt;/p&gt;
+      &lt;/header&gt;
+      &lt;div class=&quot;text-justify&quot; itemprop=&quot;articleBody&quot; id=&quot;content&quot;&gt;
+  &lbrace;&lbrace;end&rbrace;&rbrace;
+&lbrace;&lbrace;end&rbrace;&rbrace;</code></pre>
+<h4 id="foot" ><a href="#foot"> Foot</a></h4><p>The process for <code>foot.html</code> is identical except that we consider what's below <code>&lt;/main&gt;</code> and
+we have to close what was open in the main part (with the same conditionals).
+So we end up with something like</p>
+<pre><code class="html">&lbrace;&lbrace;ispage index.html&rbrace;&rbrace;  &lt;!-- specific to the landing page --&gt;
+&lbrace;&lbrace;end&rbrace;&rbrace;
+
+&lbrace;&lbrace;ispage about.html&rbrace;&rbrace; &lt;!-- specific to the about page --&gt;
+&lbrace;&lbrace;end&rbrace;&rbrace;
+
+&lbrace;&lbrace;ispage posts/*&rbrace;&rbrace;
+  &lbrace;&lbrace;ispage posts/index.html&rbrace;&rbrace; &lt;!-- posts landing page --&gt;
+  &lbrace;&lbrace;else&rbrace;&rbrace; &lt;!-- specific posts --&gt;
+  &lbrace;&lbrace;end&rbrace;&rbrace;
+&lbrace;&lbrace;end&rbrace;&rbrace;
+
+&lt;/main&gt; &lt;!-- always --&gt;
+&lt;footer id=&quot;site-footer&quot;&gt;
+  ...
+&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h3 id="variables" ><a href="#variables"> Variables</a></h3><p>A number of information contained in the page structure can be given or controlled
+by <a href="/layout-tester/syntax/vars+funs/">page variables</a>.
+For instance:</p>
+<pre><code class="html">&lt;meta name=&quot;author&quot; content=&quot;John Doe&quot;&gt;</code></pre>
+<p>should become</p>
+<pre><code class="html">&lt;meta name=&quot;author&quot; content=&quot;&lbrace;&lbrace;author&rbrace;&rbrace;&quot;&gt;</code></pre>
+<p>where <code>author</code> would typically be defined in <code>config.md</code> and possibly be over-written
+on a given page.</p>
+<h3 id="assets" ><a href="#assets"> Assets</a></h3><p>All relative links in the HTML such as</p>
+<pre><code class="html">&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;/images/favicon-32x32.png&quot; sizes=&quot;32x32&quot;&gt;</code></pre>
+<p>correspond to assets that you should download, place somewhere appropriate and refer to.
+For instance, here, you would download the image (unless, of course, you want another
+  favicon), and could place it in <code>_assets/images/</code> so that the HTML above becomes</p>
+<pre><code class="html">&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;/assets/images/favicon-32x32.png&quot; sizes=&quot;32x32&quot;&gt;</code></pre>
+<p>You would proceed likewise for CSS sheets and JS libraries.
+Note that some sites use a <a href="https://en.wikipedia.org/wiki/Content_delivery_network">CDN</a>
+for some of their JS or CSS.
+You can always do the same and refer to the same CDN address, or you could download
+the file and place it <em>as is</em> in your folder.</p>
+<p>I personally <em>usually</em> do the second (host everything) with the following reasoning:</p>
+<ol>
+<li>it makes it possible to edit the website offline without any difference with how
+  the website will look online,</li>
+<li>it guarantees that what you see is what you get and will stay like this until you change it.</li>
+</ol>
+<p>On the other hand, using a CDN (particularly for JS libs) can be good because:</p>
+<ol>
+<li>it can sometimes help page loading speed (if many websites point to the same address,
+  your browser can cache the content),</li>
+<li>it can make sure the dependence is always up to date (e.g. if you're counting on a JS lib
+  where security may be a concern).</li>
+</ol>
+<fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
+
+If you change the path of assets, search your project for places where the asset might be
+referenced to make sure you adjust it everywhere.
+For instance, the template here uses <a href="https://forkaweso.me/Fork-Awesome/">Fork Awesome</a>
+for the fonts and it refers to it in the CSS via things like <code>url(../fonts/forkawesome-webfont.eot?v=1.2.0)</code>,
+and this needs to be adjusted if you placed the fonts somewhere else than in a <code>/fonts/</code> folder.
+
+</fieldset>
 
             
 
@@ -1249,7 +1401,7 @@ You may also want to:</p>
     <div id="marginToc">
         
           <div id="marginTocLegend"><a href="#">Contents</a></div>
-          <div class="toc"><ol><li><a href="#generate_a_site_from_a_template"> Generate a site from a template</a></li><li><a href="#building_and_editing_the_website"> Building and editing the website</a><ol><li><a href="#modifying_files"> Modifying files</a></li><li><a href="#interrupting_and_restarting_the_server"> Interrupting and restarting the server</a></li></ol></li><li><a href="#page_structure"> Page structure</a><ol><li><a href="#head/foot_structure"> Head/Foot structure</a></li><li><a href="#skeleton_structure"> Skeleton structure</a></li></ol></li><li><a href="#next_steps"> Next steps</a></li></ol></div>
+          <div class="toc"><ol><li><a href="#overview"> Overview</a></li><li><a href="#tips_and_tricks"> Tips and tricks</a><ol><li><a href="#using_page_variables"> Using page variables</a></li><li><a href="#organising_layout_files"> Organising layout files</a></li></ol></li><li><a href="#example_1_"minima_reboot"_template"> Example 1: "Minima-Reboot" template</a><ol><li><a href="#overview__2"> Overview</a></li><li><a href="#page_structure"> Page structure</a></li></ol></li><li><a href="#example_2_"hugo_coder"_template"> Example 2: "Hugo-Coder" template</a><ol><li><a href="#overview__3"> Overview</a></li><li><a href="#page_structure__2"> Page structure</a></li><li><a href="#variables"> Variables</a></li><li><a href="#assets"> Assets</a></li></ol></li></ol></div>
         
     </div>
 </div>

@@ -1056,134 +1056,263 @@ small screens.
 
         <div class="content">
             
-            <h1 id="getting_started" ><a href="#getting_started"> Getting Started</a></h1><h2 id="generate_a_site_from_a_template" ><a href="#generate_a_site_from_a_template"> Generate a site from a template</a></h2><p>To get started with Franklin, you can use the <code>FranklinTemplates.newsite</code> function
-in a Julia REPL.
-That function will generate a <em>website folder</em> on your computer that's ready
-to be built by Franklin, and that you can modify at will:</p>
-<pre><code class="julia">using FranklinTemplates: newsite
-using Franklin, FranklinTemplates
-newsite(&quot;TestWebsite&quot;; template=&quot;hyde&quot;)</code></pre>
-<p>The execution of this command will also move you to that folder (i.e. <code>cd TestWebsite/</code>).</p>
-<p>The first argument of <code>newsite</code> is the title of the folder that will be created,
-and moved to (you can change that later).
-If you are already in a folder that you previous created for this purpose, just indicate the
-current path with <code>&quot;.&quot;</code> (i.e.: <code>newsite(&quot;.&quot;, ...)</code>).</p>
-<p>The <code>template=</code> keyword argument allows you to specify one of the few
-<a href="https://tlienart.github.io/FranklinTemplates.jl/">simple templates</a>
-that can get you started with Franklin.
-In particular, if you just want a super basic template to experiment with, the
-<code>&quot;sandbox&quot;</code> template should prove useful.</p>
-<fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
-
-Most of these templates are adapted, and simplified versions of common standard
-static site templates.
-They are not meant to be fully polished but should be easy to adjust to your liking
-once you're familiar with how Franklin operates.
-<br>
-
-Your help to add new templates or make existing ones better is very welcome!
-
-</fieldset><h2 id="building_and_editing_the_website" ><a href="#building_and_editing_the_website"> Building and editing the website</a></h2><p>Once you have a website folder &#8212; e.g. <code>TestWebsite</code> &#8212; you can start the Franklin
-server from within it:</p>
-<pre><code class="plaintext">serve()  # or serve(&quot;path/to/TestWebsite&quot;)
-
-[...]
-
-✓ LiveServer listening on http://localhost:8000/ ...
-  (use CTRL+C to shut down)</code></pre>
-<p>You can now visit your site at <code>http://localhost:8000</code> (the page should have been
-  opened automatically in your browser).</p>
-<p>At a high level, the <code>serve</code> function does the following:</p>
-<ol>
-<li>goes through all your pages in a first initial pass and (re)builds them if necessary,</li>
-<li>starts <a href="https://github.com/tlienart/LiveServer.jl">LiveServer</a> which<ul>
-<li>starts a browser,</li>
-<li>watches files for changes and reloads updated pages.</li>
-</ul>
-</li>
-</ol>
-<p>There's a number of keyword arguments to <code>serve</code> which you might find useful, do <code>?serve</code>
-in your REPL to get the relevant docstring.</p>
-<h3 id="modifying_files" ><a href="#modifying_files"> Modifying files</a></h3><p>Once the server is running, you can edit the file <code>index.md</code> and see the effect it
-has in your browser.
-If you're familiar with Markdown, this step should hopefully be fairly intuitive.
-Otherwise, you might want to check out the <a href="/layout-tester/syntax/basics/">Markdown basics</a>.
-The <code>index.md</code> file also  has a few indications for how to do things which you might
-find useful.</p>
-<p>Once you have a feel for things, you might want to check out the
-Franklin-specific <a href="/layout-tester/syntax/extensions/">extensions</a> and related topics.</p>
-<h3 id="interrupting_and_restarting_the_server" ><a href="#interrupting_and_restarting_the_server"> Interrupting and restarting the server</a></h3><p>You can interrupt the server at any time by hitting <kbd>Ctrl</kbd> + <kbd>C</kbd> in the Julia REPL.
-And, of course, you can re-start it with <code>serve(...)</code>.</p>
-<p>Passing <code>launch=false</code> to <code>serve</code> can be convenient as you may already have a
-browser tab pointing to the right address (e.g. <code>localhost:8000</code>) and may not want to open
-a new one every time you restart the server.</p>
+            <h1 id="folder_structure" ><a href="#folder_structure"> Folder Structure</a></h1><h2 id="basic_folder_structure" ><a href="#basic_folder_structure"> Basic folder structure</a></h2><p>A Franklin-compatible website folder will always have the following basic structure:</p>
+<pre><code class="plaintext">TestWebsite
+├── _layout
+│   ├── foot.html
+│   └── head.html
+├── config.md
+└── index.md       # or index.html</code></pre>
+<p>where <code>TestWebsite</code> is the name of the website folder.
+In the rest of this page we go over what the different files and folders do.</p>
 <fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
 
-It is strongly recommended to use Franklin in a REPL and not do something like <code>julia -e &quot;using Franklin; ...&quot;</code>.
-Indeed, you may have to stop or restart the servers occasionally and doing so in a "hot" REPL session will be
-significantly faster.
+Paths on this page (and generally, in these docs) are all meant relative to the website folder.
+So for instance if we talk about <code>foo/bar.md</code>, it's located at <code>TestWebsite/foo/bar.md</code>.
 
-</fieldset><h2 id="page_structure" ><a href="#page_structure"> Page structure</a></h2><h3 id="head/foot_structure" ><a href="#head/foot_structure"> Head/Foot structure</a></h3><p>When using Franklin, it is useful to have a rough understanding of how the HTML pages
-are generated.
-For a source page with the following Markdown:</p>
+</fieldset><h3 id="index_file" ><a href="#index_file"> Index file</a></h3><p>The root <code>index.md</code> file is what Franklin will convert into your website's landing page.
+So, for instance, if the content of <code>index.md</code> is</p>
 <pre><code class="markdown"># Hello
 
-Some **text** here.</code></pre>
-<p>a HTML page will (typically) be generated with the following structure:</p>
-<pre><code class="plaintext">┌──────────────────────────────────────────────┐
-│ ┌──────────────────┐                         │
-│ │ &lt;!doctype html&gt;  │                         │
-│ │ &lt;html lang=&quot;en&quot;&gt; │                         │
-│ │ &lt;head&gt;           │                         │
-│ │ ...              │  (_layout/head.html)    │
-│ │ &lt;/head&gt;          │                         │
-│ │ &lt;body&gt;           │                         │
-│ │ ...              │                         │
-│ └──────────────────┘                         │
-│ ┌──────────────────────────────────────────┐ │
-│ │ &lt;h1&gt;Hello&lt;/h1&gt;                           │ │
-│ │ &lt;p&gt;Some &lt;strong&gt;text&lt;/strong&gt; here.&lt;/p&gt;  │ │
-│ └──────────────────────────────────────────┘ │
-│ ┌──────────┐                                 │
-│ │ ...      │                                 │
-│ │ &lt;/body&gt;  │          (_layout/foot.html)    │
-│ │ &lt;/html&gt;  │                                 │
-│ └──────────┘                                 │
-└──────────────────────────────────────────────┘</code></pre>
-<p>The top box corresponds to the file <code>_layout/head.html</code> in your website folder.
-Correspondingly, the bottom box corresponds to the file <code>_layout/foot.html</code>.
-The middle box is the HTML that is generated by Franklin when converting the source Markdown.</p>
-<p>Note that what gets effectively placed at the "top" or "bottom" of your page can be finely controlled
-via <a href="/layout-tester/syntax/vars+funs/">page variables</a> but, for now, the important bit is just to have this simple
-high-level view in mind.</p>
-<h3 id="skeleton_structure" ><a href="#skeleton_structure"> Skeleton structure</a></h3><p>Though the <code>head.html</code>/<code>foot.html</code> approach above is recommended as it allows re-using the
-<code>head.html</code> and <code>foot.html</code> elsewhere, including in raw-HTML pages, by doing</p>
-<pre><code class="html">&lbrace;&lbrace;insert head.html&rbrace;&rbrace;
+Some text.</code></pre>
+<p>and that you start the server, the page you will see when navigating to <code>localhost:8000/</code>
+will contain matching HTML close to:</p>
+<pre><code class="html">...
+  &lt;h1&gt;Hello&lt;/h1&gt;
+  &lt;p&gt;Some text.&lt;/p&gt;
+...</code></pre>
+<p>In some cases you might want to have full control over the landing page
+and write it directly in HTML.
+To do so, simply remove the file <code>index.md</code> and write a file <code>index.html</code> instead.</p>
+<h3 id="config_file" ><a href="#config_file"> Config file</a></h3><p>The <code>config.md</code> file is where you can define global <a href="/layout-tester/syntax/vars+funs/">page variables</a>
+and <a href="/layout-tester/syntax/extensions/">commands</a>.
+As a quick idea of what the <code>config.md</code> file can be used to do, this is where you might
+specify who the author of the website is, or what the website is about:</p>
+<pre><code class="plaintext">+++
+author = &quot;Zenobia&quot;
+descr = &quot;&quot;&quot;
+  This website is dedicated to Zenobia, a famous queen of Syria.
+  &quot;&quot;&quot;
++++</code></pre>
+<p>It is also the place where you will define the <code>base_url_prefix</code> (or <code>prepath</code>)
+which is <strong>crucial</strong> to get your site to <a href="/layout-tester/workflow/deployment/">deploy properly</a>.
+In short, it is the prefix to use for your site landing page; for instance if your website
+is hosted on github, the website might be located at</p>
+<pre><code class="julia">https://username.github.io/theWebsite/</code></pre>
+<p>and the <code>base_url_prefix</code> is then <code>theWebsite</code>.</p>
+<fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
 
-Your HTML here
+The <code>config.md</code> file is the only <code>.md</code> file in your website folder that won't get
+converted into a <code>.html</code> file by default. Franklin considers it as a special file.
+If you <strong>do</strong> want to have a page with relative URL <code>/config/</code>, you can do so by
+writing a file at <code>/config/index.md</code>.
+See also the section <a href="#paths_in_franklin">on paths</a>.
 
-&lbrace;&lbrace;insert foot.html&rbrace;&rbrace;</code></pre>
-<p>some users might prefer having a single <code>_layout/skeleton.html</code> file which describes the structure of pages.
-For instance it could look like</p>
-<pre><code class="html">&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt; ... &lt;/head&gt;
-&lt;body&gt;
-  &lbrace;&lbrace;page_content&rbrace;&rbrace;  &lt;!-- this inserts the partially converted Markdown --&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>and so, instead of separating the head, content and foot, it's a single file where you just indicate where the content goes.</p>
-<p>If you do have a skeleton file in your <code>_layout</code> folder, and also have a head and foot files, only the skeleton will be considered.</p>
-<h2 id="next_steps" ><a href="#next_steps"> Next steps</a></h2><p>Now that you have a working website that you can render locally and experiment with,
-you should try to further modify the <code>.md</code> file(s) in the folder, and the <code>.html</code> files in the
-<code>_layout</code> folder, and try to get an intuition for how things work.</p>
-<p>The rest of the docs is there to help you when things don't work like you might expect them to.
-You may also want to:</p>
+</fieldset><h3 id="layout_files" ><a href="#layout_files"> Layout files</a></h3><p>The <code>_layout/</code> folder will usually contain a <code>head.html</code> and <code>foot.html</code> which are placed respectively at the top and bottom of each generated HTML page (cf. the <a href="/layout-tester/workflow/getting_started/#page_structure">page structure</a> diagram).</p>
+<p>These files are where you should indicate the base layout of your pages, and, for instance, where you might indicate what CSS or JS to load on pages.
+See <a href="/layout-tester/workflow/adapting_layout/">how to adapt a layout</a> for more details on how to specify these files if you want to write your own layout.</p>
+<p>It is often convenient to split the layout of your site into components, and each of these
+components may have its own layout file to complement the "head" and "foot" files.
+For instance you might define a menu in a file <code>menu.html</code> and refer to it in the <code>head.html</code>
+using <code>&lbrace;&lbrace;insert menu.html&rbrace;&rbrace;</code>.
+To understand how this works in details, you will need to be familiar with the section on
+<a href="/layout-tester/syntax/vars+funs/">page variables and HTML functions</a>).
+For now though, the point is just that there may be more files in <code>_layout/</code> than just the two basic ones.</p>
+<h2 id="site_and_cache_folders" ><a href="#site_and_cache_folders"> Site and cache folders</a></h2><p>When Franklin generates HTML pages, it places them in a <code>__site/</code> folder.
+And when the server is interrupted, Franklin generates (or updates) a <code>__cache/</code> folder.</p>
+<p>So after running <code>serve</code> and interrupting the server in the basic folder discussed at the previous point, the folder structure would look like</p>
+<pre><code class="plaintext">TestWebsite
+├── __cache
+│   ├── gc.cache
+│   └── index
+│       └── lc.cache
+├── __site
+│   └── index.html
+├── _layout
+│   ├── foot.html
+│   └── head.html
+├── config.md
+└── index.md</code></pre>
+<p>These two folders are explained below along with a summary of how paths work in Franklin.</p>
+<h3 id="site_folder" ><a href="#site_folder"> Site folder</a></h3><p>The <code>__site/</code> folder is where all files that correspond to your actual website are placed.
+Deploying a Franklin website simply amounts to placing the content of this <code>__site/</code> folder
+on some server (see also <a href="/layout-tester/workflow/deployment/">the docs on deployment</a> for much more on this).</p>
+<p>In the example above, there is a single file in <code>__site</code>: the <code>index.html</code> which is the
+landing page of the website.
+Recall from <a href="/layout-tester/workflow/getting_started/#page_structure">the diagram on page structure</a>
+that this file <code>index.html</code> is generated out of assembling and processing</p>
 <ul>
-<li>join the <code>#franklin</code> channel of the <a href="https://join.slack.com/t/julialang/shared_invite/zt-w0pifg7p-18IUSkZy_WpofNumiTTROQ">Julia Slack</a> to get help with small questions quickly,</li>
-<li>ask questions on the <a href="https://discourse.julialang.org/">Julia Discourse</a> adding the tag <code>franklin</code>, and</li>
-<li>open issues in <a href="https://github.com/tlienart/Franklin.jl">the repository</a> if you encounter a bug.</li>
+<li><code>_layout/head.html</code>,</li>
+<li>the conversion of <code>index.md</code> to HTML by Franklin, and</li>
+<li><code>_layout/foot.html</code>.</li>
 </ul>
+<p>If you had other <code>.md</code> files next to <code>index.md</code>, these would also be converted and placed in <code>__site/</code>.
+See also the point below <a href="#paths_in_franklin">on paths</a> for a summary of where files end up.</p>
+<h3 id="cache_folder" ><a href="#cache_folder"> Cache folder</a></h3><p>The cache folder keeps track of a serialised representation of the global and each
+of the local <strong>contexts</strong>.
+At a high level, the global context keeps track of global <a href="page%20vars">page variables</a> and the
+local contexts keep track of local page variables along with the representation of all code
+blocks evaluated on that page.</p>
+<p>These serialised representation will only exist under certain (fairly broad) conditions and will
+speed up re-building the website on subsequent sessions.
+If a context fails to serialise (e.g. because some of the page variables can't be easily serialised),
+the context will be re-built every time the server is re-started even if the page hasn't changed
+which can lead to a small overhead depending on what's on that page.</p>
+<p>If you're curious about the cache, you can read more about it <a href="/layout-tester/engine/cache/">here</a>.
+Generally you shouldn't have to think about the cache folder at all.</p>
+<h3 id="paths_in_franklin" ><a href="#paths_in_franklin"> Paths in Franklin</a></h3><p>The table below helps clarify how a file placed in the website folder ends up
+generating a file in the <code>__site/</code> folder and, ultimately, the corresponding URL.</p>
+<p>For URLs, recall that if we write <code>/foo/bar/</code> the browser resolves this as <code>/foo/bar/index.html</code> (so the source file is at <code>/foo/bar/index.html</code> but users can access the page at <code>/foo/bar/</code>).
+Also, if the <a href="/layout-tester/workflow/deployment/#setting_the_base_url_prefix"><code>base_url_prefix</code></a> is <code>&quot;PREFIX&quot;</code> then <code>/foo/bar/</code> will be <code>PREFIX/foo/bar/</code> online (in the table below we assume the prefix is <code>&quot;&quot;</code>).</p>
+<p>For <strong><code>.md</code></strong> and <strong><code>.html</code></strong> files:</p>
+<div style="height:1em;"></div><table class="pure-table">
+<thead>
+<th > Source </th>
+<th > <code>__site/</code> folder </th>
+<th > URL </th>
+</thead>
+<tbody>
+<tr>
+<td > <code>index.md</code> </td>
+<td > <code>index.html</code>  </td>
+<td > <code>/</code> </td>
+</tr>
+<tr>
+<td > <code>foo.md</code> (or <code>foo/index.md</code>) </td>
+<td > <code>foo/index.html</code> </td>
+<td > <code>/foo/</code> </td>
+</tr>
+<tr>
+<td > <code>foo/bar.md</code> </td>
+<td > <code>foo/bar/index.html</code> </td>
+<td > <code>/foo/bar/</code> </td>
+</tr>
+<tr>
+<td > <code>index.html</code> </td>
+<td > <code>index.html</code> </td>
+<td > <code>/</code> </td>
+</tr>
+<tr>
+<td > <code>foo.html</code>   </td>
+<td > <code>foo/index.html</code> </td>
+<td > <code>/foo/</code> </td>
+</tr>
+<tr>
+<td > <code>foo/bar.html</code> </td>
+<td > <code>foo/bar/index.html</code> </td>
+<td > <code>/foo/bar/</code> </td>
+</tr>
+</tbody>
+</table>
+<div style="height:1em;"></div><p>Observe that there is an ambiguity between a file placed at <code>foo.md</code> and <code>foo/index.md</code>.
+You should pick one of the two based on what makes most sense for your folder structure, but you should not use both simultaneously.</p>
+<p>For other files (images etc):</p>
+<div style="height:1em;"></div><table class="pure-table">
+<thead>
+<th > Source </th>
+<th > <code>__site/</code> folder </th>
+<th > URL </th>
+</thead>
+<tbody>
+<tr>
+<td > <code>a/b.xyz</code> </td>
+<td > <code>a/b.xyz</code> </td>
+<td > <code>/a/b.xyz</code> </td>
+</tr>
+<tr>
+<td > <code>_assets/a/b.xyz</code> </td>
+<td > <code>assets/a/b.xyz</code> </td>
+<td > <code>/assets/a/b.xyz</code> </td>
+</tr>
+<tr>
+<td > <code>_css/a.css</code> </td>
+<td > <code>css/a.css</code> </td>
+<td > <code>/css/a.css</code> </td>
+</tr>
+<tr>
+<td > <code>_libs/a.js</code> </td>
+<td > <code>libs/a.js</code> </td>
+<td > <code>/libs/a.js</code> </td>
+</tr>
+</tbody>
+</table>
+<div style="height:1em;"></div><p><strong>Note</strong>: in some cases you will want some paths to be kept <em>as is</em>. This can be done with the global page variable <code>keep_path</code>. For instance with things like Google Analytics, you may have to prove ownership of your site by placing a custom HTML file in a given location (see <a href="https://support.google.com/webmasters/answer/9008080#html_verification">this tutorial</a>).
+For such cases you would indicate <code>keep_path=[&quot;the/path.html&quot;]</code> and Franklin would respect that:</p>
+<pre><code class="plaintext"># source
+the/path.html
+
+# in config.md
+keep_path = [&quot;the/path.html&quot;]
+
+# output in __site/
+the/path.html    # (instead of the/path/index.html)</code></pre>
+<p>Further to the global page variable <code>keep_path</code>, you can also use the page variable <code>slug</code> which
+offers you a way to indicate a secondary output path for a file thereby making it available at
+another URL. The table below should clarify this:</p>
+<div style="height:1em;"></div><table class="pure-table">
+<thead>
+<th > Source </th>
+<th > Slug </th>
+<th > "<code>__site/</code>" folder </th>
+<th > URL </th>
+</thead>
+<tbody>
+<tr>
+<td > <code>foo/bar.md</code> </td>
+<td > <code>slug=&quot;biz/baz&quot;</code> </td>
+<td > {<code>foo/bar/index.html</code>, <code>biz/baz/index.html</code>} </td>
+<td > {<code>/foo/bar/</code>, <code>/biz/baz/</code>} </td>
+</tr>
+<tr>
+<td > <code>foo/bar.md</code> </td>
+<td > <code>slug=&quot;biz/baz.html&quot;</code> </td>
+<td > {<code>foo/bar/index.html</code>, <code>biz/baz.html</code>} </td>
+<td > {<code>/foo/bar/</code>, <code>/biz/baz.html</code>} </td>
+</tr>
+</tbody>
+</table>
+<div style="height:1em;"></div><h2 id="css_and_js" ><a href="#css_and_js"> CSS and JS</a></h2><p>The files in the <code>_css/</code> and <code>_libs/</code> folder are copied over to <code>__site/css/</code> and
+<code>__site/libs/</code> respectively.
+For instance, let's say that you have</p>
+<ul>
+<li><code>_css/layout.css</code> and,</li>
+<li><code>_libs/ui/menu.min.js</code></li>
+</ul>
+<p>then these files will be copied over (as explained in the <a href="#paths_in_franklin">earlier point on paths</a>) to</p>
+<ul>
+<li><code>__site/css/layout.css</code> and,</li>
+<li><code>__site/libs/ui/menu.min.js</code>.</li>
+</ul>
+<p>You can refer to them in your layout e.g. as:</p>
+<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/layout.css&quot;&gt;
+&lt;script src=&quot;/libs/ui/menu.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<div style="height:1em;"></div><fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
+
+You should not specify the base url prefix anywhere else than in your <code>config.md</code>.
+Franklin will automatically fix paths for you to take it into account.
+In other words you should never have to write <code>href=&quot;/PREFIX/css/layout.css&quot;</code>,
+stick with <code>href=/layout-tester/css/layout.css</code>.
+
+</fieldset><h2 id="assets" ><a href="#assets"> Assets</a></h2><p>Everything you put in <code>_assets/</code> gets copied <em>as is</em> to <code>__site/assets</code> even if
+it's a <code>.md</code> or <code>.html</code> file.
+This is the location where you might want to place images, logos, etc.</p>
+<p>For instance, we have an image of a bike located at <code>_assets/eximg/bike.svg</code>, we can
+include it with</p>
+<div class="trim">
+
+<fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">![Illustration of a road bike](/assets/eximg/bike.svg)</code></pre>
+</fieldset>
+
+</div>
+
+
+
+<div class="trim">
+
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend><img src="/layout-tester/assets/eximg/bike.svg" alt="Illustration of a road bike"></fieldset>
+
+</div><p>This image was taken from Wikimedia Commons <a href="https://commons.wikimedia.org/wiki/File:Bike25.svg">here</a>.</p>
+<p>For more on the basic syntax to include images in Franklin, see <a href="http://localhost:8000/syntax/basics/#images">here</a>.</p>
 
 
             
@@ -1249,7 +1378,7 @@ You may also want to:</p>
     <div id="marginToc">
         
           <div id="marginTocLegend"><a href="#">Contents</a></div>
-          <div class="toc"><ol><li><a href="#generate_a_site_from_a_template"> Generate a site from a template</a></li><li><a href="#building_and_editing_the_website"> Building and editing the website</a><ol><li><a href="#modifying_files"> Modifying files</a></li><li><a href="#interrupting_and_restarting_the_server"> Interrupting and restarting the server</a></li></ol></li><li><a href="#page_structure"> Page structure</a><ol><li><a href="#head/foot_structure"> Head/Foot structure</a></li><li><a href="#skeleton_structure"> Skeleton structure</a></li></ol></li><li><a href="#next_steps"> Next steps</a></li></ol></div>
+          <div class="toc"><ol><li><a href="#basic_folder_structure"> Basic folder structure</a><ol><li><a href="#index_file"> Index file</a></li><li><a href="#config_file"> Config file</a></li><li><a href="#layout_files"> Layout files</a></li></ol></li><li><a href="#site_and_cache_folders"> Site and cache folders</a><ol><li><a href="#site_folder"> Site folder</a></li><li><a href="#cache_folder"> Cache folder</a></li><li><a href="#paths_in_franklin"> Paths in Franklin</a></li></ol></li><li><a href="#css_and_js"> CSS and JS</a></li><li><a href="#assets"> Assets</a></li></ol></div>
         
     </div>
 </div>

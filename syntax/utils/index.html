@@ -1056,134 +1056,136 @@ small screens.
 
         <div class="content">
             
-            <h1 id="getting_started" ><a href="#getting_started"> Getting Started</a></h1><h2 id="generate_a_site_from_a_template" ><a href="#generate_a_site_from_a_template"> Generate a site from a template</a></h2><p>To get started with Franklin, you can use the <code>FranklinTemplates.newsite</code> function
-in a Julia REPL.
-That function will generate a <em>website folder</em> on your computer that's ready
-to be built by Franklin, and that you can modify at will:</p>
-<pre><code class="julia">using FranklinTemplates: newsite
-using Franklin, FranklinTemplates
-newsite(&quot;TestWebsite&quot;; template=&quot;hyde&quot;)</code></pre>
-<p>The execution of this command will also move you to that folder (i.e. <code>cd TestWebsite/</code>).</p>
-<p>The first argument of <code>newsite</code> is the title of the folder that will be created,
-and moved to (you can change that later).
-If you are already in a folder that you previous created for this purpose, just indicate the
-current path with <code>&quot;.&quot;</code> (i.e.: <code>newsite(&quot;.&quot;, ...)</code>).</p>
-<p>The <code>template=</code> keyword argument allows you to specify one of the few
-<a href="https://tlienart.github.io/FranklinTemplates.jl/">simple templates</a>
-that can get you started with Franklin.
-In particular, if you just want a super basic template to experiment with, the
-<code>&quot;sandbox&quot;</code> template should prove useful.</p>
-<fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
-
-Most of these templates are adapted, and simplified versions of common standard
-static site templates.
-They are not meant to be fully polished but should be easy to adjust to your liking
-once you're familiar with how Franklin operates.
-<br>
-
-Your help to add new templates or make existing ones better is very welcome!
-
-</fieldset><h2 id="building_and_editing_the_website" ><a href="#building_and_editing_the_website"> Building and editing the website</a></h2><p>Once you have a website folder &#8212; e.g. <code>TestWebsite</code> &#8212; you can start the Franklin
-server from within it:</p>
-<pre><code class="plaintext">serve()  # or serve(&quot;path/to/TestWebsite&quot;)
-
-[...]
-
-✓ LiveServer listening on http://localhost:8000/ ...
-  (use CTRL+C to shut down)</code></pre>
-<p>You can now visit your site at <code>http://localhost:8000</code> (the page should have been
-  opened automatically in your browser).</p>
-<p>At a high level, the <code>serve</code> function does the following:</p>
+            <h1 id="utils" ><a href="#utils"> Utils</a></h1><style>
+.pure-table-striped td { padding: .75em;}
+</style><h2 id="overview" ><a href="#overview"> Overview</a></h2><p>Along with the <code>config.md</code> file, the <code>utils.jl</code> file allows you to define functions and objects that may be useful throughout your website and, also, to define special functions that you can call on pages.
+In <code>utils.jl</code> you can:</p>
 <ol>
-<li>goes through all your pages in a first initial pass and (re)builds them if necessary,</li>
-<li>starts <a href="https://github.com/tlienart/LiveServer.jl">LiveServer</a> which<ul>
-<li>starts a browser,</li>
-<li>watches files for changes and reloads updated pages.</li>
-</ul>
-</li>
+<li>define objects and functions that can be accessed from any code cell via the <code>Utils</code> module,</li>
+<li>define your own <code>html_show(obj::SomeType)</code> for objects of <code>SomeType</code> which should be shown in a specific way when returned by executed cells,</li>
+<li>define functions with specific signatures to power custom commands, environments or html functions.</li>
 </ol>
-<p>There's a number of keyword arguments to <code>serve</code> which you might find useful, do <code>?serve</code>
-in your REPL to get the relevant docstring.</p>
-<h3 id="modifying_files" ><a href="#modifying_files"> Modifying files</a></h3><p>Once the server is running, you can edit the file <code>index.md</code> and see the effect it
-has in your browser.
-If you're familiar with Markdown, this step should hopefully be fairly intuitive.
-Otherwise, you might want to check out the <a href="/layout-tester/syntax/basics/">Markdown basics</a>.
-The <code>index.md</code> file also  has a few indications for how to do things which you might
-find useful.</p>
-<p>Once you have a feel for things, you might want to check out the
-Franklin-specific <a href="/layout-tester/syntax/extensions/">extensions</a> and related topics.</p>
-<h3 id="interrupting_and_restarting_the_server" ><a href="#interrupting_and_restarting_the_server"> Interrupting and restarting the server</a></h3><p>You can interrupt the server at any time by hitting <kbd>Ctrl</kbd> + <kbd>C</kbd> in the Julia REPL.
-And, of course, you can re-start it with <code>serve(...)</code>.</p>
-<p>Passing <code>launch=false</code> to <code>serve</code> can be convenient as you may already have a
-browser tab pointing to the right address (e.g. <code>localhost:8000</code>) and may not want to open
-a new one every time you restart the server.</p>
-<fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
+<p>The first two are pretty simple and explained in the two short subpoints below.
+The last point is a bit more involved and is discussed with examples in the <a href="/layout-tester/syntax/utils/#custom_functions">custom functions</a> section below.</p>
+<h3 id="definining_objects_and_functions_in_the_utils_module" ><a href="#definining_objects_and_functions_in_the_utils_module"> Definining objects and functions in the Utils module</a></h3><p>The code in <code>utils.jl</code> is made available via a <code>Utils</code> module that can be accessed from any code cell.
+For instance, in the <code>utils.jl</code> of the present website, we have the code</p>
+<pre><code class="julia">struct Baz
+    z::Int
+end
 
-It is strongly recommended to use Franklin in a REPL and not do something like <code>julia -e &quot;using Franklin; ...&quot;</code>.
-Indeed, you may have to stop or restart the servers occasionally and doing so in a "hot" REPL session will be
-significantly faster.
-
-</fieldset><h2 id="page_structure" ><a href="#page_structure"> Page structure</a></h2><h3 id="head/foot_structure" ><a href="#head/foot_structure"> Head/Foot structure</a></h3><p>When using Franklin, it is useful to have a rough understanding of how the HTML pages
-are generated.
-For a source page with the following Markdown:</p>
-<pre><code class="markdown"># Hello
-
-Some **text** here.</code></pre>
-<p>a HTML page will (typically) be generated with the following structure:</p>
-<pre><code class="plaintext">┌──────────────────────────────────────────────┐
-│ ┌──────────────────┐                         │
-│ │ &lt;!doctype html&gt;  │                         │
-│ │ &lt;html lang=&quot;en&quot;&gt; │                         │
-│ │ &lt;head&gt;           │                         │
-│ │ ...              │  (_layout/head.html)    │
-│ │ &lt;/head&gt;          │                         │
-│ │ &lt;body&gt;           │                         │
-│ │ ...              │                         │
-│ └──────────────────┘                         │
-│ ┌──────────────────────────────────────────┐ │
-│ │ &lt;h1&gt;Hello&lt;/h1&gt;                           │ │
-│ │ &lt;p&gt;Some &lt;strong&gt;text&lt;/strong&gt; here.&lt;/p&gt;  │ │
-│ └──────────────────────────────────────────┘ │
-│ ┌──────────┐                                 │
-│ │ ...      │                                 │
-│ │ &lt;/body&gt;  │          (_layout/foot.html)    │
-│ │ &lt;/html&gt;  │                                 │
-│ └──────────┘                                 │
-└──────────────────────────────────────────────┘</code></pre>
-<p>The top box corresponds to the file <code>_layout/head.html</code> in your website folder.
-Correspondingly, the bottom box corresponds to the file <code>_layout/foot.html</code>.
-The middle box is the HTML that is generated by Franklin when converting the source Markdown.</p>
-<p>Note that what gets effectively placed at the "top" or "bottom" of your page can be finely controlled
-via <a href="/layout-tester/syntax/vars+funs/">page variables</a> but, for now, the important bit is just to have this simple
-high-level view in mind.</p>
-<h3 id="skeleton_structure" ><a href="#skeleton_structure"> Skeleton structure</a></h3><p>Though the <code>head.html</code>/<code>foot.html</code> approach above is recommended as it allows re-using the
-<code>head.html</code> and <code>foot.html</code> elsewhere, including in raw-HTML pages, by doing</p>
-<pre><code class="html">&lbrace;&lbrace;insert head.html&rbrace;&rbrace;
-
-Your HTML here
-
-&lbrace;&lbrace;insert foot.html&rbrace;&rbrace;</code></pre>
-<p>some users might prefer having a single <code>_layout/skeleton.html</code> file which describes the structure of pages.
-For instance it could look like</p>
-<pre><code class="html">&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt; ... &lt;/head&gt;
-&lt;body&gt;
-  &lbrace;&lbrace;page_content&rbrace;&rbrace;  &lt;!-- this inserts the partially converted Markdown --&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>and so, instead of separating the head, content and foot, it's a single file where you just indicate where the content goes.</p>
-<p>If you do have a skeleton file in your <code>_layout</code> folder, and also have a head and foot files, only the skeleton will be considered.</p>
-<h2 id="next_steps" ><a href="#next_steps"> Next steps</a></h2><p>Now that you have a working website that you can render locally and experiment with,
-you should try to further modify the <code>.md</code> file(s) in the folder, and the <code>.html</code> files in the
-<code>_layout</code> folder, and try to get an intuition for how things work.</p>
-<p>The rest of the docs is there to help you when things don't work like you might expect them to.
-You may also want to:</p>
+newbaz(z) = Baz(z)</code></pre>
+<p>This can be accessed on the current page (or any other page) via the <code>Utils</code> module:</p>
+<pre><code class="julia">b = Utils.Baz(1)
+@show b.z
+b2 = Utils.newbaz(3)
+@show b2.z</code></pre>
+<div class="code-output"><pre><code class="code-stdout language-plaintext">b.z = 1
+b2.z = 3
+</code></pre></div><h3 id="custom_show_method" ><a href="#custom_show_method"> Custom show method</a></h3><p>When showing the output of a code cell, a custom show method can be defined in Utils
+to be called for specific objects.
+The signature of that method must be <code>html_show(obj::SomeType)</code>.</p>
+<p>For instance, in the <code>utils.jl</code> we have:</p>
+<pre><code class="julia">struct Foo
+    x::Int
+end
+html_show(f::Foo) = &quot;&lt;strong&gt;Foo: $(f.x)&lt;/strong&gt;&quot;</code></pre>
+<p>the custom show gets called when the resulting object of an executed code block
+is of the type (here <code>Foo</code>):</p>
+<pre><code class="julia">Utils.Foo(1)</code></pre>
+<div class="code-output"><strong>Foo: 1</strong></div><p>see also <a href="/layout-tester/syntax/code/#custom_show">this point</a> for more information on custom show methods.</p>
+<h2 id="custom_functions" ><a href="#custom_functions"> Custom functions</a></h2><p>Functions defined in utils with a name that start with <code>lx_fname</code>, <code>env_fname</code> or <code>hfun_fname</code> can be called on pages respectively with <code>\fname&lbrace;...&rbrace;</code>, <code>\begin&lbrace;fname&rbrace;...\end&lbrace;fname&rbrace;</code> and <code>&lbrace;&lbrace;fname ...&rbrace;&rbrace;</code>.
+This allows you to essentially have arbitrary logic executed at page-build time.</p>
+<p>Before clarifying how these functions should be defined and called, it is useful to remember the order in which such commands will be resolved:</p>
 <ul>
-<li>join the <code>#franklin</code> channel of the <a href="https://join.slack.com/t/julialang/shared_invite/zt-w0pifg7p-18IUSkZy_WpofNumiTTROQ">Julia Slack</a> to get help with small questions quickly,</li>
-<li>ask questions on the <a href="https://discourse.julialang.org/">Julia Discourse</a> adding the tag <code>franklin</code>, and</li>
-<li>open issues in <a href="https://github.com/tlienart/Franklin.jl">the repository</a> if you encounter a bug.</li>
+<li><code>lx*</code> and <code>env*</code> functions will be resolved on <strong>first pass</strong>, as soon as they're seen by Franklin. The context that is available to these functions, correspondingly, is whatever was processed before them. These functions are expected to return "intermediate" HTML (i.e. possibly containing <code>&lbrace;&lbrace;...&rbrace;&rbrace;</code>) and will be further processed in a second pass.</li>
+<li><code>hfun*</code> functions will be resolved on <strong>second pass</strong>, as such they have access to the full page context, and are expected to produce "final" HTML.</li>
 </ul>
+<p>In many cases, the differences are irrelevant, and users can use whichever they prefer.</p>
+<h3 id="custom_lxfuns" ><a href="#custom_lxfuns"> Custom lxfuns</a></h3><p>The signature of a valid "lxfun" is</p>
+<pre><code class="julia">function lx_fname(p::Vector&lbrace;String&rbrace;)::String
+    # logic
+    return &quot;...&quot;
+end</code></pre>
+<p>where <code>fname</code> can be switched for anything command name you want and where the
+argument (<code>p</code> here) is a list of strings corresponding to each of the brace that will
+be given to the command.
+It can be left empty in the definition if the user desires to have an argument-less command.</p>
+<p>Here's an example:</p>
+<pre><code class="julia">function lx_exlx(p::Vector&lbrace;String&rbrace;)
+    return &quot;&lt;i&gt;$(uppercase(p[1]))&lt;/i&gt; &lt;b&gt;$(uppercasefirst(p[2]))&lt;/b&gt;&quot;
+end</code></pre>
+<p>and if we call <code>\exlx&lbrace;hello&rbrace;&lbrace;reader&rbrace;</code>, we get: <i>HELLO</i> <b>Reader</b>.</p>
+<p>Here's another example without arguments:</p>
+<pre><code class="julia">function lx_exlx2()
+    return &quot;&lt;s&gt;hello&lt;/s&gt;&quot;
+end</code></pre>
+<p>and if we call <code>\exlx2</code> we get: <s>hello</s>.</p>
+<p>As indicated earlier, the output of an lxfun gets reprocessed at the second pass, so
+for instance:</p>
+<pre><code class="julia">function lx_exlx3()
+    # fill the local variable header
+    return &quot;&lt;span style='color:blue'&gt;&lbrace;&lbrace;a_global_variable&rbrace;&rbrace;&lt;/span&gt;&quot;
+end</code></pre>
+<p>and if we call <code>\exlx3</code> we get: <span style='color:blue'>hello from a global variable!</span>.</p>
+<h3 id="custom_envfuns" ><a href="#custom_envfuns"> Custom envfuns</a></h3><h3 id="custom_hfuns" ><a href="#custom_hfuns"> Custom hfuns</a></h3><h2 id="utils_tools" ><a href="#utils_tools"> Utils tools</a></h2><p>When defining any function in utils, you can make use of a set of useful functions available by default:</p>
+<table class="pure-table-striped">
+<thead>
+<th style="text-align:left;"> function </th>
+<th style="text-align:left;"> description </th>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> <code>html(s)</code>,
+<br>
+ <code>html(s, lc)</code> </td>
+<td style="text-align:left;"> convert a markdown string <code>s</code> (optionally specifying the <code>LocalContext</code> object in which this should happen) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>cur_gc()</code> </td>
+<td style="text-align:left;"> return the current <code>GlobalContext</code> object </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>cur_lc()</code> </td>
+<td style="text-align:left;"> return the current <code>LocalContext</code> object </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>path(s)</code> </td>
+<td style="text-align:left;"> return the path associated with symbol <code>s</code> for instance <code>path(:folder)</code> will return the path to the website folder, <code>path(:site)</code> the path to the output folder. </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>getlvar(s)</code> </td>
+<td style="text-align:left;"> value of the local var with symbol <code>s</code> </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>getgvar(s)</code> </td>
+<td style="text-align:left;"> value of the global var with symbol <code>s</code> </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>getvarfrom(s, rp)</code> </td>
+<td style="text-align:left;"> value of the local var with symbol <code>s</code> expected to be defined on page with relative path <code>rp</code> </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>setlvar!(s, v)</code> </td>
+<td style="text-align:left;"> set the value of a local var with symbol <code>s</code> to <code>v</code> </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>setgvar!(s, v)</code> </td>
+<td style="text-align:left;"> set the value of a global var with symbol <code>s</code> to <code>v</code> </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>get_page_tags(rp)</code> </td>
+<td style="text-align:left;"> get all the tags defined on the current page or, if <code>rp</code> is specified, on the page corresponding to <code>rp</code> </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>get_all_tags()</code> </td>
+<td style="text-align:left;"> get the dictionary of all tags on all pages </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <code>get_rpath</code> </td>
+<td style="text-align:left;"> get the relative path to the current page </td>
+</tr>
+</tbody>
+</table>
 
 
             
@@ -1249,7 +1251,7 @@ You may also want to:</p>
     <div id="marginToc">
         
           <div id="marginTocLegend"><a href="#">Contents</a></div>
-          <div class="toc"><ol><li><a href="#generate_a_site_from_a_template"> Generate a site from a template</a></li><li><a href="#building_and_editing_the_website"> Building and editing the website</a><ol><li><a href="#modifying_files"> Modifying files</a></li><li><a href="#interrupting_and_restarting_the_server"> Interrupting and restarting the server</a></li></ol></li><li><a href="#page_structure"> Page structure</a><ol><li><a href="#head/foot_structure"> Head/Foot structure</a></li><li><a href="#skeleton_structure"> Skeleton structure</a></li></ol></li><li><a href="#next_steps"> Next steps</a></li></ol></div>
+          <div class="toc"><ol><li><a href="#overview"> Overview</a><ol><li><a href="#definining_objects_and_functions_in_the_utils_module"> Definining objects and functions in the Utils module</a></li><li><a href="#custom_show_method"> Custom show method</a></li></ol></li><li><a href="#custom_functions"> Custom functions</a><ol><li><a href="#custom_lxfuns"> Custom lxfuns</a></li><li><a href="#custom_envfuns"> Custom envfuns</a></li><li><a href="#custom_hfuns"> Custom hfuns</a></li></ol></li><li><a href="#utils_tools"> Utils tools</a></li></ol></div>
         
     </div>
 </div>
