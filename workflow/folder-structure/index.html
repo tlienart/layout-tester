@@ -1428,13 +1428,18 @@ include it with</p>
         elements.menuLink.classList.remove('active');
     }
 
+    var ignoreClick = document.getElementById('menu');
+
     function handleEvent(e) {
-        var elements = getElements();
-        if (e.target.id === elements.menuLink.id) {
-            toggleAll();
-            e.preventDefault();
-        } else if (elements.menu.className.indexOf('active') !== -1) {
-            toggleAll();
+        shouldIgnore = ignoreClick.contains(e.target);
+        if (!shouldIgnore) {
+            var elements = getElements();
+            if (e.target.id === elements.menuLink.id) {
+                toggleAll();
+                e.preventDefault();
+            } else if (elements.menu.className.indexOf('active') !== -1) {
+                toggleAll();
+            }
         }
     }
     document.addEventListener('click', handleEvent);
