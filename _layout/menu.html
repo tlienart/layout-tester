@@ -41,11 +41,6 @@
 		background: transparent;
 	}
 
-	/* Add that light border to separate items into groups. */
-	/* #menu .pure-menu ul,
-	#menu .pure-menu .menu-item-divided {
-		border-top: 1px solid #333;
-	} */
 		/* Change color of the anchor links on hover/focus.	*/
 		#menu .pure-menu li a:hover,
 		#menu .pure-menu li a:focus {
@@ -99,31 +94,9 @@ small screens.
 		display: block;
 	}
 
-#menuDismiss {
-	width: var(--topbar-height);
-	height: var(--topbar-height);
-	position: fixed;
-	top: 0;
-	/* margin-left: calc(var(--menu-width) - var(--topbar-height)); */
-	z-index: 1000;
-	display: block;
-	pointer-events: none;
-	visibility: hidden;
-}
-	#menuDismissIcon {
-		pointer-events: none;
-		height: calc(0.8*var(--topbar-height));
-		width: calc(0.8*var(--topbar-height));
-		margin-left: auto;
-		margin-right: auto;
-		background: var(--x-square) no-repeat;
-		background-size: contain;
-		display: block;
-	}
-
 #lunrSearchForm {
 	/* visibility: hidden; */
-	padding-top: 13px;
+	padding-top: calc(0.18*var(--topbar-height));
 	padding-left: calc(0.09 * var(--menu-width));
 }
 	#lunrSearchForm input {
@@ -149,7 +122,6 @@ small screens.
 	z-index: 500;
 	top: 0;
 	right: 0;
-	/* background-color: red; */
 }
 	#logoLogo {
 		pointer-events:none;
@@ -162,10 +134,13 @@ small screens.
 		display: block;
 	}
 
+#menuTopFill {
+	display: none;
+}
+
 /* Add transition to containers so they can push in and out. */
 #menu,
-#menuLink,
-#menuDismiss {
+#menuLink {
 	-webkit-transition: all 0.2s ease-out;
 	-moz-transition: all 0.2s ease-out;
 	-ms-transition: all 0.2s ease-out;
@@ -188,33 +163,42 @@ small screens.
 	display: none;
 }
 
-#layout.active #menuDismiss {
-	display: block;
-	pointer-events: all;
-	visibility: visible;
-	margin-left: calc(var(--menu-width) - var(--topbar-height) - 15px);
-}
-
 /* -- Responsive Styles (Media Queries) ----------------------------------- */
 
 @media (min-width: 48em) {
-
 	#menu {
 		left: var(--menu-width);
 	}
-
 	#layout.active .menu-link {
 		left: var(--menu-width);
 	}
-
 	#menuLink {
 		display: none;
+	}
+
+	.v-spacer-menulist {
+		width: 100%;
+		height: 100px;
+		display: block;
+		background-color: green;
 	}
 }
 
 @media (min-width: 79em) {
 	#menu {
 		padding-left: var(--wide-leftpad);
+	}
+	#menuTopFill {
+		display: block;
+		background-color: var(--col-dark);
+		z-index: -1;
+		width: 100%;
+		position: absolute;
+		left: 0;
+		height: var(--topbar-height);
+	}
+	#logo {
+		right: calc(var(--wide-leftpad));
 	}
 }
 
@@ -235,6 +219,9 @@ small screens.
 </a>
 
 <div id="menu">
+
+	<div id="menuTopFill"></div>
+
 	<div class="pure-menu">
 		<div id="menu-top">
 			<form id="lunrSearchForm" name="lunrSearchForm">
@@ -243,60 +230,11 @@ small screens.
 			</form>
 		</div>
 
+		<div class="v-spacer-menulist"></div>
+
 		<div class="menu-symbols" style="width:100%;height:2em;background-color: red;"></div>
 
 		{{generate_menu}}
 
-
-		<ul class="pure-menu-list">
-
-
-			<!-- WORKFLOW -->
-			<!-- <li class="pure-menu-item">
-				<a href="/workflow/getting-started/" class="pure-menu-link">Workflow</a>
-				{{ispage /workflow/*}}
-				<ul class="pure-menu-list">
-					<li class="pure-menu-item">
-						<a href="/workflow/getting-started/" class="pure-menu-link">Getting Started</a>
-					</li>
-					<li class="pure-menu-item">
-						<a href="/workflow/folder-structure/" class="pure-menu-link">Folder Structure</a>
-					</li>
-					<li class="pure-menu-item">
-						<a href="/workflow/adapting-layout/" class="pure-menu-link">Adapting a Layout</a>
-					</li>
-					<li class="pure-menu-item">
-						<a href="/workflow/deployment/" class="pure-menu-link">Deployment</a>
-					</li>
-				</ul>
-				{{end}}
-			</li>
- -->
-			<!-- SYNTAX -->
-			
-
-			<li class="pure-menu-item"><a href="#about" class="pure-menu-link">About</a></li>
-
-			<li class="pure-menu-item menu-item-divided pure-menu-selected">
-				<a href="#" class="pure-menu-link">Services</a>
-			</li>
-
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-			<li class="pure-menu-item"><a href="#contact" class="pure-menu-link">Contact</a></li>
-		</ul>
 	</div>
 </div>

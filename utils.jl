@@ -16,7 +16,6 @@ function hfun_generate_menu()
                 <a href="/$base/$(first(m.second).first)/" class="pure-menu-link">
                     $name
                 </a>
-                {{ispage /$base/*}}
                 <ul class="pure-menu-list">
                 """)
             for e in m.second
@@ -30,7 +29,6 @@ function hfun_generate_menu()
             end
             write(io, """
                 </ul>
-                {{end}}
                 """)
         
         else
