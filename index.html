@@ -5,11 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
     <title>Responsive Side Menu &ndash; Layout Examples &ndash; Pure</title>
+
     <link rel="stylesheet" href="/layout-tester/css/pure.min.css">
+
+    
+
+    
+        <link rel="stylesheet" href="/layout-tester/libs/highlight/styles/github.min.css">
+    
+
 </head>
 <body>
 
+
 <style>
+
 :root {
     /* GEOMETRY */
     --topbar-height:     45px;
@@ -53,6 +63,9 @@
     --col-dark:         #38598b;
     --col-xdark:        #113f67;
     --col-lblue:        #03a7dd;
+
+    --block-background: hsl(0, 0%, 94%);
+    --output-background: hsl(0, 0%, 98%);
 
     --col-gray:         gray;
     --col-black: 	    #000;
@@ -157,9 +170,9 @@
     --yellow90:  #ffebc2;
     --yellow100: #fff5e0;
 }
+
+
 </style>
-
-
 <style>
 /*
     Z-Index
@@ -180,7 +193,6 @@ body {
     width: 100%;
     font-family: var(--text-font);
     color: var(--text-col);
-    line-height: var(--text-line-height);
     background-color: var(--col-cream);
 }
 
@@ -196,12 +208,17 @@ a {
 :is(h1, h2, h3, h4) {
 	margin-top: 0;
 	margin-bottom: 0;
+    line-height: normal;
 }
 
 h1 {
 	font-size: var(--text-h1);
 	font-weight: 600;
+    padding-bottom: .25em;
 }
+    h1 a {
+        color: var(--col-xdark);
+    }
 
 h2 {
 	font-size:   var(--text-h2);
@@ -221,11 +238,52 @@ h4 {
 	font-weight: 350;
 }
 
+/*
+PAGE FOOT
+ */
+
+ #pg-foot {
+	width: 65%;
+	margin-top: 3em;
+	padding-top: 1em;
+	margin-bottom: 3em;
+	color: var(--col-gray);
+	font-size: var(--text-sm);
+}
+#pg-foot a {
+	color: inherit;
+}
+#pg-foot a:hover {
+	color: var(--col-lblue);
+}
+
+/*  ====================================================================================
+    CODE AND HLJS 
+ ==================================================================================== */
+
 code {
 	font-family: var(--code-font);
 	font-size:   var(--code-size);
 	color:       var(--code-col);
 	word-wrap:   break-word;
+}
+
+kbd {
+    background-color: #eee;
+    border-radius: 3px;
+    border: 1px solid #b4b4b4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+    color: #333;
+    display: inline-block;
+    font-size: .85em;
+    font-weight: 600;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+
+pre {
+  line-height: 1.5;
 }
 
 pre code.hljs {
@@ -234,8 +292,267 @@ pre code.hljs {
 	padding-left: 1.5em;
 }
 
-/* Skeleton elements */
+.hljs-string {
+    color: var(--green30);
+}
 
+
+/*  ====================================================================================
+    KATEX
+ ==================================================================================== */
+
+body { counter-reset: eqnum; }
+
+.katex { font-size: 1.1em !important; }
+
+.katex-display .katex {
+    display: inline-block;
+}
+
+.katex-display::after {
+    counter-increment: eqnum;
+    content: "(" counter(eqnum) ")";
+    position: relative;
+    float: right;
+    padding-right: 5px; }
+
+.nonumber .katex-display::after {
+  counter-increment: nothing;
+  content: "";
+}
+
+/*  ====================================================================================
+    Specific divs 
+ ==================================================================================== */
+
+/*
+≂̸ CommonMark
+ */
+ .cm-diff {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    background-color: var(--yellow80);
+    border: 0px;
+    border-radius: 7px;
+    font-size: var(--text-sm);
+  }
+  .cm-diff-legend{
+    color: white;
+    background-color: var(--red30);
+    padding-left:  .5em;
+    padding-right: .5em;
+    padding-bottom: .1em;
+    border-radius: 5px;
+  
+    font-variant: small-caps;
+    font-size: var(--text-sm);
+  }
+  
+  /*
+  TIP
+  */
+  .tip {
+    margin-top: 1.25em;
+    margin-bottom: 2em;
+    background-color: var(--green90);
+    border: 0px;
+    border-radius: 7px;
+    font-size: var(--text-sm);
+  }
+  .tip-legend {
+    color: white;
+    background-color: var(--green20);
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-bottom: .1em;
+    border-radius: 5px;
+    font-variant: small-caps;
+    font-size: var(--text-sm);
+  }
+  
+  /*
+  TO DO
+  */
+  .todo {
+    margin-top: 1.25em;
+    margin-bottom: 2em;
+    background-color: var(--red90);
+    border: 0px;
+    border-radius: 7px;
+    font-size: var(--text-sm);
+  }
+  .todo-legend {
+    color: white;
+    background-color: var(--red10);
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-bottom: .1em;
+    border-radius: 5px;
+    font-variant: small-caps;
+    font-size: var(--text-sm);
+  }
+  
+  /*
+  NOTE
+  */
+  .note {
+    margin-top: 1.25em;
+    margin-bottom: 2em;
+    background-color: var(--yellow90);
+    border: 0px;
+    border-radius: 7px;
+    font-size: var(--text-sm);
+  }
+  .note-legend {
+    color: white;
+    background-color: var(--yellow0);
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-bottom: .1em;
+    border-radius: 5px;
+    font-variant: small-caps;
+    font-size: var(--text-sm);
+  }
+  
+  /*
+  SHOW MD
+  */
+  
+  .md-input {
+    border-width: 0;
+    border-radius: 7px;
+    margin-bottom: 1em;
+    background-color: var(--block-background);
+    font-size: var(--text-sm);
+    line-height: 1.2em;
+  }
+  .md-input-legend {
+    background-color: var(--col-cream);
+    font-size: var(--text-sm);
+    font-variant: small-caps;
+    padding-left:  .5em;
+    padding-right: .5em;
+    padding-bottom: .1em;
+    border-radius: 5px;
+  }
+  .md-input .hljs {
+    background-color: transparent;
+  }
+  .md-input pre {
+    margin: 0;
+  }
+  .md-input code {
+    padding: 0;
+    padding-top: 5px;
+  }
+  
+  .md-result {
+    border-radius: 7px;
+    background-color: #e3edf2;
+    border: 1px solid #5bc0de;
+    margin-left: 1.5em;
+    padding-top: 1.25em;
+    padding-bottom: 1.25em;
+    padding-left: 1.5em;
+    font-size: var(--text-sm);
+    margin-bottom: 2em;
+  }
+  .md-result img {
+    width: 40%;
+    padding-left: 1em;
+  }
+  
+  .md-result-legend {
+    background-color: var(--col-cream);
+    border-radius: 5px;
+    padding-left:  .5em;
+    padding-right: .5em;
+    padding-bottom: .1em;
+    font-variant: small-caps;
+    font-size: var(--text-sm);
+    color: navy;
+  }
+  
+  .md-result pre {
+    margin: 0;
+  }
+  
+  .md-result pre {
+    max-width: 100%;
+  }
+  .md-result .code-output pre {
+    max-width: 100%;
+  }
+  
+  
+  .md-result h1 {padding: 0;}
+  .md-result h2 {padding: 0;}
+  .md-result h3 {padding: 0;}
+  .md-result h1 a {color: black;}
+  .md-result h2 a {color: black;}
+  .md-result h3 a {color: black;}
+  
+  .md-result blockquote {
+    background-color: var(--col-xlight);
+    padding: 0.5em 1em;
+    border-left: 5px solid var(--col-xdark);
+  }
+  
+  .md-result ul ul {padding-left: 1.5em;}
+  .md-result ol ul {padding-left: 1.5em;}
+  
+  
+  .center {text-align: center;}
+  .center img {
+    width: 75%;
+    min-width: 300px;}
+  
+
+    
+
+
+  .code-output {
+    margin-top: 1em;
+    margin-left: 1em;
+    border: 1px solid var(--col-coral);
+    background-color: var(--output-background);
+        padding: .5em;
+  }
+  
+  .code-output .code-figure {
+    padding-top: 1em;
+    padding-bottom: .75em;
+  }
+  
+  .code-output table {
+    border-collapse: collapse;
+}
+.code-output td, th {
+    border: 1px solid #999;
+    padding: 0.5rem;
+    }
+
+  .trim {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+  }
+  
+  .trim .md-result {
+    margin-bottom: 1.5em;
+  }
+
+
+
+
+
+
+
+
+</style>
+
+<style>
 #topbar {
 	position: fixed;
 	top: 0;
@@ -502,7 +819,7 @@ small screens.
 		height: var(--topbar-height);
 	}
 	#logo {
-		right: calc(var(--wide-leftpad));
+		right: calc(var(--wide-leftpad) + 10px);
 	}
 }
 
@@ -617,36 +934,38 @@ small screens.
 .content {
     margin: 0 auto;
     padding: 0 2em;
+    padding-top: 4em;
     max-width: var(--content-max-width);
     margin-bottom: 50px;
     line-height: 1.6em;
 }
 
-.header {
-    margin: 0;
-    color: #333;
-    text-align: center;
-    padding: 2.5em 2em 0;
-    border-bottom: 1px solid #eee;
-    max-width: var(--content-max-width);
+.sub-header {
+  font-size: 1.5em;
+  font-weight: 300;
+  line-height: 1.3em;
 }
-    .header h1 {
-        margin: 0.2em 0;
-        font-size: 3em;
-        font-weight: 300;
-    }
-        .header h2 {
-        font-weight: 300;
-        color: #ccc;
-        padding: 0;
-        margin-top: 0;
-    }
+.flist p {
+  display:inline;
+}
+.flist ul {
+  list-style: none;
+  padding-left: 1em;
+}
+.flist a#goto {
+  padding-right: 10px;
+  margin-left: -15px;
+}
+.flist a#goto #arrow{
+  display:none;
+}
+.flist a#goto:hover #check {
+  display: none;
+}
+.flist a#goto:hover #arrow {
+  display: inline;
+}
 
-.content-subhead {
-    margin: 50px 0 20px 0;
-    font-weight: 300;
-    color: #888;
-}
 
 /* -- When layout is active ----------------------------------------------- */
 
@@ -694,46 +1013,62 @@ small screens.
 
 <div id="mainContainer">
     <div id="mainContainer1">
-        <div class="header">
-            <h1>Page Title</h1>
-            <h2>A subtitle for your page goes here</h2>
-        </div>
+        
 
         <div class="content">
             
-            <h1 id="section" ><a href="#section"> Section</a></h1><p>Miso dressing lentils kimchi green grapes raspberry fizz habanero golden pasta Indian spiced sesame soba noodles seeds pesto maple orange tempeh crunchy seaweed tabasco pepper.</p>
-<p>Text formatting: <em>italic</em> <strong>bold</strong> <strong>bold italic</strong> then also <a href="https://franklinjl.org">links</a>.</p>
-<p>Vine tomatoes walnut pesto tart sleepy morning tea burritos second course lemon tahini dressing Thai basil curry mediterranean chocolate crumbled lentils blood orange smash jalapeño blackberries green pepper delightful blueberry scones seitan spicy roasted peanuts red amazon pepper.</p>
+            <h1 id="building_websites_with_franklin" ><a href="#building_websites_with_franklin"> Building websites with Franklin</a></h1><div class="sub-header"><p>Franklin.jl is a simple, customisable, static site generator with a focus on technical blogging.</p>
+</div><h2 id="key_features" ><a href="#key_features"> Key features</a></h2><p><em>click on the '&check;' sign to know more</em></p>
+<div class="flist"><ul>
+<li><a href="/layout-tester/syntax/basics/" id="goto">
+  <span id="check">&check;</span>
+  <span id="arrow"><b>&rarr;</b></span>
+</a> Based on common Markdown syntax,</li>
+<li><a href="/layout-tester/syntax/extensions/" id="goto">
+  <span id="check">&check;</span>
+  <span id="arrow"><b>&rarr;</b></span>
+</a> Multiple extensions to the base Markdown syntax such as the possibility to define LaTeX-like commands or the inclusion of div-blocks,</li>
+<li><a href="/layout-tester/syntax/extensions/" id="goto">
+  <span id="check">&check;</span>
+  <span id="arrow"><b>&rarr;</b></span>
+</a> Maths rendered via <a href="https://katex.org/">KaTeX</a>, code via <a href="https://highlightjs.org">highlight.js</a> both can be pre-rendered,</li>
+<li><a href="/layout-tester/syntax/code/" id="goto">
+  <span id="check">&check;</span>
+  <span id="arrow"><b>&rarr;</b></span>
+</a> Can live-evaluate Julia code blocks,</li>
+<li><a href="/layout-tester/workflow/deployment/" id="goto">
+  <span id="check">&check;</span>
+  <span id="arrow"><b>&rarr;</b></span>
+</a> Simple publication step to deploy the website</li>
+</ul>
+</div><h2 id="quick_start" ><a href="#quick_start"> Quick start</a></h2><p>To install Franklin with Julia <em>≥ 1.5</em>, in a Julia REPL do</p>
 <ul>
-<li>list item</li>
-<li>list item<ul>
-<li>sublist item</li>
-<li>sublist item</li>
+<li>hit <kbd>]</kbd> to enter package mode,</li>
+<li>write <code>add Franklin FranklinTemplates</code> and press <kbd>enter</kbd>.</li>
 </ul>
-</li>
-<li>list item</li>
-</ul>
-<p>Almonds refreshing cucumber splash candy cane winter ginger tofu strawberry spinach salad shallots portobello mushrooms parsley green papaya salad soup shiitake mushrooms banh mi salad rolls salted salty grains double dark chocolate grapefruit Malaysian orange dark chocolate scotch bonnet pepper farro platter hearts of palm naga viper samosa chickpea crust pizza.</p>
-<ol>
-<li>enum item</li>
-<li>enum item<ol>
-<li>enum subitem</li>
-<li>enum subitem</li>
-</ol>
-</li>
-<li>enum item</li>
-</ol>
-<p>Almonds refreshing cucumber splash candy cane winter ginger tofu strawberry spinach salad shallots portobello mushrooms parsley green papaya salad soup shiitake mushrooms banh mi salad rolls salted salty grains double dark chocolate grapefruit Malaysian orange dark chocolate scotch bonnet pepper farro platter hearts of palm naga viper samosa chickpea crust pizza.</p>
-<pre><code class="julia">function foo()
-    return 1+1
-end</code></pre>
-<h2 id="subsection" ><a href="#subsection"> Subsection</a></h2><p>Coconut lime mint lime taco salsa shaved almonds summertime lavender lemonade plums eating together vitamin glow fig arugula cashew salad Mexican fiesta kale caesar salad basil. Sandwiches dragon fruit dill figs red lentil curry crunchy red curry tofu noodles Chinese five-spice powder a delicious meal cumin elderberry creamy cauliflower alfredo sauce lemon golden cayenne pepper fresh lemon red lentil soup.</p>
-<h2 id="subsection_(5)" ><a href="#subsection_(5)"> Subsection (5)</a></h2><p>Spring cauliflower ghost pepper sweet potato arugula salad Thai curry veggie burgers artichoke hearts lingonberry hazelnut shiitake tempeh instant pot chili cozy butternut strawberries chai tea paprika vegan cool enchiladas four-layer matcha pineapple salsa. Mocha chocolate summer fruit salad dessert leek pumpkin peppermint edamame hummus lime mango crisp sparkling pomegranate punch cinnamon chia seeds oranges balsamic vinaigrette cilantro zesty tofu pad thai Italian linguine puttanesca cocoa comforting pumpkin spice latte ginger carrot spiced juice quinoa flatbread lemongrass.</p>
-<h3 id="subsubsection" ><a href="#subsubsection"> Subsubsection</a></h3><p>Sweet potato black bean burrito cinnamon toast bananas mushroom risotto entree apple vinaigrette black bean chili dip bento box seasonal cool off guacamole cookies basmati cremini mushrooms açai apples peanut butter peanut butter crunch green tea. Soba noodles picnic salad sriracha pecans blueberry chia seed jam chilies casserole coconut sugar winter cherries salad chocolate cookie pomegranate Thai kale macadamia nut cookies udon noodles fiery fruit miso turmeric glazed aubergine almond milk muffins.</p>
-<h2 id="subsection__2" ><a href="#subsection__2"> Subsection</a></h2><p>Simmer roasted butternut squash Thai sun pepper with bite sized mediterranean luxury bowl hearty Thai dragon pepper ginger lemongrass agave green tea blueberry pops thyme asian pear. Dark and stormy raspberries Southern Italian lemonade zest mint lemon lime minty banana Sicilian pistachio pesto crispy iceberg lettuce coconut rice spiced peppermint blast red grapes smoky maple tempeh glaze tasty main course mangos summer banana bread pine nuts coriander picnic green tea lime lychee tofu avocado basil pesto.</p>
-<p>Crispy cilantro lime vinaigrette heat spiced pumpkin chili Caribbean red habanero edamame peach strawberry mango avocado dressing drizzle Thai super chili green bowl hummus overflowing berries falafel bites ultimate overflowing street style Thai basil tacos appetizer cherry bomb kung pao pepper tahini drizzle black bean wraps peaches cherry bomb pepper coconut milk strawberry mango smoothie citrusy. Couscous grenadillo garlic sriracha noodles butternut mix apricot bruschetta soy milk Bolivian rainbow pepper frosted gingerbread bites potato hemp seeds springtime strawberry sweet potato toasted hazelnuts hummus falafel bowl cherry hot chili pepper.</p>
-<p>One bowl earl grey latte creamy cauliflower alfredo mediterranean vegetables alfalfa sprouts cool cucumbers ultra creamy avocado pesto almond milk chai latte onion green onions blueberries walnut mushroom tart homemade balsamic. Creamiest Bulgarian carrot cozy cinnamon oatmeal chocolate peanut butter dip roasted brussel sprouts broccoli tomato and basil red pepper avocado cranberry spritzer fruit smash smoked tofu Italian pepperoncini cayenne.</p>
+<p>You can then just try it out:</p>
+<pre><code class="julia-repl">julia&gt; using FranklinTemplates: newsite
+julia&gt; using Franklin: serve
+julia&gt; newsite(&quot;mySite&quot;, template=&quot;pure-sm&quot;)
+✓ Website folder generated at &quot;mySite&quot; (now the current directory).
+→ Use serve() from Franklin to see the website in your browser.
 
+julia&gt; serve()
+(...)
+✓ LiveServer listening on http://localhost:8000/ ...
+  (use CTRL+C to shut down)</code></pre>
+<p>If you navigate to that URL in your browser, you will see the website.
+If you then open <code>mySite/index.md</code> in an editor and modify it at will, the changes
+will be live-rendered in your browser.</p>
+<p>Read more in <a href="/layout-tester/workflow/getting_started/">Getting Started</a>.</p>
+
+
+            
+
+            <div id="pg-foot">
+              Website built with <a href="https://franklinjl.org">Franklin.jl</a>
+              and the <a href="https://julialang.org">Julia programming language</a>.
+            </div>
 
         </div>
     </div>
@@ -757,7 +1092,7 @@ end</code></pre>
     <div id="margin-toc">
         
           <div id="margin-toc-legend"><a href="#top-bar">Contents</a></div>
-          <div class="toc"><ol><li><a href="#subsection"> Subsection</a></li><li><a href="#subsection_(5)"> Subsection (5)</a><ol><li><a href="#subsubsection"> Subsubsection</a></li></ol></li><li><a href="#subsection__2"> Subsection</a></li></ol></div>
+          <div class="toc"><ol><li><a href="#key_features"> Key features</a></li><li><a href="#quick_start"> Quick start</a></li></ol></div>
         
     </div>
 </div>
@@ -820,6 +1155,13 @@ end</code></pre>
     window.addEventListener('resize', untoggleAll);
 }(this, this.document));
 </script>
+
+
+
+
+    <script src="/layout-tester/libs/highlight/highlight.min.js"></script>
+    <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
 
 </body>
 </html>
