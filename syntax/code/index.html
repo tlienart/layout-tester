@@ -261,6 +261,12 @@ PAGE FOOT
 	color: var(--col-lblue);
 }
 
+ol ul { padding-left: 1em; }
+
+ul ul { padding-left: 1em; }
+
+ul ol { padding -left: 1em; }
+
 /*  ====================================================================================
     CODE AND HLJS 
  ==================================================================================== */
@@ -780,11 +786,10 @@ small screens.
 .menu-logos {
 	width: 85%;
 	height: 50px;
-	/* margin-right: auto; */
-	/* margin-left: auto; */
 	padding-left: 50px;
 	border-bottom: 1px solid var(--col-xlight);
 	margin-bottom: 1.5em;
+	padding-bottom: 5px;
 }
 
 	.menu-logos a {
@@ -830,7 +835,10 @@ small screens.
 	}
 
 	.v-spacer-menulist {
-		height: 90px;
+		height: 75px;
+	}
+	.menu-logos {
+		padding-bottom: 15px;
 	}
 }
 
@@ -948,7 +956,7 @@ small screens.
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/page-variables/" class="pure-menu-link">
+    <a href="/layout-tester/syntax/vars+funs/" class="pure-menu-link">
         Page Variables
     </a>
 </li>
@@ -1215,7 +1223,7 @@ randstring(5)
 <div class="trim">
 
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><pre><code class="julia">randstring(5)</code></pre>
-<div class="code-output"><pre><code class="code-result language-plaintext">"lU1a0"</code></pre></div></fieldset>
+<div class="code-output"><pre><code class="code-result language-plaintext">"476fA"</code></pre></div></fieldset>
 
 </div><div class="trim">
 
@@ -1614,7 +1622,7 @@ y = @. sin(exp(x)) * sinc(x)
 figure(figsize=(6, 4))
 plot(x, y)
 gcf()</code></pre>
-<div class="code-output"><pre><code class="code-stderr language-plaintext">LoadError: InitError: PyCall.PyError("PyImport_ImportModule\n\nThe Python package matplotlib could not be imported by pyimport. Usually this means\nthat you did not install matplotlib in the Python version being used by PyCall.\n\nPyCall is currently configured to use the Python version at:\n\n/usr/bin/python3\n\nand you should use whatever mechanism you usually use (apt-get, pip, conda,\netcetera) to install the Python package containing the matplotlib module.\n\nOne alternative is to re-configure PyCall to use a different Python\nversion on your system: set ENV[\"PYTHON\"] to the path/name of the python\nexecutable you want to use, run Pkg.build(\"PyCall\"), and re-launch Julia.\n\nAnother alternative is to configure PyCall to use a Julia-specific Python\ndistribution via the Conda.jl package (which installs a private Anaconda\nPython distribution), which has the advantage that packages can be installed\nand kept up-to-date via Julia.  As explained in the PyCall documentation,\nset ENV[\"PYTHON\"]=\"\", run Pkg.build(\"PyCall\"), and re-launch Julia. Then,\nTo install the matplotlib module, you can use `pyimport_conda(\"matplotlib\", PKG)`,\nwhere PKG is the Anaconda package that contains the module matplotlib,\nor alternatively you can use the Conda package directly (via\n`using Conda` followed by `Conda.add` etcetera).\n\n", PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x00007eff0b85ede0), PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x00007eff1ff42900), PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x0000000000000000))
+<div class="code-output"><pre><code class="code-stderr language-plaintext">LoadError: InitError: PyCall.PyError("PyImport_ImportModule\n\nThe Python package matplotlib could not be imported by pyimport. Usually this means\nthat you did not install matplotlib in the Python version being used by PyCall.\n\nPyCall is currently configured to use the Python version at:\n\n/usr/bin/python3\n\nand you should use whatever mechanism you usually use (apt-get, pip, conda,\netcetera) to install the Python package containing the matplotlib module.\n\nOne alternative is to re-configure PyCall to use a different Python\nversion on your system: set ENV[\"PYTHON\"] to the path/name of the python\nexecutable you want to use, run Pkg.build(\"PyCall\"), and re-launch Julia.\n\nAnother alternative is to configure PyCall to use a Julia-specific Python\ndistribution via the Conda.jl package (which installs a private Anaconda\nPython distribution), which has the advantage that packages can be installed\nand kept up-to-date via Julia.  As explained in the PyCall documentation,\nset ENV[\"PYTHON\"]=\"\", run Pkg.build(\"PyCall\"), and re-launch Julia. Then,\nTo install the matplotlib module, you can use `pyimport_conda(\"matplotlib\", PKG)`,\nwhere PKG is the Anaconda package that contains the module matplotlib,\nor alternatively you can use the Conda package directly (via\n`using Conda` followed by `Conda.add` etcetera).\n\n", PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x00007f317581ade0), PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x00007f31884d2900), PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x0000000000000000))
 Stacktrace:
   [1] pyimport(name::String)
     @ PyCall ~/.julia/packages/PyCall/7a7w0/src/PyCall.jl:550
@@ -1853,6 +1861,7 @@ as your base path and use <code>joinpath</code> to point to the specific locatio
         position: fixed;
         top: 218px;
         padding-left: var(--content-max-width);
+        z-index: -1;
         display: block;
         width: var(--menu-width);
         float: right;

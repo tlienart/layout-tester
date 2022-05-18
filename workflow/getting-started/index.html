@@ -261,6 +261,12 @@ PAGE FOOT
 	color: var(--col-lblue);
 }
 
+ol ul { padding-left: 1em; }
+
+ul ul { padding-left: 1em; }
+
+ul ol { padding -left: 1em; }
+
 /*  ====================================================================================
     CODE AND HLJS 
  ==================================================================================== */
@@ -780,11 +786,10 @@ small screens.
 .menu-logos {
 	width: 85%;
 	height: 50px;
-	/* margin-right: auto; */
-	/* margin-left: auto; */
 	padding-left: 50px;
 	border-bottom: 1px solid var(--col-xlight);
 	margin-bottom: 1.5em;
+	padding-bottom: 5px;
 }
 
 	.menu-logos a {
@@ -830,7 +835,10 @@ small screens.
 	}
 
 	.v-spacer-menulist {
-		height: 90px;
+		height: 75px;
+	}
+	.menu-logos {
+		padding-bottom: 15px;
 	}
 }
 
@@ -948,7 +956,7 @@ small screens.
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/page-variables/" class="pure-menu-link">
+    <a href="/layout-tester/syntax/vars+funs/" class="pure-menu-link">
         Page Variables
     </a>
 </li>
@@ -1056,17 +1064,17 @@ small screens.
 
         <div class="content">
             
-            <h1 id="getting_started" ><a href="#getting_started"> Getting Started</a></h1><h2 id="generate_a_site_from_a_template" ><a href="#generate_a_site_from_a_template"> Generate a site from a template</a></h2><p>To get started with Franklin, you can use the <code>FranklinTemplates.newsite</code> function
+            <h1 id="getting_started" ><a href="#getting_started"> Getting Started</a></h1><h2 id="generating_a_new_site_from_a_template" ><a href="#generating_a_new_site_from_a_template"> Generating a new site from a template</a></h2><p>To get started with Franklin, you can use the <code>FranklinTemplates.newsite</code> function
 in a Julia REPL.
 That function will generate a <em>website folder</em> on your computer that's ready
 to be built by Franklin, and that you can modify at will:</p>
 <pre><code class="julia">using FranklinTemplates: newsite
-using Franklin, FranklinTemplates
+using Franklin
 newsite(&quot;TestWebsite&quot;; template=&quot;hyde&quot;)</code></pre>
 <p>The execution of this command will also move you to that folder (i.e. <code>cd TestWebsite/</code>).</p>
 <p>The first argument of <code>newsite</code> is the title of the folder that will be created,
 and moved to (you can change that later).
-If you are already in a folder that you previous created for this purpose, just indicate the
+If you are already in a folder that you previously created for this purpose, just indicate the
 current path with <code>&quot;.&quot;</code> (i.e.: <code>newsite(&quot;.&quot;, ...)</code>).</p>
 <p>The <code>template=</code> keyword argument allows you to specify one of the few
 <a href="https://tlienart.github.io/FranklinTemplates.jl/">simple templates</a>
@@ -1077,7 +1085,7 @@ In particular, if you just want a super basic template to experiment with, the
 
 Most of these templates are adapted, and simplified versions of common standard
 static site templates.
-They are not meant to be fully polished but should be easy to adjust to your liking
+They are not meant to be fully polished, but should be easy to adjust to your liking
 once you're familiar with how Franklin operates.
 <br>
 
@@ -1092,7 +1100,7 @@ server from within it:</p>
 ✓ LiveServer listening on http://localhost:8000/ ...
   (use CTRL+C to shut down)</code></pre>
 <p>You can now visit your site at <code>http://localhost:8000</code> (the page should have been
-  opened automatically in your browser).</p>
+opened automatically in your browser, you can avoid this by passing <code>launch=false</code> to <code>serve</code>).</p>
 <p>At a high level, the <code>serve</code> function does the following:</p>
 <ol>
 <li>goes through all your pages in a first initial pass and (re)builds them if necessary,</li>
@@ -1120,11 +1128,11 @@ a new one every time you restart the server.</p>
 <fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
 
 It is strongly recommended to use Franklin in a REPL and not do something like <code>julia -e &quot;using Franklin; ...&quot;</code>.
-Indeed, you may have to stop or restart the servers occasionally and doing so in a "hot" REPL session will be
+Indeed, you may have to stop or restart the servers occasionally and doing so in a "warm" REPL session will be
 significantly faster.
 
 </fieldset><h2 id="page_structure" ><a href="#page_structure"> Page structure</a></h2><h3 id="head/foot_structure" ><a href="#head/foot_structure"> Head/Foot structure</a></h3><p>When using Franklin, it is useful to have a rough understanding of how the HTML pages
-are generated.
+are constructed.
 For a source page with the following Markdown:</p>
 <pre><code class="markdown"># Hello
 
@@ -1169,14 +1177,15 @@ For instance it could look like</p>
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt; ... &lt;/head&gt;
 &lt;body&gt;
-  &lbrace;&lbrace;page_content&rbrace;&rbrace;  &lt;!-- this inserts the partially converted Markdown --&gt;
+  &lbrace;&lbrace;page_content&rbrace;&rbrace;  &lt;!-- inserts the converted page content --&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<p>and so, instead of separating the head, content and foot, it's a single file where you just indicate where the content goes.</p>
-<p>If you do have a skeleton file in your <code>_layout</code> folder, and also have a head and foot files, only the skeleton will be considered.</p>
-<h2 id="next_steps" ><a href="#next_steps"> Next steps</a></h2><p>Now that you have a working website that you can render locally and experiment with,
-you should try to further modify the <code>.md</code> file(s) in the folder, and the <code>.html</code> files in the
-<code>_layout</code> folder, and try to get an intuition for how things work.</p>
+<p>and so, instead of separating the head, content and foot, it's a single file where you just indicate where the content goes.
+The current website (Franklin's docs) uses a skeleton (though it's maybe not the most straightforward example to follow).</p>
+<p>If you do have a skeleton file in your layout folder, and also have a head and foot files, only the skeleton will be considered.</p>
+<h2 id="next_steps" ><a href="#next_steps"> Next steps</a></h2><p>Now that you have a working website that you can render locally, and experiment with,
+you should try to further modify the files in the website folder, and try to build an intuition
+for how things work.</p>
 <p>The rest of the docs is there to help you when things don't work like you might expect them to.
 You may also want to:</p>
 <ul>
@@ -1204,6 +1213,7 @@ You may also want to:</p>
         position: fixed;
         top: 218px;
         padding-left: var(--content-max-width);
+        z-index: -1;
         display: block;
         width: var(--menu-width);
         float: right;
@@ -1249,7 +1259,7 @@ You may also want to:</p>
     <div id="marginToc">
         
           <div id="marginTocLegend"><a href="#">Contents</a></div>
-          <div class="toc"><ol><li><a href="#generate_a_site_from_a_template"> Generate a site from a template</a></li><li><a href="#building_and_editing_the_website"> Building and editing the website</a><ol><li><a href="#modifying_files"> Modifying files</a></li><li><a href="#interrupting_and_restarting_the_server"> Interrupting and restarting the server</a></li></ol></li><li><a href="#page_structure"> Page structure</a><ol><li><a href="#head/foot_structure"> Head/Foot structure</a></li><li><a href="#skeleton_structure"> Skeleton structure</a></li></ol></li><li><a href="#next_steps"> Next steps</a></li></ol></div>
+          <div class="toc"><ol><li><a href="#generating_a_new_site_from_a_template"> Generating a new site from a template</a></li><li><a href="#building_and_editing_the_website"> Building and editing the website</a><ol><li><a href="#modifying_files"> Modifying files</a></li><li><a href="#interrupting_and_restarting_the_server"> Interrupting and restarting the server</a></li></ol></li><li><a href="#page_structure"> Page structure</a><ol><li><a href="#head/foot_structure"> Head/Foot structure</a></li><li><a href="#skeleton_structure"> Skeleton structure</a></li></ol></li><li><a href="#next_steps"> Next steps</a></li></ol></div>
         
     </div>
 </div>

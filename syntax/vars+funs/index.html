@@ -261,6 +261,12 @@ PAGE FOOT
 	color: var(--col-lblue);
 }
 
+ol ul { padding-left: 1em; }
+
+ul ul { padding-left: 1em; }
+
+ul ol { padding -left: 1em; }
+
 /*  ====================================================================================
     CODE AND HLJS 
  ==================================================================================== */
@@ -780,11 +786,10 @@ small screens.
 .menu-logos {
 	width: 85%;
 	height: 50px;
-	/* margin-right: auto; */
-	/* margin-left: auto; */
 	padding-left: 50px;
 	border-bottom: 1px solid var(--col-xlight);
 	margin-bottom: 1.5em;
+	padding-bottom: 5px;
 }
 
 	.menu-logos a {
@@ -830,7 +835,10 @@ small screens.
 	}
 
 	.v-spacer-menulist {
-		height: 90px;
+		height: 75px;
+	}
+	.menu-logos {
+		padding-bottom: 15px;
 	}
 }
 
@@ -948,7 +956,7 @@ small screens.
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/page-variables/" class="pure-menu-link">
+    <a href="/layout-tester/syntax/vars+funs/" class="pure-menu-link">
         Page Variables
     </a>
 </li>
@@ -1133,7 +1141,7 @@ Build-date: &lbrace;&lbrace;todays_date&rbrace;&rbrace;.</code></pre>
 
 <div class="trim">
 
-  <fieldset class="md-result"><legend class="md-result-legend">result</legend>Build-date: 2022-05-17.</fieldset>
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend>Build-date: 2022-05-18.</fieldset>
 
 </div>
 <div style="height:1em;"></div><h3 id="usage" ><a href="#usage"> Usage</a></h3><p>Page variables can be used with the following syntax:</p>
@@ -1185,7 +1193,7 @@ the corresponding Markdown, you can do the same at global-level by adding such a
 in your <code>config.md</code> file.</p>
 <p>Variables defined at global-level are accessible from anywhere whereas variables defined
 at local-level are only directly accessible from the page on which they are defined (see
-also the <a href="/layout-tester/syntax/page-variables/#cross_page_vars">next point</a>).
+also the <a href="/layout-tester/syntax/vars+funs/#cross_page_vars">next point</a>).
 When a variable is defined at both levels, the local one takes precedence.</p>
 <a id="cross_page_vars" class="anchor"></a><h3 id="accessing_variables_defined_on_another_page" ><a href="#accessing_variables_defined_on_another_page"> Accessing variables defined on another page</a></h3><p>You can fill the content of a page variable defined on another page with</p>
 <pre><code class="julia">&lbrace;&lbrace;fill var_name relative_path&rbrace;&rbrace;</code></pre>
@@ -1936,6 +1944,7 @@ string based on whatever logic that would be appropriate for your use case.</p>
         position: fixed;
         top: 218px;
         padding-left: var(--content-max-width);
+        z-index: -1;
         display: block;
         width: var(--menu-width);
         float: right;
