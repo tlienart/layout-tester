@@ -95,10 +95,10 @@ and the `base_url_prefix` is then `theWebsite`.
 
 ### Layout files
 
-The `_layout/` folder will usually contain a `head.html` and `foot.html` which are placed respectively at the top and bottom of each generated HTML page. Alternatively, a `skeleton.html` file can be given (cf. the [page structure](/workflow/getting_started/#page_structure) diagram).
+The `_layout/` folder will usually contain a `head.html` and `foot.html` which are placed respectively at the top and bottom of each generated HTML page. Alternatively, a `skeleton.html` file can be given (cf. the [page structure](/workflow/getting-started/#page_structure) diagram).
 
 These files are where you should indicate the base layout of your pages, and, for instance, where you can indicate what CSS or JS to load on pages.
-See [how to adapt a layout](/workflow/adapting_layout/) for more details on how to specify these files if you want to write your own layout.
+See [how to adapt a layout](/workflow/adapting-layout/) for more details on how to specify these files if you want to write your own layout.
 
 It is often convenient to split the layout of your site into components, where each of these
 components may have its own layout file to complement the "head" and "foot" files.
@@ -146,7 +146,7 @@ on some server (see also [the docs on deployment](/workflow/deployment/) for muc
 
 In the example above, there is a single file in `__site`: the `index.html` which is the
 landing page of the website.
-Recall from [the diagram on page structure](/workflow/getting_started/#page_structure)
+Recall from [the diagram on page structure](/workflow/getting-started/#page_structure)
 that this file `index.html` is generated out of assembling and processing
 
 * `_layout/head.html`,
@@ -160,7 +160,7 @@ See also the point below [on paths](#paths_in_franklin) for a summary of where f
 
 The cache folder keeps track of a serialised representation of the global and each
 of the local **contexts**.
-At a high level, the global context keeps track of global [page variables](page vars) and the
+At a high level, the global context keeps track of global [page variables][page vars] and the
 local contexts keep track of local page variables along with the representation of all code
 blocks evaluated on that page.
 

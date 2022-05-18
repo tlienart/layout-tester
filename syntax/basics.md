@@ -14,7 +14,7 @@ header = "Basics Markdown"
 
 ## Overview
 
-Many of you will already be familiar with some flavour of Markdown such as [GitHub Markdown](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+Many of you will already be familiar with some flavour of Markdown such as [GitHub Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 or [CommonMark](https://commonmark.org/).
 Franklin can be seen as yet another flavour of Markdown with extensions.
 
@@ -60,7 +60,7 @@ A paragraph will be interrupted by:
 
 * a line skip (empty line),
 * a "non-inline" block (for instance a heading, a code block or a div block
-  (see [extensions](/syntaxextensions/))),
+  (see [extensions](/syntax/extensions/))),
 * the end of the page.
 
 If you want to introduce a line return without interrupting a paragraph,
@@ -322,15 +322,15 @@ You can place anchors anywhere you want with `\label{anchor name}`:
 ### Global internal links
 
 Franklin allows to link globally **across** pages by using `##` instead of `#`.
-For instance, there is a heading "_Cache and packages_" defined on the page `/syntax/code/`,
+For instance, there is a heading "_Hiding lines of code_" defined on the page `/syntax/code/`,
 and it can be linked to with:
 
 \showmd{
   all three forms link to the same heading:
 
-  * [explicit](/syntax/code/#cache_and_packages)
-  * [implicit](##cache_and_packages)
-  * [implicit 2](## Cache and packages)
+  * [explicit](/syntax/code/#hiding_lines_of_code)
+  * [implicit](##hiding_lines_of_code)
+  * [implicit 2](## hiding lines of code)
 }
 
 Observe that in the last case, the mapping `(anchor name) -> (anchor id)` step is implicit.
@@ -388,7 +388,7 @@ closing the environment.
 
 For **code blocks** (three to five backticks) you can optionally indicate the language of the code
 which is useful if you use a library for code highlighting (Franklin templates
-use [highlight.js](hljs) by default).
+use [highlight.js][hljs] by default).
 
 \showmd{
   ```julia

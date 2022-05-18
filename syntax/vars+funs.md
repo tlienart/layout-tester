@@ -245,7 +245,7 @@ might be irrelevant for you.
 | `content_id`     | `""`    | the id of the content wrapper |
 | `autosavefigs` | `true`  | whether to automatically save figures |
 | `autoshowfigs` | `true`  | whether to automatically show figures |
-| `layout_head`  | `"_layout/head.html"` | the path to the layout head file (see also [page structure](/workflow/page_structure/)) |
+| `layout_head`  | `"_layout/head.html"` | the path to the layout head file (see also [page structure](/workflow/getting-started/#page_structure)) |
 | `layout_foot`  | `"_layout/foot.html"` | the path to the layout foot file |
 | `layout_page_foot` | `"_layout/page_foot.html"` | the path to the page foot file |
 | `layout_head_lx` | `"_layout/latex/head.tex"` | the path to the LaTeX preamble |

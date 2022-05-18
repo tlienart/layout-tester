@@ -60,7 +60,7 @@ the code block if it's not `nothing`.
 \note{
   At the moment, only Julia code can be executed, though of course you can use
   [PyCall] or [RCall] to execute Python or R code.
-  This is [illustrated in the examples](#executing_python_code).
+  This is [illustrated in the examples](##executing_python_code).
 }
 \lskip
 

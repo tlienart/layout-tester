@@ -92,7 +92,7 @@ Equations can span multiple lines and use multi-line environments
 
 }
 
-Like in LaTeX, you can define [commands](#latex_commands) and use them in a math
+Like in LaTeX, you can define [commands](#latex_like_commands) and use them in a math
 environment too:
 
 \showmd{
