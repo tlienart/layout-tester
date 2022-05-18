@@ -675,18 +675,19 @@ body { counter-reset: eqnum; }
 	}
 
 		/* Change color of the anchor links on hover/focus.	*/
-		#menu .pure-menu li a:hover,
-		#menu .pure-menu li a:focus {
-			background: #333;
+		#menu .pure-menu li a {
+			border-radius: 8px;
 		}
-
-	/* This styles the selected menu item `<li>`. */
-	#menu .pure-menu-selected {
-		background: #1f8dd6;
-	}
-		/* This styles a link within a selected menu item `<li>`. */
-		#menu .pure-menu-selected a {
-			color: #fff;
+		#menu .pure-menu li li a {
+			padding-left: .75em;
+		}
+		#menu .pure-menu li li a:hover,
+		#menu .pure-menu li li a:focus {
+			background: var(--col-xlight);
+		}
+		#menu .pure-menu li li a.selected {
+			background: var(--col-dark);
+			color: var(--col-cream);
 		}
 
 	/* This styles the menu heading. */
@@ -782,7 +783,7 @@ small screens.
 }
 
 .pure-menu-list .pure-menu-list {
-	padding-left: 1.5em;
+	padding-left: 1em;
 }
 
 .menu-logos {
@@ -911,22 +912,22 @@ small screens.
 </a>
 <ul class="pure-menu-list">
 <li class="pure-menu-item">
-    <a href="/layout-tester/workflow/getting-started/" class="pure-menu-link">
+    <a href="/layout-tester/workflow/getting-started/" class="pure-menu-link ">
         Getting Started
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/workflow/folder-structure/" class="pure-menu-link">
+    <a href="/layout-tester/workflow/folder-structure/" class="pure-menu-link ">
         Folder Structure
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/workflow/adapting-layout/" class="pure-menu-link">
+    <a href="/layout-tester/workflow/adapting-layout/" class="pure-menu-link ">
         Adapting a Layout
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/workflow/deployment/" class="pure-menu-link">
+    <a href="/layout-tester/workflow/deployment/" class="pure-menu-link ">
         Deployment
     </a>
 </li>
@@ -938,32 +939,32 @@ small screens.
 </a>
 <ul class="pure-menu-list">
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/basics/" class="pure-menu-link">
+    <a href="/layout-tester/syntax/basics/" class="pure-menu-link selected">
         Basics
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/extensions/" class="pure-menu-link">
+    <a href="/layout-tester/syntax/extensions/" class="pure-menu-link ">
         Extensions
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/code/" class="pure-menu-link">
-        Code Blocks
+    <a href="/layout-tester/syntax/code/" class="pure-menu-link ">
+        Executed Code Blocks
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/code-2/" class="pure-menu-link">
-        Code Blocks (2)
+    <a href="/layout-tester/syntax/code-2/" class="pure-menu-link ">
+        Executed Code Blocks (2)
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/vars+funs/" class="pure-menu-link">
+    <a href="/layout-tester/syntax/vars+funs/" class="pure-menu-link ">
         Page Variables
     </a>
 </li>
 <li class="pure-menu-item">
-    <a href="/layout-tester/syntax/utils/" class="pure-menu-link">
+    <a href="/layout-tester/syntax/utils/" class="pure-menu-link ">
         Utils
     </a>
 </li>
@@ -987,6 +988,10 @@ small screens.
     max-width: var(--content-max-width);
     margin-bottom: 50px;
     line-height: 1.6em;
+}
+
+.content li {
+  padding-top: .3em;
 }
 
 .sub-header {
@@ -1113,22 +1118,24 @@ an open '<code>_</code>' should be closed by a matching '<code>_</code>'):</p>
 
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><em>italic <strong>bold+italic</strong></em></fieldset>
 
-</div><div style="height:1em;"></div><h3 id="paragraphs" ><a href="#paragraphs"> Paragraphs</a></h3><p>When converting text, sets of consecutive "inline" blocks will be grouped
+</div><div style="height:1em;"></div><h3 id="paragraphs" ><a href="#paragraphs"> Paragraphs</a></h3><p>When converting text, sets of consecutive <em>inline</em> blocks will be grouped
 and placed within a paragraph (in HTML: <code>&lt;p&gt;...&lt;/p&gt;</code>).
 The main inline blocks are:</p>
 <ul>
-<li>a block of text not separated by an empty line possibly including emphasised
-text and special characters,</li>
-<li>inline code and inline maths (see <a href="/layout-tester/syntax/extensions/">extensions</a>),</li>
-<li>latex-like commands (see <a href="/layout-tester/syntax/extensions/">extensions</a>).</li>
+<li>a block of text not containing an empty line, possibly including emphasised
+text, and special characters,</li>
+<li>inline code like <code>abc</code> and inline maths like \(x^y\) (\(\dagger\)),</li>
+<li>raw HTML input (\(\dagger\)),</li>
+<li>latex-like commands (\(\dagger\)).</li>
 </ul>
 <p>A paragraph will be interrupted by:</p>
 <ul>
 <li>a line skip (empty line),</li>
-<li>a "non-inline" block (for instance a heading, a code block or a div block
-  (see <a href="/layout-tester/syntax/extensions/">extensions</a>)),</li>
+<li>a <em>non-inline</em> block (for instance a heading, a code block or a div block
+ (\(\dagger\)),</li>
 <li>the end of the page.</li>
 </ul>
+<p>(\(\dagger\)) see <a href="/layout-tester/syntax/extensions/">extensions</a>.</p>
 <p>If you want to introduce a line return without interrupting a paragraph,
 you can use a double backslash as in LaTeX:</p>
 <div class="trim">
@@ -1169,7 +1176,7 @@ over the ones created above).
 This allows to easily link to parts of a page (as well as across pages).
 For instance <code>[link](#headings)</code> will give: <a href="#headings">link</a>.
 See also the <a href="#links">section on links</a> below.</p>
-<p>If the text of a heading is unique, the anchor will generally be just that text, in lowercase,
+<p>If the text of a heading is unique, the anchor will generally just be that text, in lowercase,
 after replacing spaces and special characters by '<code>_</code>'.
 So for instance if there's a unique heading <code>My Heading</code> the associated anchor will
 be <code>#my_heading</code>. If there's several heading with the same text, the second heading
@@ -1192,8 +1199,9 @@ anchor id will be followed by <code>__2</code> and so on.</p>
 and the second one <code>#a_text__2</code>.</p>
 <fieldset class="cm-diff"><legend class="cm-diff-legend">&ne; CommonMark</legend>
 
-CommonMark supports indicating level 1 and 2 headings by underlying them
-with <code>===</code> or <code>---</code> ("<em>alt heading</em>") this is not supported in Franklin.
+CommonMark supports indicating level 1 and
+level 2 headings by underlying them with <code>===</code> or <code>---</code> (<em>alt heading</em>)
+this is <strong>not</strong> supported in Franklin.
 
 </fieldset><h3 id="special_characters" ><a href="#special_characters"> Special characters</a></h3><p>If you want to show the characters '<code>*</code>' or '<code>_</code>' or '<code>#</code>' (or other characters which
   may have a meaning in Franklin), you should escape them with a backslash.
@@ -1211,7 +1219,7 @@ with <code>===</code> or <code>---</code> ("<em>alt heading</em>") this is not s
 
   <fieldset class="md-result"><legend class="md-result-legend">result</legend>&#42; &#95; &#36; &#96; &#64; &#35; &#123; &#125; &#126;</fieldset>
 
-</div><p>The double backslash, like in LaTeX, works as a line break (see <a href="#paragraphs">below</a>).
+</div><p>The double backslash, like in LaTeX, works as a line break (see <a href="#paragraphs">the point on paragraphs</a>).
 Therefore, if you want to show the backslash character, you have to use its HTML entity <code>&amp;#92;</code> or <code>&amp;bsol;</code>.
 You can indeed also insert emojis or HTML-entities:</p>
 <div class="trim">
@@ -1291,7 +1299,7 @@ DEF <strong>GHI</strong></p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">&gt; ABC
-&gt; &gt; DEF
+&gt; &gt; DEF \\
 &gt; &gt; GHI
 &gt;
 &gt; JKL</code></pre>
@@ -1304,7 +1312,9 @@ DEF <strong>GHI</strong></p>
 <div class="trim">
 
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><blockquote><p>ABC</p>
-<blockquote><p>DEF
+<blockquote><p>DEF 
+<br>
+
 GHI</p>
 </blockquote><p>JKL</p>
 </blockquote></fieldset>
@@ -1312,7 +1322,7 @@ GHI</p>
 </div><div style="height:1em;"></div><h2 id="lists" ><a href="#lists"> Lists</a></h2><p>Lists are formed of one or more items indicated with a line starting with a '<code>*</code>', '<code>-</code>' or '<code>+</code>'
 (unordered list) or a number followed by a dot ('<code>.</code>') or a bracket ('<code>)</code>') (ordered list).
 Nesting is indicated with either a tab or two or more spaces.</p>
-<p>Here's a simple unordered list:</p>
+<h3 id="unordered" ><a href="#unordered"> Unordered</a></h3><p>Here's a simple unordered list:</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">* Apples
@@ -1341,7 +1351,32 @@ another line, that's fine as long as there's no line-skip</li>
 </ul>
 </fieldset>
 
-</div><p>Here's a simple ordered list with an unordered nested list
+</div><p>List items can contain any "inline" element (e.g. emphasised text or maths):</p>
+<div class="trim">
+
+<fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">* variables $x, y$ and $z$ are _reals_,
+* variables $i, j$ and $k$ are _integers_,
+* the function `foo` does not have side-effects.</code></pre>
+</fieldset>
+
+</div>
+
+
+
+<div class="trim">
+
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend><ul>
+<li>variables \(x, y\) and \(z\) are <em>reals</em>,</li>
+<li>variables \(i, j\) and \(k\) are <em>integers</em>,</li>
+<li>the function <code>foo</code> does not have side-effects.</li>
+</ul>
+</fieldset>
+
+</div><fieldset class="cm-diff"><legend class="cm-diff-legend">&ne; CommonMark</legend>
+
+"Loose" lists (with line skips between items) are not supported in Franklin.
+
+</fieldset><h3 id="ordered" ><a href="#ordered"> Ordered</a></h3><p>Here's a simple ordered list with an unordered nested list
 (note that after the first item indicator, the numbering is automatic
 and so we can use the same number multiple times):</p>
 <div class="trim">
@@ -1392,33 +1427,8 @@ So if you want an ordered list starting from 2 for instance you could do:</p>
 </ol>
 </fieldset>
 
-</div><p>Note again that the numbering used for the second, third etc items is irrelevant.</p>
-<p>List items can contain any "inline" element (e.g. emphasised text or maths):</p>
-<div class="trim">
-
-<fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">* variables $x, y$ and $z$ are _reals_,
-* variables $i, j$ and $k$ are _integers_,
-* the function `foo` does not have side-effects.</code></pre>
-</fieldset>
-
-</div>
-
-
-
-<div class="trim">
-
-  <fieldset class="md-result"><legend class="md-result-legend">result</legend><ul>
-<li>variables \(x, y\) and \(z\) are <em>reals</em>,</li>
-<li>variables \(i, j\) and \(k\) are <em>integers</em>,</li>
-<li>the function <code>foo</code> does not have side-effects.</li>
-</ul>
-</fieldset>
-
-</div><fieldset class="cm-diff"><legend class="cm-diff-legend">&ne; CommonMark</legend>
-
-"Loose" lists (with line skips between items) are not supported in Franklin.
-
-</fieldset><h2 id="links" ><a href="#links"> Links</a></h2><p>You can insert a link by writing <code>[link title](link_url)</code>.
+</div><p>The numbering used for the second, third etc items is ignored.</p>
+<h2 id="links" ><a href="#links"> Links</a></h2><p>You can insert a link by writing <code>[link title](link_url)</code>.
 For instance this is a link pointing to the Julia Lang website:</p>
 <div class="trim">
 
@@ -1433,7 +1443,7 @@ For instance this is a link pointing to the Julia Lang website:</p>
 
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><a href="https://julialang.org">JuliaLang website</a></fieldset>
 
-</div><p>Sometimes you'll want to link several time to the same location in which case
+</div><h3 id="references" ><a href="#references"> References</a></h3><p>Sometimes you'll want to link several time to the same location in which case
 it is convenient to define a <em>reference</em> by writing <code>[Name Of Reference]: location</code> on a dedicated
 line and use the reference by specifying <code>[Name Of Reference]</code> somewhere in the text:</p>
 <div class="trim">
@@ -1501,7 +1511,7 @@ These all point to the same location:
 </div><fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
 
 You might want to define link references that can be used on all your pages.
-To do so, just place the reference definition on a line of your <code>config.md</code> file.
+To do so, just place each reference definition on a line of your <code>config.md</code> file.
 For instance <a href="https://julialang.org">this reference</a> is defined in the current config file.
 
 </fieldset><p>You might also sometimes want the link to appear as the location itself.
@@ -1712,7 +1722,7 @@ abstract type Foo end
 </div><p>Franklin supports running Julia code blocks and showing or using the output
 of such code blocks. This can be very useful in tutorials for instance.
 See <a href="/layout-tester/syntax/code/">the page on executed code blocks</a> for more on the topic.</p>
-<h2 id="horizontal_rules" ><a href="#horizontal_rules"> Horizontal rules</a></h2><p>If a line contains exclusively 3 or more consecutive of either '<code>-</code>', '<code>*</code>' or '<code>_</code>', a
+<h2 id="horizontal_rules" ><a href="#horizontal_rules"> Horizontal rules</a></h2><p>If a line contains exclusively 3 or more consecutive '<code>-</code>' (or '<code>*</code>', or '<code>_</code>'), a
 horizontal rule will be inserted:</p>
 <div class="trim">
 
@@ -1760,6 +1770,20 @@ ___________________________</code></pre>
 <hr>
 </fieldset>
 
+</div><p>Any additional character not of the same type will block the rule:</p>
+<div class="trim">
+
+<fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">--- *</code></pre>
+</fieldset>
+
+</div>
+
+
+
+<div class="trim">
+
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend>--- *</fieldset>
+
 </div>
 
             
@@ -1775,7 +1799,7 @@ ___________________________</code></pre>
 #rightMargin{
     display: none;
 }
-@media (min-width: 79em){
+@media (min-width: 79em) and (min-height: 56em){
     #rightMargin {
         position: fixed;
         top: 218px;
@@ -1826,7 +1850,7 @@ ___________________________</code></pre>
     <div id="marginToc">
         
           <div id="marginTocLegend"><a href="#">Contents</a></div>
-          <div class="toc"><ol><li><a href="#overview"> Overview</a></li><li><a href="#text"> Text</a><ol><li><a href="#emphasis"> Emphasis</a></li><li><a href="#paragraphs"> Paragraphs</a></li><li><a href="#headings"> Headings</a></li><li><a href="#special_characters"> Special characters</a></li></ol></li><li><a href="#blockquotes"> Blockquotes</a></li><li><a href="#lists"> Lists</a></li><li><a href="#links"> Links</a><ol><li><a href="#internal_links"> Internal links</a></li><li><a href="#global_internal_links"> Global internal links</a></li></ol></li><li><a href="#images"> Images</a></li><li><a href="#code"> Code</a></li><li><a href="#horizontal_rules"> Horizontal rules</a></li></ol></div>
+          <div class="toc"><ol><li><a href="#overview"> Overview</a></li><li><a href="#text"> Text</a><ol><li><a href="#emphasis"> Emphasis</a></li><li><a href="#paragraphs"> Paragraphs</a></li><li><a href="#headings"> Headings</a></li><li><a href="#special_characters"> Special characters</a></li></ol></li><li><a href="#blockquotes"> Blockquotes</a></li><li><a href="#lists"> Lists</a><ol><li><a href="#unordered"> Unordered</a></li><li><a href="#ordered"> Ordered</a></li></ol></li><li><a href="#links"> Links</a><ol><li><a href="#references"> References</a></li><li><a href="#internal_links"> Internal links</a></li><li><a href="#global_internal_links"> Global internal links</a></li></ol></li><li><a href="#images"> Images</a></li><li><a href="#code"> Code</a></li><li><a href="#horizontal_rules"> Horizontal rules</a></li></ol></div>
         
     </div>
 </div>
