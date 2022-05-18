@@ -1,14 +1,10 @@
-<!--
- LAST REVISION: Mar 21, 2022  (full page ok)
- -->
-
 +++
 showtoc = true
 +++
 
 # Getting Started
 
-## Generate a site from a template
+## Generating a new site from a template
 
 To get started with Franklin, you can use the `FranklinTemplates.newsite` function
 in a Julia REPL.
@@ -17,7 +13,7 @@ to be built by Franklin, and that you can modify at will:
 
 ```julia
 using FranklinTemplates: newsite
-using Franklin, FranklinTemplates
+using Franklin
 newsite("TestWebsite"; template="hyde")
 ```
 
@@ -25,7 +21,7 @@ The execution of this command will also move you to that folder (i.e. `cd TestWe
 
 The first argument of `newsite` is the title of the folder that will be created,
 and moved to (you can change that later).
-If you are already in a folder that you previous created for this purpose, just indicate the
+If you are already in a folder that you previously created for this purpose, just indicate the
 current path with `"."` (i.e.: `newsite(".", ...)`).
 
 The `template=` keyword argument allows you to specify one of the few
@@ -37,7 +33,7 @@ In particular, if you just want a super basic template to experiment with, the
 \note{
   Most of these templates are adapted, and simplified versions of common standard
   static site templates.
-  They are not meant to be fully polished but should be easy to adjust to your liking
+  They are not meant to be fully polished, but should be easy to adjust to your liking
   once you're familiar with how Franklin operates.\\
   Your help to add new templates or make existing ones better is very welcome!
 }
@@ -57,7 +53,7 @@ serve()  # or serve("path/to/TestWebsite")
 ```
 
 You can now visit your site at `http://localhost:8000` (the page should have been
-  opened automatically in your browser).
+opened automatically in your browser, you can avoid this by passing `launch=false` to `serve`).
 
 At a high level, the `serve` function does the following:
 
@@ -93,7 +89,7 @@ a new one every time you restart the server.
 
 \tip{
   It is strongly recommended to use Franklin in a REPL and not do something like `julia -e "using Franklin; ..."`.
-  Indeed, you may have to stop or restart the servers occasionally and doing so in a "hot" REPL session will be
+  Indeed, you may have to stop or restart the servers occasionally and doing so in a "warm" REPL session will be
   significantly faster.
 }
 
@@ -102,7 +98,7 @@ a new one every time you restart the server.
 ### Head/Foot structure
 
 When using Franklin, it is useful to have a rough understanding of how the HTML pages
-are generated.
+are constructed.
 For a source page with the following Markdown:
 
 ```markdown
@@ -166,21 +162,22 @@ For instance it could look like
 <html lang="en">
 <head> ... </head>
 <body>
-  {{page_content}}  <!-- this inserts the partially converted Markdown -->
+  {{page_content}}  <!-- inserts the converted page content -->
 </body>
 </html>
 ```
 
 and so, instead of separating the head, content and foot, it's a single file where you just indicate where the content goes.
+The current website (Franklin's docs) uses a skeleton (though it's maybe not the most straightforward example to follow).
 
-If you do have a skeleton file in your `_layout` folder, and also have a head and foot files, only the skeleton will be considered.
+If you do have a skeleton file in your layout folder, and also have a head and foot files, only the skeleton will be considered.
 
 
 ## Next steps
 
-Now that you have a working website that you can render locally and experiment with,
-you should try to further modify the `.md` file(s) in the folder, and the `.html` files in the
-`_layout` folder, and try to get an intuition for how things work.
+Now that you have a working website that you can render locally, and experiment with,
+you should try to further modify the files in the website folder, and try to build an intuition
+for how things work.
 
 The rest of the docs is there to help you when things don't work like you might expect them to.
 You may also want to:

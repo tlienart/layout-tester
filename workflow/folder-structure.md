@@ -15,9 +15,10 @@ A Franklin-compatible website folder will always have the following basic struct
 ```plaintext
 TestWebsite
 ├── _layout
-│   ├── foot.html
+│   ├── foot.html  # or skeleton.html
 │   └── head.html
-├── config.md
+├── config.md      # optional
+├── utils.jl       # optional
 └── index.md       # or index.html
 ```
 
@@ -25,8 +26,9 @@ where `TestWebsite` is the name of the website folder.
 In the rest of this page we go over what the different files and folders do.
 
 \tip{
-  Paths on this page (and generally, in these docs) are all meant relative to the website folder.
-  So for instance if we talk about `foo/bar.md`, it's located at `TestWebsite/foo/bar.md`.
+  Paths on this page (and, generally, in these docs) are all meant relative to the website folder.
+  So, for instance, if we talk about `foo/bar.md`, the actual file is expected to be located at
+  `TestWebsite/foo/bar.md`.
 }
 
 ### Index file
@@ -50,7 +52,7 @@ will contain matching HTML close to:
 ...
 ```
 
-In some cases you might want to have full control over the landing page
+In some cases, you might want to have full control over the landing page,
 and write it directly in HTML.
 To do so, simply remove the file `index.md` and write a file `index.html` instead.
 
@@ -83,8 +85,8 @@ https://username.github.io/theWebsite/
 and the `base_url_prefix` is then `theWebsite`.
 
 \note{
-  The `config.md` file is the only `.md` file in your website folder that won't get
-  converted into a `.html` file by default. Franklin considers it as a special file.
+  The `config.md` file will not get converted into a `.html` file by default.
+  Franklin considers it as a special file.
   If you **do** want to have a page with relative URL `/config/`, you can do so by
   writing a file at `/config/index.md`.
   See also the section [on paths](#paths_in_franklin).
@@ -93,12 +95,12 @@ and the `base_url_prefix` is then `theWebsite`.
 
 ### Layout files
 
-The `_layout/` folder will usually contain a `head.html` and `foot.html` which are placed respectively at the top and bottom of each generated HTML page (cf. the [page structure](/workflow/getting_started/#page_structure) diagram).
+The `_layout/` folder will usually contain a `head.html` and `foot.html` which are placed respectively at the top and bottom of each generated HTML page. Alternatively, a `skeleton.html` file can be given (cf. the [page structure](/workflow/getting_started/#page_structure) diagram).
 
-These files are where you should indicate the base layout of your pages, and, for instance, where you might indicate what CSS or JS to load on pages.
+These files are where you should indicate the base layout of your pages, and, for instance, where you can indicate what CSS or JS to load on pages.
 See [how to adapt a layout](/workflow/adapting_layout/) for more details on how to specify these files if you want to write your own layout.
 
-It is often convenient to split the layout of your site into components, and each of these
+It is often convenient to split the layout of your site into components, where each of these
 components may have its own layout file to complement the "head" and "foot" files.
 For instance you might define a menu in a file `menu.html` and refer to it in the `head.html`
 using `{{insert menu.html}}`.
@@ -106,13 +108,18 @@ To understand how this works in details, you will need to be familiar with the s
 [page variables and HTML functions](/syntax/vars+funs/)).
 For now though, the point is just that there may be more files in `_layout/` than just the two basic ones.
 
+### Utils file
+
+The `utils.jl` file allows to indicate Julia packages, objects, and functions that can be used on your website.
+See the [docs on the Utils module](/syntax/utils/).
 
 ## Site and cache folders
 
-When Franklin generates HTML pages, it places them in a `__site/` folder.
-And when the server is interrupted, Franklin generates (or updates) a `__cache/` folder.
+When Franklin generates HTML pages, it places them in the `__site/` folder.
+When the server is interrupted, Franklin generates (or updates) the `__cache/` folder.
 
-So after running `serve` and interrupting the server in the basic folder discussed at the previous point, the folder structure would look like
+So after running `serve` and interrupting the server in the basic folder discussed at the previous point,
+the folder structure would look like
 
 ```plaintext
 TestWebsite
@@ -157,14 +164,14 @@ At a high level, the global context keeps track of global [page variables](page 
 local contexts keep track of local page variables along with the representation of all code
 blocks evaluated on that page.
 
-These serialised representation will only exist under certain (fairly broad) conditions and will
+These serialised representation will only exist under certain (fairly broad) conditions, and will
 speed up re-building the website on subsequent sessions.
 If a context fails to serialise (e.g. because some of the page variables can't be easily serialised),
 the context will be re-built every time the server is re-started even if the page hasn't changed
 which can lead to a small overhead depending on what's on that page.
 
-If you're curious about the cache, you can read more about it [here](/engine/cache/).
-Generally you shouldn't have to think about the cache folder at all.
+Generally you shouldn't have to think about the cache folder at all, but, if you're curious, you can read more about it [here](/engine/cache/).
+
 
 ### Paths in Franklin
 
