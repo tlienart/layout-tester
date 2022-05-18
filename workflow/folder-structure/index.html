@@ -1118,9 +1118,9 @@ If you <strong>do</strong> want to have a page with relative URL <code>/config/<
 writing a file at <code>/config/index.md</code>.
 See also the section <a href="#paths_in_franklin">on paths</a>.
 
-</fieldset><h3 id="layout_files" ><a href="#layout_files"> Layout files</a></h3><p>The <code>_layout/</code> folder will usually contain a <code>head.html</code> and <code>foot.html</code> which are placed respectively at the top and bottom of each generated HTML page. Alternatively, a <code>skeleton.html</code> file can be given (cf. the <a href="/layout-tester/workflow/getting_started/#page_structure">page structure</a> diagram).</p>
+</fieldset><h3 id="layout_files" ><a href="#layout_files"> Layout files</a></h3><p>The <code>_layout/</code> folder will usually contain a <code>head.html</code> and <code>foot.html</code> which are placed respectively at the top and bottom of each generated HTML page. Alternatively, a <code>skeleton.html</code> file can be given (cf. the <a href="/layout-tester/workflow/getting-started/#page_structure">page structure</a> diagram).</p>
 <p>These files are where you should indicate the base layout of your pages, and, for instance, where you can indicate what CSS or JS to load on pages.
-See <a href="/layout-tester/workflow/adapting_layout/">how to adapt a layout</a> for more details on how to specify these files if you want to write your own layout.</p>
+See <a href="/layout-tester/workflow/adapting-layout/">how to adapt a layout</a> for more details on how to specify these files if you want to write your own layout.</p>
 <p>It is often convenient to split the layout of your site into components, where each of these
 components may have its own layout file to complement the "head" and "foot" files.
 For instance you might define a menu in a file <code>menu.html</code> and refer to it in the <code>head.html</code>
@@ -1152,7 +1152,7 @@ Deploying a Franklin website simply amounts to placing the content of this <code
 on some server (see also <a href="/layout-tester/workflow/deployment/">the docs on deployment</a> for much more on this).</p>
 <p>In the example above, there is a single file in <code>__site</code>: the <code>index.html</code> which is the
 landing page of the website.
-Recall from <a href="/layout-tester/workflow/getting_started/#page_structure">the diagram on page structure</a>
+Recall from <a href="/layout-tester/workflow/getting-started/#page_structure">the diagram on page structure</a>
 that this file <code>index.html</code> is generated out of assembling and processing</p>
 <ul>
 <li><code>_layout/head.html</code>,</li>
@@ -1163,7 +1163,7 @@ that this file <code>index.html</code> is generated out of assembling and proces
 See also the point below <a href="#paths_in_franklin">on paths</a> for a summary of where files end up.</p>
 <h3 id="cache_folder" ><a href="#cache_folder"> Cache folder</a></h3><p>The cache folder keeps track of a serialised representation of the global and each
 of the local <strong>contexts</strong>.
-At a high level, the global context keeps track of global <a href="page%20vars">page variables</a> and the
+At a high level, the global context keeps track of global <a href="/layout-tester/syntax/vars+funs/">page variables</a> and the
 local contexts keep track of local page variables along with the representation of all code
 blocks evaluated on that page.</p>
 <p>These serialised representation will only exist under certain (fairly broad) conditions, and will

@@ -1066,7 +1066,7 @@ small screens.
 
         <div class="content">
             
-            <h1 id="basic_markdown" ><a href="#basic_markdown"> Basic Markdown</a></h1><h2 id="overview" ><a href="#overview"> Overview</a></h2><p>Many of you will already be familiar with some flavour of Markdown such as <a href="https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">GitHub Markdown</a>
+            <h1 id="basic_markdown" ><a href="#basic_markdown"> Basic Markdown</a></h1><h2 id="overview" ><a href="#overview"> Overview</a></h2><p>Many of you will already be familiar with some flavour of Markdown such as <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">GitHub Markdown</a>
 or <a href="https://commonmark.org/">CommonMark</a>.
 Franklin can be seen as yet another flavour of Markdown with extensions.</p>
 <p>This page covers the Markdown basics that you should find to be broadly identical to standard Markdown along with some notes in the cases where there may be a noteworthy difference.</p>
@@ -1126,7 +1126,7 @@ text and special characters,</li>
 <ul>
 <li>a line skip (empty line),</li>
 <li>a "non-inline" block (for instance a heading, a code block or a div block
-  (see <a href="/layout-tester/syntaxextensions/">extensions</a>)),</li>
+  (see <a href="/layout-tester/syntax/extensions/">extensions</a>)),</li>
 <li>the end of the page.</li>
 </ul>
 <p>If you want to introduce a line return without interrupting a paragraph,
@@ -1567,15 +1567,15 @@ and now [we refer to it](#abcd)</code></pre>
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><a id="abcd" class="anchor"></a>and now <a href="#abcd">we refer to it</a></fieldset>
 
 </div><h3 id="global_internal_links" ><a href="#global_internal_links"> Global internal links</a></h3><p>Franklin allows to link globally <strong>across</strong> pages by using <code>##</code> instead of <code>#</code>.
-For instance, there is a heading "<em>Cache and packages</em>" defined on the page <code>/syntax/code/</code>,
+For instance, there is a heading "<em>Hiding lines of code</em>" defined on the page <code>/syntax/code/</code>,
 and it can be linked to with:</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">all three forms link to the same heading:
 
-* [explicit](/syntax/code/#cache_and_packages)
-* [implicit](##cache_and_packages)
-* [implicit 2](## Cache and packages)</code></pre>
+* [explicit](/syntax/code/#hiding_lines_of_code)
+* [implicit](##hiding_lines_of_code)
+* [implicit 2](## hiding lines of code)</code></pre>
 </fieldset>
 
 </div>
@@ -1585,9 +1585,9 @@ and it can be linked to with:</p>
 <div class="trim">
 
   <fieldset class="md-result"><legend class="md-result-legend">result</legend>all three forms link to the same heading:<ul>
-<li><a href="/layout-tester/syntax/code/#cache_and_packages">explicit</a></li>
-<li><a href="/layout-tester/syntax/code-2/#cache_and_packages">implicit</a></li>
-<li><a href="/layout-tester/syntax/code-2/#cache_and_packages">implicit 2</a></li>
+<li><a href="/layout-tester/syntax/code/#hiding_lines_of_code">explicit</a></li>
+<li><a href="/layout-tester/syntax/code/#hiding_lines_of_code">implicit</a></li>
+<li><a href="/layout-tester/syntax/code/#hiding_lines_of_code">implicit 2</a></li>
 </ul>
 </fieldset>
 
@@ -1664,7 +1664,7 @@ Using double backticks allow to show single backticks in the code without that
 closing the environment.</p>
 <p>For <strong>code blocks</strong> (three to five backticks) you can optionally indicate the language of the code
 which is useful if you use a library for code highlighting (Franklin templates
-use <a href="hljs">highlight.js</a> by default).</p>
+use <a href="https://highlightjs.org/">highlight.js</a> by default).</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">```julia
