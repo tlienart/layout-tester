@@ -21,8 +21,8 @@ menu = [
     ("syntax" => "Syntax") => [
         "basics" => "Basics",
         "extensions" => "Extensions",
-        "code" => "Code Blocks",
-        "code-2" => "Code Blocks (2)",
+        "code" => "Executed Code Blocks",
+        "code-2" => "Executed Code Blocks (2)",
         "vars+funs" => "Page Variables",
         "utils" => "Utils" 
     ],

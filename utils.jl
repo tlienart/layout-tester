@@ -161,7 +161,7 @@ function hfun_generate_menu()
             for e in m.second
                 write(io, """
                     <li class="pure-menu-item">
-                        <a href="/$base/$(e.first)/" class="pure-menu-link">
+                        <a href="/$base/$(e.first)/" class="pure-menu-link {{ispage /$base/$(e.first)/}}selected{{end}}">
                             $(e.second)
                         </a>
                     </li>

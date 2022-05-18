@@ -2,10 +2,16 @@
 
 A sandbox to test the layout of the future Franklin documentation website
 
+## Link testing
+
+```
+linkcheck :8000 -e
+```
+
 ## Todo
 
 * [ ] meta data
-* page review
+* [ ] page review
 
 | page | status | comment |
 | ---- | ------ | ------- |
@@ -13,9 +19,9 @@ A sandbox to test the layout of the future Franklin documentation website
 | workflow/folder-structure | ok (18/5/22)  | |
 | workflow/adapting-layout |  | |
 | workflow/deployment |  | |
-| syntax/basics |  | |
+| syntax/basics |  ok (18/5/22) | |
 | syntax/extensions |  | |
-| syntax/code |  | |
+| syntax/code | ok (18/5/22) | |
 | syntax/code-2 |  | |
 | syntax/page-variables |  | |
 | syntax/utils |  | |

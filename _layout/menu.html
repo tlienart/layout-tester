@@ -42,18 +42,19 @@
 	}
 
 		/* Change color of the anchor links on hover/focus.	*/
-		#menu .pure-menu li a:hover,
-		#menu .pure-menu li a:focus {
-			background: #333;
+		#menu .pure-menu li a {
+			border-radius: 8px;
 		}
-
-	/* This styles the selected menu item `<li>`. */
-	#menu .pure-menu-selected {
-		background: #1f8dd6;
-	}
-		/* This styles a link within a selected menu item `<li>`. */
-		#menu .pure-menu-selected a {
-			color: #fff;
+		#menu .pure-menu li li a {
+			padding-left: .75em;
+		}
+		#menu .pure-menu li li a:hover,
+		#menu .pure-menu li li a:focus {
+			background: var(--col-xlight);
+		}
+		#menu .pure-menu li li a.selected {
+			background: var(--col-dark);
+			color: var(--col-cream);
 		}
 
 	/* This styles the menu heading. */
@@ -149,7 +150,7 @@ small screens.
 }
 
 .pure-menu-list .pure-menu-list {
-	padding-left: 1.5em;
+	padding-left: 1em;
 }
 
 .menu-logos {

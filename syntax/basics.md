@@ -47,21 +47,24 @@ and you can nest emphasis styles:
 
 ### Paragraphs
 
-When converting text, sets of consecutive "inline" blocks will be grouped
+When converting text, sets of consecutive *inline* blocks will be grouped
 and placed within a paragraph (in HTML: `<p>...</p>`).
 The main inline blocks are:
 
-* a block of text not separated by an empty line possibly including emphasised
-text and special characters,
-* inline code and inline maths (see [extensions](/syntax/extensions/)),
-* latex-like commands (see [extensions](/syntax/extensions/)).
+* a block of text not containing an empty line, possibly including emphasised
+text, and special characters,
+* inline code like `abc` and inline maths like $x^y$ ($\dagger$),
+* raw HTML input ($\dagger$),
+* latex-like commands ($\dagger$).
 
 A paragraph will be interrupted by:
 
 * a line skip (empty line),
-* a "non-inline" block (for instance a heading, a code block or a div block
-  (see [extensions](/syntax/extensions/))),
+* a _non-inline_ block (for instance a heading, a code block or a div block
+ ($\dagger$),
 * the end of the page.
+
+($\dagger$) see [extensions](/syntax/extensions/).
 
 If you want to introduce a line return without interrupting a paragraph,
 you can use a double backslash as in LaTeX:
@@ -90,7 +93,7 @@ This allows to easily link to parts of a page (as well as across pages).
 For instance `[link](#headings)` will give: [link](#headings).
 See also the [section on links](#links) below.
 
-If the text of a heading is unique, the anchor will generally be just that text, in lowercase,
+If the text of a heading is unique, the anchor will generally just be that text, in lowercase,
 after replacing spaces and special characters by '`_`'.
 So for instance if there's a unique heading `My Heading` the associated anchor will
 be `#my_heading`. If there's several heading with the same text, the second heading
@@ -106,8 +109,9 @@ and the second one `#a_text__2`.
 
 
 \cmdiff{
-  CommonMark supports indicating level 1 and 2 headings by underlying them
-  with `===` or `---` ("_alt heading_") this is not supported in Franklin.  
+  CommonMark supports indicating level 1 and
+  level 2 headings by underlying them with `===` or `---` (_alt heading_)
+  this is **not** supported in Franklin.  
 }
 
 ### Special characters
@@ -120,7 +124,7 @@ If you want to show the characters '`*`' or '`_`' or '`#`' (or other characters 
   \* \_ \$ \` \@ \# \{ \} \~
 }
 
-The double backslash, like in LaTeX, works as a line break (see [below](#paragraphs)).
+The double backslash, like in LaTeX, works as a line break (see [the point on paragraphs](#paragraphs)).
 Therefore, if you want to show the backslash character, you have to use its HTML entity `&#92;` or `&bsol;`.
 You can indeed also insert emojis or HTML-entities:
 
@@ -166,7 +170,7 @@ You can also nest blockquotes (make sure you skip a line after the nested block 
 
 \showmd{
   > ABC
-  > > DEF
+  > > DEF \\
   > > GHI
   >
   > JKL
@@ -181,6 +185,8 @@ Lists are formed of one or more items indicated with a line starting with a '`*`
 (unordered list) or a number followed by a dot ('`.`') or a bracket ('`)`') (ordered list).
 Nesting is indicated with either a tab or two or more spaces.
 
+### Unordered
+
 Here's a simple unordered list:
 
 \showmd{
@@ -191,6 +197,20 @@ Here's a simple unordered list:
     * Bosc
     * Bartlett
 }
+
+List items can contain any "inline" element (e.g. emphasised text or maths):
+
+\showmd{
+  * variables $x, y$ and $z$ are _reals_,
+  * variables $i, j$ and $k$ are _integers_,
+  * the function `foo` does not have side-effects.
+}
+
+\cmdiff{
+  "Loose" lists (with line skips between items) are not supported in Franklin.
+}
+
+### Ordered
 
 Here's a simple ordered list with an unordered nested list
 (note that after the first item indicator, the numbering is automatic
@@ -213,19 +233,7 @@ So if you want an ordered list starting from 2 for instance you could do:
   1. Baz
 }
 
-Note again that the numbering used for the second, third etc items is irrelevant.
-
-List items can contain any "inline" element (e.g. emphasised text or maths):
-
-\showmd{
-  * variables $x, y$ and $z$ are _reals_,
-  * variables $i, j$ and $k$ are _integers_,
-  * the function `foo` does not have side-effects.
-}
-
-\cmdiff{
-  "Loose" lists (with line skips between items) are not supported in Franklin.
-}
+The numbering used for the second, third etc items is ignored.
 
 ## Links
 
@@ -235,6 +243,8 @@ For instance this is a link pointing to the Julia Lang website:
 \showmd{
   [JuliaLang website](https://julialang.org)
 }
+
+### References
 
 Sometimes you'll want to link several time to the same location in which case
 it is convenient to define a _reference_ by writing `[Name Of Reference]: location` on a dedicated
@@ -273,7 +283,7 @@ You could also change the title to an existing reference by writing
 
 \tip{
   You might want to define link references that can be used on all your pages.
-  To do so, just place the reference definition on a line of your `config.md` file.
+  To do so, just place each reference definition on a line of your `config.md` file.
   For instance [this reference][juliaweb] is defined in the current config file.
 }
 
@@ -419,7 +429,7 @@ See [the page on executed code blocks](/syntax/code/) for more on the topic.
 
 ## Horizontal rules
 
-If a line contains exclusively 3 or more consecutive of either '`-`', '`*`' or '`_`', a
+If a line contains exclusively 3 or more consecutive '`-`' (or '`*`', or '`_`'), a
 horizontal rule will be inserted:
 
 \showmd{
@@ -437,4 +447,10 @@ Any additional character of the same type appearing on that line will be ignored
   --- --- --- - -- --- ------
   **** *
   ___________________________
+}
+
+Any additional character not of the same type will block the rule:
+
+\showmd{
+  --- *
 }

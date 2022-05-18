@@ -7,7 +7,7 @@ LAST REVISION: Jan 14, 2022 (full page ok)
 showtoc = true
 +++
 
-# Code Blocks
+# Executed Code Blocks
 
 \newcommand{\triplebt}{~~~<code>&#96;&#96;&#96;</code>~~~}
 ~~~
@@ -24,7 +24,7 @@ Franklin supports executing Julia code blocks and using or showing their output.
 Here is a basic example:
 
 \showmd{
-  ```julia:example
+  ```julia :example
   # a very simple code 'cell'
   a = 1
   ```
@@ -76,7 +76,7 @@ that a fenced code block should be executed:
 For all these you can swap the colon (`:`) for an exclamation mark (`!`) with the same
 effect (see examples below).
 
-\note{
+\tip{
   When specifying the language, you can add a whitespace before the execution symbol
   to help editors such as VSCode to highlight the code block properly.
   For instance:
@@ -93,7 +93,7 @@ When the language is implicit, it is taken from the page variable `lang` (with d
 When the name is implicit, a name is automatically generated and the output is placed
 directly below the code.
 
-Here's an example with implicit language and explicit name:
+Here's an example with implicit language, and explicit name:
 
 \showmd{
   ```:abc
@@ -225,7 +225,7 @@ If a code block is fully independent of any other code blocks on the page, **and
 To clarify this, imagine you have a page with two blocks _A_ and _B_.
 By default if _A_ is modified, _B_ will be re-evaluated because Franklin considers that _B_ might
 depend on some things that _A_ defines.\\
-However, if you know that _B_ is fully independent code, you can mark it as such and then when _A_ changes, _B_ will **not** get re-evaluated.
+However, if you know that _B_ is fully independent code, you can mark it as such and then when _A_ changes, _B_ will **not** get re-evaluated (assuming it has been evaluated in the past and its result cached).
 
 When marking a block as independent, the user guarantees to Franklin that:
 1. the code does not depend on any other code block on the page,
@@ -244,14 +244,15 @@ The marker for independence should be placed at the top of your code:
 \tip{
   If all your code blocks are fast-running, you can ignore the `indep` trick.
   However if a block takes time to run, and you know that it is independent
-  in the sense mentioned above, marking it explicitly will help make page reloads faster.
+  in the sense mentioned above, marking it explicitly as such will help make
+  page reloads faster.
 }
 
 ## Understanding how things work
 
 Each page can be seen as one "notebook".
 All executed code blocks on the page are executed in one sandbox module
-attached to that page and **share the same scope**.
+attached to that page, and **share the same scope** (like a notebook).
 That sandbox module also loads the content of `utils.jl` as a `Utils` module
 and so all objects defined there can be accessed in any code block via
 `Utils.$name` (see also [the page on Utils](/syntax/utils/)).
@@ -284,6 +285,56 @@ the entirety of each page's "notebook" will be marked as stale and will be re-ru
 that it uses the latest definitions from `Utils` (even if it doesn't use `Utils` at all).
 In that sense changing `utils.jl` amounts to clearing the entire cache and re-building
 the website (see also [the page discussing Utils](/syntax/utils/)).
+
+
+### In what path does the code run?
+
+In the same path as where `serve` was called.
+And since you can call `serve()` from within the site folder or from elsewhere specifying
+`serve("path/to/folder")`, this path can vary.
+As a consequence, if you want some code to do something with a path (e.g. read or write a file),
+you should use `Utils.path(:folder)` as the base path pointing to your website folder.
+You can also use `Utils.path(:site)` as the base path pointing to the website build folder.
+
+For instance let's say you want to save a DataFrame to a CSV that you can link to
+as an asset on your site:
+
+```julia !
+using DataFrames, CSV
+build_dir  = Utils.path(:site)
+target_dir = mkpath(joinpath(build_dir, "assets", "data"))
+df = DataFrame(A=1:4, B=["M", "F", "F", "M"])
+CSV.write(joinpath(target_dir, "data1.csv"), df);
+```
+
+this outputs nothing but it does save `data1.csv` in the build folder at location
+`/assets/data/` so that you could then link to it explicitly:
+
+\showmd{
+  click on [this link](/assets/data/data1.csv) to download the CSV corresponding
+  to the dataframe above.
+}
+
+Another example is that you might want to write a file in the build dir:
+
+```julia !
+build_dir = Utils.path(:site)
+open(joinpath(build_dir, "405.html"), "w") do f
+  write(f, """
+    Dummy page 405, <a href="/">return home</a>
+    """
+  )
+end;
+```
+
+The above code block writes a dummy HTLM page `405.html` in the build folder.
+You can actually see it [here](/405.html).
+
+\note{
+  Do not use absolute paths since those might not exist in a continuous integration
+  environment. Do use `Utils.path(:folder)` or `Utils.path(:site)`
+  as your base path and use `joinpath` to point to the specific location you care about.
+}
 
 
 ### What to do when things go wrong
@@ -324,7 +375,7 @@ is placed in the following HTML:
 <div class="code-output">
 
   <!-- If stdout is not empty -->
-  <pre><code clas="code-stdout language-plaintext">
+  <pre><code class="code-stdout language-plaintext">
     ...captured stdout...
   </code></pre>
 
@@ -338,7 +389,7 @@ is placed in the following HTML:
 </div>
 ```
 
-If the code block didn't fail, the _appropriate representation of the result_ is obtained by considering the following cases in order:
+If the code block didn't fail, the _appropriate representation of the result_ is obtained by considering the following cases in order (examples are shown further down):
 
 1. the result is `nothing`, nothing gets shown (no string),
 1. there is a custom `html_show` function for `typeof(result)` that is defined
@@ -351,7 +402,6 @@ the image is automatically saved to an appropriate location and shown (with prio
 
 Note that you can always suppress the display of a code block result by
 adding a final '`;`' to the code.
-These different cases are illustrated further below.
 
 \note{
   When capturing `stdout` during a code-cell evaluation, the logging level is
@@ -361,7 +411,7 @@ These different cases are illustrated further below.
   Long story short: avoid using these macros in your code cells.
 }
 
-You can also overwrite the `\show` command by defining a custom
+Finally, you can also overwrite the `\show` command by defining a custom
 `lx_show` function in your utils (see [how to define latex commands](/syntax/utils/)) if you
 want to handle the output in your own way (or define your own alternative command that does it).
 
@@ -482,7 +532,7 @@ Note that it's the figure object that is showable as SVG in PyPlot and so we mus
 
 ### HTML show
 
-Some packages define objects which indicate how to show objects with a `MIME"text/html"`,
+Some packages define objects with dedicated `show` methods for `MIME"text/html"`,
 in that case the corresponding `show` method is called and the HTML shown.
 This is for instance the case with DataFrame objects:
 
@@ -562,8 +612,6 @@ Here's another one with `\htmlshow`:
   \htmlshow{ex-htmlshow}
 }
 
-
-
 ### What if the code errors?
 
 If there's an error in the code, no result will be shown and `stderr` will
@@ -576,54 +624,5 @@ capture a trimmed stacktrace of the problem which will be displayed:
   ```
 }
 \lskip
-
-### In what path does the code run?
-
-In the same path as where `serve` was called.
-And since you can call `serve()` from within the site folder or from elsewhere specifying
-`serve("path/to/folder")`, this path can vary.
-As a consequence, if you want some code to do something with a path (e.g. read or write a file),
-you should use `Utils.path(:folder)` as the base path pointing to your website folder.
-You can also use `Utils.path(:site)` as the base path pointing to the website build folder.
-
-For instance let's say you want to save a DataFrame to a CSV that you can link to
-as an asset on your site:
-
-```!
-using DataFrames, CSV
-build_dir  = Utils.path(:site)
-target_dir = mkpath(joinpath(build_dir, "assets", "data"))
-df = DataFrame(A=1:4, B=["M", "F", "F", "M"])
-CSV.write(joinpath(target_dir, "data1.csv"), df);
-```
-
-this outputs nothing but it does save `data1.csv` in the build folder at location
-`/assets/data/` so that you could then link to it explicitly:
-
-\showmd{
-  click on [this link](/assets/data/data1.csv) to download the CSV corresponding
-  to the dataframe above.
-}
-
-Another example is that you might want to write a file in the build dir:
-
-```!
-build_dir = Utils.path(:site)
-open(joinpath(build_dir, "405.html"), "w") do f
-  write(f, """
-    Dummy page 405, <a href="/">return home</a>
-    """
-  )
-end;
-```
-
-The above code block writes a dummy HTLM page `405.html` in the build folder.
-You can actually see it [here](/405.html).
-
-\note{
-  Do not use absolute paths since those might not exist in a continuous integration
-  environment. Do use `Utils.path(:folder)` or `Utils.path(:site)`
-  as your base path and use `joinpath` to point to the specific location you care about.
-}
 
 [Next page](/syntax/code-2/)
