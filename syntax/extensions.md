@@ -35,7 +35,18 @@ Here's another example where we insert a `<fieldset>`:
 }
 
 Since you can  wrap this in a [LaTeX-like command](#latex_like_commands), you can define commands
-that apply whatever custom HTML you see  fit, or use this to insert buttons etc.
+that apply whatever custom HTML you see  fit, or use this to insert buttons etc. Here's a quick
+example (see [the point on commands](#latex_like_commands) for more information):
+
+\showmd{
+  \newcommand{\style}[2]{
+    ~~~
+    <span style="#1">#2</span>
+    ~~~
+  }
+
+  Some text then: \style{text-transform: capitalize; color: navy;}{hello}.
+}
 
 ## Equations
 
@@ -55,7 +66,7 @@ For _display_ math, use double '`$$`':
   $$ \exp(i\pi) + 1 = 0 $$
 }
 
-"Display math" blocks get automatically numbered.
+_Display-math_ blocks get automatically numbered.
 You can suppress this using `\nonumber{$$...$$}`.
 For instance:
 
@@ -75,6 +86,7 @@ later with `\eqref{label name}`:
 
   And refer to it as \eqref{some equation}.
 }
+
 
 Equations can span multiple lines and use multi-line environments
 
@@ -102,26 +114,28 @@ environment too:
 }
 
 \note{
-  Double-braces (which can be used to call [hfuns](/syntax/vars+funs/) or insert page variables)
+  Double-braces (which can be used to [insert page variables or call hfuns](/syntax/vars+funs/))
   are disabled in math environments.
   This is to avoid ambiguities since in LaTeX-like math syntax,
-  double braces can happen. So, for instance, `${{x}}$` will just show $x$ even if you do have
-  a page variable `x` on the page.
+  double braces can often appear.
+  As an example: `${{x}}$` will show '${{x}}$' even if you do have
+  a page variable '`x`' defined on the page.
 }
+
 
 \note{
   Franklin uses its **own counter** to keep track of equation numbering.
-  There is no communication between Franklin and any KaTeX or CSS counters.
+  There is no communication between Franklin, and any KaTeX or CSS counters.
   This means that you cannot effectively use KaTeX-specific commands that suppress numbering
   as this would cause issues with subsequent equation references done with `\eqref`.\\
-  Long story short: if you want to suppress numbering, use `\nonumber`.
+  Long story short: if you want to suppress numbering, use `\nonumber` as shown above.
 }
 
 
 ### Environments
 
 Franklin also supports common math environments: `equation`, `align`, `aligned`, `eqnarray`,
-and their "starred" version (which suppresses the number):
+and their "starred" version (which suppresses the numbering):
 
 \showmd{
   \begin{eqnarray*}
@@ -132,12 +146,11 @@ and their "starred" version (which suppresses the number):
 }
 
 \note{
-  In "proper" LaTeX, the use of `\eqnarray` is discouraged due to possible interference
-  with array column spacing.
-  In Franklin/KaTeX this does not happen and so the only practical difference is that
+  In "proper" LaTeX, the use of `\eqnarray` [is discouraged](https://tug.org/pracjourn/2006-4/madsen/madsen.pdf)
+  due to possible interference with array column spacing.
+  In Franklin/KaTeX this does not happen, and so the only practical difference is that
   `\eqnarray` will give you a bit more horizontal spacing around the `=` signs than
-  the `align` environme
-  nt.
+  the `align` environment. Use whichever one you prefer.
 }
 
 ### Styling
@@ -145,20 +158,25 @@ and their "starred" version (which suppresses the number):
 The standard styling for KaTeX with Franklin will be something like
 
 ```css
-body { counter-reset: eqnum; }
+body {
+  counter-reset: eqnum;
+}
 
-.katex { font-size: 1.1em !important; }
+.katex {
+  font-size: 1.1em !important;
+}
 
 .katex-display .katex {
     display: inline-block;
 }
 
 .katex-display::after {
-    counter-increment: eqnum;
-    content: "(" counter(eqnum) ")";
-    position: relative;
-    float: right;
-    padding-right: 5px; }
+  counter-increment: eqnum;
+  content: "(" counter(eqnum) ")";
+  position: relative;
+  float: right;
+  padding-right: 5px;
+}
 
 .nonumber .katex-display::after {
   counter-increment: nothing;
@@ -185,9 +203,10 @@ Franklin supports inserting tables with the following syntax:
 Table rows **must** start **and** end with a '`|`' symbol and **must** be entirely defined
 on a single line (this is a bit stricter than what most Markdown flavour that support table
   require).
-Observe that alignment of the '`|`' is not necessary (though it often helps readability!)
-and spaces around '`|`' are insignificant.
-If a row is found to have too many or too few cells, the table will be padded accordingly:
+Observe that the vertical alignment of the '`|`' is not necessary (though it often helps readability!).
+Whitespaces around '`|`' are ignored.
+
+If a row is considered to have too many or too few cells, the table will be padded accordingly:
 
 \showmd{
   | A | B | C |
@@ -201,12 +220,12 @@ If a row is found to have too many or too few cells, the table will be padded ac
 Any **inline** element is allowed within table cells and header cells:
 
 \showmd{
-  | A | B |
+  | A | _B_ |
   | - | - |
   | `x|y` | $x \in \mathbb R$ |
 }
 
-Images are also inline blocks and so can be inserted in cells as well:
+Images are also inline blocks, and so can be inserted in cells as well:
 
 \showmd{
   | Language | Logo |
@@ -215,7 +234,7 @@ Images are also inline blocks and so can be inserted in cells as well:
   | Python | ![](/assets/icons/python_icon_small.png) |
 }
 
-By default content is left-aligned in columns.
+By default, cell content is left-aligned in columns.
 You can change this by using `:-` (left) or `:--:` (center) or `-:` (right)
 under the relevant column header:
 
@@ -251,7 +270,7 @@ A generated table will have the following HTML structure:
 
 The `table_class` is a [page variable](/syntax/vars+funs/) that you can specify,
 and which is empty by default.
-This can be useful if you're using a CSS framework like [Pure][pure.css] which has specific
+This can be useful if you're using a CSS framework like [PureCSS][pure.css] which has specific
 classes for tables with good defaults (here, for instance, we're using
 [`pure-table`](https://purecss.io/tables/) as the class).
 
@@ -264,13 +283,16 @@ styling tables.
 
 ## Footnotes
 
-You can add footnotes like you would a [reference link](/syntax/basics/#links) except
-that the reference must start with a caret '`^`' so for instance `[^1]` or
-`[^note about x]`.
+You can add footnotes like you would a [reference link](/syntax/basics/#links), except
+that the reference **must** start with a caret symbol ('`^`').
+so for instance `[^1]` or `[^note about x]`.
+
 Footnotes get automatically numbered by order of appearance on the page.
-The "definition" of the footnote can be placed wherever is convenient in the Markdown.
-On the page however, they will be placed at the end of the page in the order in which
-they appeared.
+The definition of the footnote can be placed wherever is convenient in the Markdown,
+and can contain any _inline_ element.
+
+On the page however, footnotes will be placed in the order in which
+they appeared in the text.
 
 \showmd{
   Some point we want to add a note to.[^a note]
@@ -291,48 +313,56 @@ The numbering is automatic, irrelevant of whether the footnote id has a number i
 Click on  one  of the footnote  link or check the [bottom of this page](#fn-defs)
 to see the footnotes.
 
-The list of footnotes will be placed wherever you put a `{{footnotes}}`.
-Typically (like here), this is part of the layout in `_layout/foot.html`,
-but you could choose to place it manually.
+The list of footnote definitions will be placed wherever you put a `{{footnotes}}`.
+Typically (like here), this is part of the layout.
+But you could choose to place it manually.
+Note that `{{footnotes}}` does nothing if there are no footnotes defined on the page.
 
 
 ## Div blocks
 
-It can sometimes be nice to use a specific CSS styling for a part of a page.
+It can sometimes be useful to use specific CSS styling for a part of a page.
 For instance you might want to have some text that's in a different font, or a different colour,
 or that is centred.
-You can of course always achieve this by injecting [raw HTML](#injecting_html) directly,
-another way is to use `@@c1,c2 ... @@` to indicate a **div block** with class `c1` and `c2`.
+You can of course always achieve this by injecting [raw HTML](#injecting_html) directly.
+Another convenient way is to use `@@c1,c2 ... @@` to indicate a **div block** with class `c1` and `c2`.
+This is particularly useful when you're working with a class-heavy CSS framework such as [Bootstrap].
 
-This is particularly useful when you're working with a class-heavy framework such as [Bootstrap].
 Here's an example with a class `yellow-bg` and a class `red-text` with the following CSS:
 
 ```css
-.yellow-bg  {background-color: yellow; width: 50%; padding-left: 2em;}
-.red-text {color: red;}
+.yellow-bg  {
+  background-color: yellow;
+  width: 50%;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+.red-text {
+  color: red;
+}
 ```
 
  ~~~
  <style>
- .yellow-bg  {background-color: yellow; width: 50%; padding-left: 2em;}
+ .yellow-bg  {background-color: yellow; width: 50%; padding-left: 2em; padding-right: 2em;}
  .red-text {color: red;}
  </style>
  ~~~
 
 \showmd{
   @@yellow-bg
-    this will be in a box with yellow background
+    This will be in a box with yellow background.
   @@
 
   @@yellow-bg,red-text
-    in a box with yellow background and red text
+    This will be in a box with yellow background, and red text.
   @@
 }
 
 ## LaTeX-like commands
 
-When writing blog posts or lecture notes for instance, you might end up having to repeatedly
-use some styling, or some sequence of commands, or some sentence.
+When writing content, you might end up having to repeatedly use some styling, or some sequence of
+commands, or some sentence, etc.
 To help you with this, Franklin supports defining LaTeX-like commands in much the same way
 as in LaTeX with the syntax
 
@@ -348,7 +378,9 @@ First, the case without arguments:
 \showmd{
   \newcommand{\command_a}{_a sentence that would be repeated many times_}
 
-  And here: \command_a
+  * \command_a
+  * \command_a
+  * \command_a
 }
 
 Then a case with a single argument:
@@ -370,8 +402,8 @@ Finally a case with two arguments (there can be more, of course, though beyond 2
   }
 }
 
-Since command can wrap around raw HTML injection as well, you can for instance define a
-command that applies custom local-styling to some text:
+Since a command can wrap around raw HTML injection as well, you can for instance define a
+command that applies custom local-styling to some text as was briefly mentioned earlier:
 
 \showmd{
   \newcommand{\style}[2]{~~~<span style="#1">~~~#2~~~</span>~~~}
@@ -391,12 +423,13 @@ command that applies custom local-styling to some text:
 ### Whitespaces
 
 In math environments, to  avoid issues with chaining Franklin-defined commands
-(which require braces for arguments) and KaTeX commands (which don't always require braces),
+(which require braces for arguments), and KaTeX commands (which don't always require braces),
 Franklin forces the insertion of whitespaces left of injected arguments.
-This will usually not have a visible effect on the result but you may still
+This will usually not have a visible effect on the result but you may still happen to 
 want to switch this off.
 In this case, use '`!#`' in defining the command instead of just '`#`' when referring to an
 argument in a definition.
+
 This is best seen with an example:
 
 \showmd{
@@ -411,7 +444,7 @@ The HTML generated by the above expression is:
 Zero expected-value: \(\mathbb E\left[ X\right]=0\).
 ```
 
-Note  how there's a whitespace between the inserted '`X`' and the '`[`'.
+Note  how there's a whitespace between the opening '`[`' and the inserted '`X`'.
 If you had instead used '`!#1`' in the definition of the command, that
 whitespace would not be there:
 
@@ -430,7 +463,8 @@ Zero expected-value: \(\mathbb E\left[X\right]=0\).
 without whitespace on the left of the '`X`'.
 
 \tip{
-  Generally you should not have to bother with this and can just ignore the `!#` case (in fact KaTeX does some processing of its own to avoid issues with whitespaces).
+  Generally you should not have to bother with this, and can just ignore the `!#` case
+  (in fact KaTeX does some processing of its own to avoid issues with whitespaces).
 }
 
 
@@ -438,7 +472,7 @@ without whitespace on the left of the '`X`'.
 
 You can also define the behaviour of a LaTeX-like command with Julia code.
 This can be useful for more advanced processing and is
-covered on [a dedicated page](/syntax/utils/).
+covered on [a dedicated page](/syntax/utils/#custom_lxfuns).
 
 
 ## LaTeX-like environments
@@ -472,7 +506,7 @@ Here's an example styling a block and using [raw HTML](#injecting_html).
 ### Defining environments with Julia
 
 As with commands, you can also define the behaviour of a LaTeX-like environment
-with Julia code, this is covered [on a dedicated page](/syntax/utils/).
+with Julia code, this is covered [on a dedicated page](/syntax/utils/#custom_envfuns).
 
 
 
@@ -486,4 +520,12 @@ For those,  use `??? ... ???`:
 \showmd{
   1. ABC **DEF** GHI (converted  by Franklin)
   1. ??? ABC **DEF** GHI ??? (untouched by Franklin)
+}
+
+\note{
+  If you want to show \?\?\? without this triggering a raw block, escape the question marks:~~~<br><br>~~~
+
+  \showmd{
+    \?\?\?
+  }
 }

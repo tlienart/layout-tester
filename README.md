@@ -20,7 +20,7 @@ linkcheck :8000 -e
 | workflow/adapting-layout |  | |
 | workflow/deployment |  | |
 | syntax/basics |  ok (18/5/22) | |
-| syntax/extensions |  | |
+| syntax/extensions | ok (19/5/22) | |
 | syntax/code | ok (18/5/22) | |
 | syntax/code-2 |  | |
 | syntax/page-variables |  | |
