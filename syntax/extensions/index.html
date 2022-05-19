@@ -267,7 +267,34 @@ ol ul { padding-left: 1em; }
 
 ul ul { padding-left: 1em; }
 
-ul ol { padding -left: 1em; }
+ul ol { padding-left: 1em; }
+
+/*  ====================================================================================
+    CODE AND HLJS 
+ ==================================================================================== */
+
+
+#fn-defs {
+	width: 75%;
+	margin-top: 5em;
+	padding-top: 1em;
+	border-top: 1px solid var(--col-gray);
+	padding-bottom: 3em;
+}
+.fn-title {
+	font-size: var(--text-h2);
+	width: 100%;
+	display: block;
+	margin-bottom: .5em;
+}
+
+a.fn-hook-btn {
+	color: var(--col-light);
+	text-decoration: none;
+}
+a.fn-hook-btn:hover {
+	color: var(--col-dark);
+}
 
 /*  ====================================================================================
     CODE AND HLJS 
@@ -326,7 +353,8 @@ body { counter-reset: eqnum; }
     content: "(" counter(eqnum) ")";
     position: relative;
     float: right;
-    padding-right: 5px; }
+    padding-right: 5px;
+}
 
 .nonumber .katex-display::after {
   counter-increment: nothing;
@@ -1111,8 +1139,28 @@ Some Content
 </fieldset></fieldset>
 
 </div><p>Since you can  wrap this in a <a href="#latex_like_commands">LaTeX-like command</a>, you can define commands
-that apply whatever custom HTML you see  fit, or use this to insert buttons etc.</p>
-<h2 id="equations" ><a href="#equations"> Equations</a></h2><p>In Franklin, math is handled by <a href="https://katex.org/">KaTeX</a> (though you could set things
+that apply whatever custom HTML you see  fit, or use this to insert buttons etc. Here's a quick
+example (see <a href="#latex_like_commands">the point on commands</a> for more information):</p>
+<div class="trim">
+
+<fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">\newcommand&lbrace;\style&rbrace;[2]&lbrace;
+  ~~~
+  &lt;span style=&quot;#1&quot;&gt;#2&lt;/span&gt;
+  ~~~
+&rbrace;
+
+Some text then: \style&lbrace;text-transform: capitalize; color: navy;&rbrace;&lbrace;hello&rbrace;.</code></pre>
+</fieldset>
+
+</div>
+
+
+
+<div class="trim">
+
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend>Some text then: <span style="text-transform: capitalize; color: navy;">hello</span>.</fieldset>
+
+</div><h2 id="equations" ><a href="#equations"> Equations</a></h2><p>In Franklin, math is handled by <a href="https://katex.org/">KaTeX</a> (though you could set things
 up so that it's handled by <a href="https://www.mathjax.org/">MathJax</a> instead).
 For <em>inline</em> math, use a single '<code>$</code>' like in LaTeX (here's a <a href="http://tug.ctan.org/info/undergradmath/undergradmath.pdf">cheatsheet</a> for LaTeX math if you're unfamiliar with the syntax):</p>
 <div class="trim">
@@ -1145,7 +1193,7 @@ $$ \exp(i\pi) + 1 = 0 $$</code></pre>
   <fieldset class="md-result"><legend class="md-result-legend">result</legend>Here's a nice equation:\[  \exp(i\pi) + 1 = 0  \]
 </fieldset>
 
-</div><p>"Display math" blocks get automatically numbered.
+</div><p><em>Display-math</em> blocks get automatically numbered.
 You can suppress this using <code>\nonumber&lbrace;$$...$$&rbrace;</code>.
 For instance:</p>
 <div class="trim">
@@ -1181,10 +1229,10 @@ And refer to it as \eqref&lbrace;some equation&rbrace;.</code></pre>
 
 <div class="trim">
 
-  <fieldset class="md-result"><legend class="md-result-legend">result</legend>\[ 
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend><a id="some_equation" class="anchor anchor-math"></a>\[ 
   x + \underbrace{y + z}_{w} = u 
  \]
-And refer to it as (<b>??</b>).</fieldset>
+And refer to it as (<a href="#some_equation" class="eqref">2</a>).</fieldset>
 
 </div><p>Equations can span multiple lines and use multi-line environments</p>
 <div class="trim">
@@ -1235,24 +1283,25 @@ $$ \E&lbrace;\sum_&lbrace;i=1&rbrace;^n X^2_i&rbrace; = \lambda\exp(\sigma) $$</
 
 </div><fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
 
-Double-braces (which can be used to call <a href="/layout-tester/syntax/vars+funs/">hfuns</a> or insert page variables)
+Double-braces (which can be used to <a href="/layout-tester/syntax/vars+funs/">insert page variables or call hfuns</a>)
 are disabled in math environments.
 This is to avoid ambiguities since in LaTeX-like math syntax,
-double braces can happen. So, for instance, <code>$&lbrace;&lbrace;x&rbrace;&rbrace;$</code> will just show \(x\) even if you do have
-a page variable <code>x</code> on the page.
+double braces can often appear.
+As an example: <code>$&lbrace;&lbrace;x&rbrace;&rbrace;$</code> will show '\({{x}}\)' even if you do have
+a page variable '<code>x</code>' defined on the page.
 
 </fieldset><fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
 
 Franklin uses its <strong>own counter</strong> to keep track of equation numbering.
-There is no communication between Franklin and any KaTeX or CSS counters.
+There is no communication between Franklin, and any KaTeX or CSS counters.
 This means that you cannot effectively use KaTeX-specific commands that suppress numbering
 as this would cause issues with subsequent equation references done with <code>\eqref</code>.
 <br>
 
-Long story short: if you want to suppress numbering, use <code>\nonumber</code>.
+Long story short: if you want to suppress numbering, use <code>\nonumber</code> as shown above.
 
 </fieldset><h3 id="environments" ><a href="#environments"> Environments</a></h3><p>Franklin also supports common math environments: <code>equation</code>, <code>align</code>, <code>aligned</code>, <code>eqnarray</code>,
-and their "starred" version (which suppresses the number):</p>
+and their "starred" version (which suppresses the numbering):</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">\begin&lbrace;eqnarray*&rbrace;
@@ -1277,28 +1326,32 @@ and their "starred" version (which suppresses the number):</p>
 
 </div><fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
 
-In "proper" LaTeX, the use of <code>\eqnarray</code> is discouraged due to possible interference
-with array column spacing.
-In Franklin/KaTeX this does not happen and so the only practical difference is that
+In "proper" LaTeX, the use of <code>\eqnarray</code> <a href="https://tug.org/pracjourn/2006-4/madsen/madsen.pdf">is discouraged</a>
+due to possible interference with array column spacing.
+In Franklin/KaTeX this does not happen, and so the only practical difference is that
 <code>\eqnarray</code> will give you a bit more horizontal spacing around the <code>=</code> signs than
-the <code>align</code> environme
-nt.
+the <code>align</code> environment. Use whichever one you prefer.
 
 </fieldset><h3 id="styling" ><a href="#styling"> Styling</a></h3><p>The standard styling for KaTeX with Franklin will be something like</p>
-<pre><code class="css">body &lbrace; counter-reset: eqnum; &rbrace;
+<pre><code class="css">body &lbrace;
+  counter-reset: eqnum;
+&rbrace;
 
-.katex &lbrace; font-size: 1.1em !important; &rbrace;
+.katex &lbrace;
+  font-size: 1.1em !important;
+&rbrace;
 
 .katex-display .katex &lbrace;
     display: inline-block;
 &rbrace;
 
 .katex-display::after &lbrace;
-    counter-increment: eqnum;
-    content: &quot;(&quot; counter(eqnum) &quot;)&quot;;
-    position: relative;
-    float: right;
-    padding-right: 5px; &rbrace;
+  counter-increment: eqnum;
+  content: &quot;(&quot; counter(eqnum) &quot;)&quot;;
+  position: relative;
+  float: right;
+  padding-right: 5px;
+&rbrace;
 
 .nonumber .katex-display::after &lbrace;
   counter-increment: nothing;
@@ -1346,9 +1399,9 @@ The <code>.nonumber</code> class is used for equations with suppressed numbering
 </div><p>Table rows <strong>must</strong> start <strong>and</strong> end with a '<code>|</code>' symbol and <strong>must</strong> be entirely defined
 on a single line (this is a bit stricter than what most Markdown flavour that support table
   require).
-Observe that alignment of the '<code>|</code>' is not necessary (though it often helps readability!)
-and spaces around '<code>|</code>' are insignificant.
-If a row is found to have too many or too few cells, the table will be padded accordingly:</p>
+Observe that the vertical alignment of the '<code>|</code>' is not necessary (though it often helps readability!).
+Whitespaces around '<code>|</code>' are ignored.</p>
+<p>If a row is considered to have too many or too few cells, the table will be padded accordingly:</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">| A | B | C |
@@ -1404,7 +1457,7 @@ If a row is found to have too many or too few cells, the table will be padded ac
 </div><p>Any <strong>inline</strong> element is allowed within table cells and header cells:</p>
 <div class="trim">
 
-<fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">| A | B |
+<fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">| A | _B_ |
 | - | - |
 | `x|y` | $x \in \mathbb R$ |</code></pre>
 </fieldset>
@@ -1418,7 +1471,7 @@ If a row is found to have too many or too few cells, the table will be padded ac
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><table class="pure-table">
 <thead>
 <th > A </th>
-<th > B </th>
+<th > <em>B</em> </th>
 </thead>
 <tbody>
 <tr>
@@ -1429,7 +1482,7 @@ If a row is found to have too many or too few cells, the table will be padded ac
 </table>
 </fieldset>
 
-</div><p>Images are also inline blocks and so can be inserted in cells as well:</p>
+</div><p>Images are also inline blocks, and so can be inserted in cells as well:</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">| Language | Logo |
@@ -1462,7 +1515,7 @@ If a row is found to have too many or too few cells, the table will be padded ac
 </table>
 </fieldset>
 
-</div><p>By default content is left-aligned in columns.
+</div><p>By default, cell content is left-aligned in columns.
 You can change this by using <code>:-</code> (left) or <code>:--:</code> (center) or <code>-:</code> (right)
 under the relevant column header:</p>
 <div class="trim">
@@ -1528,20 +1581,21 @@ under the relevant column header:</p>
 &lt;/table&gt;</code></pre>
 <p>The <code>table_class</code> is a <a href="/layout-tester/syntax/vars+funs/">page variable</a> that you can specify,
 and which is empty by default.
-This can be useful if you're using a CSS framework like <a href="https://purecss.io/">Pure</a> which has specific
+This can be useful if you're using a CSS framework like <a href="https://purecss.io/">PureCSS</a> which has specific
 classes for tables with good defaults (here, for instance, we're using
 <a href="https://purecss.io/tables/"><code>pure-table</code></a> as the class).</p>
 <p>If you're not using a framework, you will want to style the elements <code>table</code>, <code>thead</code>, <code>th</code>,
 <code>tbody</code>, <code>tr</code> and <code>td</code> as desired.
 CSS tricks has a <a href="https://css-tricks.com/complete-guide-table-element/">nice article</a> on
 styling tables.</p>
-<h2 id="footnotes" ><a href="#footnotes"> Footnotes</a></h2><p>You can add footnotes like you would a <a href="/layout-tester/syntax/basics/#links">reference link</a> except
-that the reference must start with a caret '<code>^</code>' so for instance <code>[^1]</code> or
-<code>[^note about x]</code>.
-Footnotes get automatically numbered by order of appearance on the page.
-The "definition" of the footnote can be placed wherever is convenient in the Markdown.
-On the page however, they will be placed at the end of the page in the order in which
-they appeared.</p>
+<h2 id="footnotes" ><a href="#footnotes"> Footnotes</a></h2><p>You can add footnotes like you would a <a href="/layout-tester/syntax/basics/#links">reference link</a>, except
+that the reference <strong>must</strong> start with a caret symbol ('<code>^</code>').
+so for instance <code>[^1]</code> or <code>[^note about x]</code>.</p>
+<p>Footnotes get automatically numbered by order of appearance on the page.
+The definition of the footnote can be placed wherever is convenient in the Markdown,
+and can contain any <em>inline</em> element.</p>
+<p>On the page however, footnotes will be placed in the order in which
+they appeared in the text.</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">Some point we want to add a note to.[^a note]
@@ -1581,31 +1635,39 @@ some $x$ math and `foo() = 5` code.</code></pre>
 
 </div><p>Click on  one  of the footnote  link or check the <a href="#fn-defs">bottom of this page</a>
 to see the footnotes.</p>
-<p>The list of footnotes will be placed wherever you put a <code>&lbrace;&lbrace;footnotes&rbrace;&rbrace;</code>.
-Typically (like here), this is part of the layout in <code>_layout/foot.html</code>,
-but you could choose to place it manually.</p>
-<h2 id="div_blocks" ><a href="#div_blocks"> Div blocks</a></h2><p>It can sometimes be nice to use a specific CSS styling for a part of a page.
+<p>The list of footnote definitions will be placed wherever you put a <code>&lbrace;&lbrace;footnotes&rbrace;&rbrace;</code>.
+Typically (like here), this is part of the layout.
+But you could choose to place it manually.
+Note that <code>&lbrace;&lbrace;footnotes&rbrace;&rbrace;</code> does nothing if there are no footnotes defined on the page.</p>
+<h2 id="div_blocks" ><a href="#div_blocks"> Div blocks</a></h2><p>It can sometimes be useful to use specific CSS styling for a part of a page.
 For instance you might want to have some text that's in a different font, or a different colour,
 or that is centred.
-You can of course always achieve this by injecting <a href="#injecting_html">raw HTML</a> directly,
-another way is to use <code>@@c1,c2 ... @@</code> to indicate a <strong>div block</strong> with class <code>c1</code> and <code>c2</code>.</p>
-<p>This is particularly useful when you're working with a class-heavy framework such as <a href="https://getbootstrap.com/">Bootstrap</a>.
-Here's an example with a class <code>yellow-bg</code> and a class <code>red-text</code> with the following CSS:</p>
-<pre><code class="css">.yellow-bg  &lbrace;background-color: yellow; width: 50%; padding-left: 2em;&rbrace;
-.red-text &lbrace;color: red;&rbrace;</code></pre>
+You can of course always achieve this by injecting <a href="#injecting_html">raw HTML</a> directly.
+Another convenient way is to use <code>@@c1,c2 ... @@</code> to indicate a <strong>div block</strong> with class <code>c1</code> and <code>c2</code>.
+This is particularly useful when you're working with a class-heavy CSS framework such as <a href="https://getbootstrap.com/">Bootstrap</a>.</p>
+<p>Here's an example with a class <code>yellow-bg</code> and a class <code>red-text</code> with the following CSS:</p>
+<pre><code class="css">.yellow-bg  &lbrace;
+  background-color: yellow;
+  width: 50%;
+  padding-left: 2em;
+  padding-right: 2em;
+&rbrace;
+.red-text &lbrace;
+  color: red;
+&rbrace;</code></pre>
  
  <style>
- .yellow-bg  {background-color: yellow; width: 50%; padding-left: 2em;}
+ .yellow-bg  {background-color: yellow; width: 50%; padding-left: 2em; padding-right: 2em;}
  .red-text {color: red;}
  </style>
  <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">@@yellow-bg
-  this will be in a box with yellow background
+  This will be in a box with yellow background.
 @@
 
 @@yellow-bg,red-text
-  in a box with yellow background and red text
+  This will be in a box with yellow background, and red text.
 @@</code></pre>
 </fieldset>
 
@@ -1615,12 +1677,12 @@ Here's an example with a class <code>yellow-bg</code> and a class <code>red-text
 
 <div class="trim">
 
-  <fieldset class="md-result"><legend class="md-result-legend">result</legend><div class="yellow-bg"><p>  this will be in a box with yellow background</p>
-</div><div class="yellow-bg red-text"><p>  in a box with yellow background and red text</p>
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend><div class="yellow-bg"><p>  This will be in a box with yellow background.</p>
+</div><div class="yellow-bg red-text"><p>  This will be in a box with yellow background, and red text.</p>
 </div></fieldset>
 
-</div><h2 id="latex_like_commands" ><a href="#latex_like_commands"> LaTeX-like commands</a></h2><p>When writing blog posts or lecture notes for instance, you might end up having to repeatedly
-use some styling, or some sequence of commands, or some sentence.
+</div><h2 id="latex_like_commands" ><a href="#latex_like_commands"> LaTeX-like commands</a></h2><p>When writing content, you might end up having to repeatedly use some styling, or some sequence of
+commands, or some sentence, etc.
 To help you with this, Franklin supports defining LaTeX-like commands in much the same way
 as in LaTeX with the syntax</p>
 <pre><code class="plaintext">\newcommand&lbrace;\command&rbrace;[nargs]&lbrace;definition&rbrace;</code></pre>
@@ -1631,7 +1693,9 @@ Examples will make all this much clearer.</p>
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">\newcommand&lbrace;\command_a&rbrace;&lbrace;_a sentence that would be repeated many times_&rbrace;
 
-And here: \command_a</code></pre>
+* \command_a
+* \command_a
+* \command_a</code></pre>
 </fieldset>
 
 </div>
@@ -1640,7 +1704,12 @@ And here: \command_a</code></pre>
 
 <div class="trim">
 
-  <fieldset class="md-result"><legend class="md-result-legend">result</legend>And here: <em>a sentence that would be repeated many times</em></fieldset>
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend><ul>
+<li><em>a sentence that would be repeated many times</em></li>
+<li><em>a sentence that would be repeated many times</em></li>
+<li><em>a sentence that would be repeated many times</em></li>
+</ul>
+</fieldset>
 
 </div><p>Then a case with a single argument:</p>
 <div class="trim">
@@ -1678,8 +1747,8 @@ And here: \warning&lbrace;some important text&rbrace;</code></pre>
 
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><strong>Theorem (Schwarz)</strong>. \[  (\mathbb E(XY))^2 \le \mathbb E(X^2) \mathbb E(Y^2).  \]</fieldset>
 
-</div><p>Since command can wrap around raw HTML injection as well, you can for instance define a
-command that applies custom local-styling to some text:</p>
+</div><p>Since a command can wrap around raw HTML injection as well, you can for instance define a
+command that applies custom local-styling to some text as was briefly mentioned earlier:</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">\newcommand&lbrace;\style&rbrace;[2]&lbrace;~~~&lt;span style=&quot;#1&quot;&gt;~~~#2~~~&lt;/span&gt;~~~&rbrace;
@@ -1705,13 +1774,13 @@ For instance, <code>\com1b</code>, <code>\com1</code> or  <code>\com_a</code> ar
 to avoid ambiguities with emphasised text.
 
 </fieldset><h3 id="whitespaces" ><a href="#whitespaces"> Whitespaces</a></h3><p>In math environments, to  avoid issues with chaining Franklin-defined commands
-(which require braces for arguments) and KaTeX commands (which don't always require braces),
+(which require braces for arguments), and KaTeX commands (which don't always require braces),
 Franklin forces the insertion of whitespaces left of injected arguments.
-This will usually not have a visible effect on the result but you may still
+This will usually not have a visible effect on the result but you may still happen to 
 want to switch this off.
 In this case, use '<code>!#</code>' in defining the command instead of just '<code>#</code>' when referring to an
-argument in a definition.
-This is best seen with an example:</p>
+argument in a definition.</p>
+<p>This is best seen with an example:</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">\newcommand&lbrace;\E&rbrace;[1]&lbrace;\mathbb E\left[#1\right]&rbrace;
@@ -1729,7 +1798,7 @@ Zero expected-value: $\E&lbrace;X&rbrace;=0$.</code></pre>
 
 </div><p>The HTML generated by the above expression is:</p>
 <pre><code class="html">Zero expected-value: \(\mathbb E\left[ X\right]=0\).</code></pre>
-<p>Note  how there's a whitespace between the inserted '<code>X</code>' and the '<code>[</code>'.
+<p>Note  how there's a whitespace between the opening '<code>[</code>' and the inserted '<code>X</code>'.
 If you had instead used '<code>!#1</code>' in the definition of the command, that
 whitespace would not be there:</p>
 <div class="trim">
@@ -1752,11 +1821,12 @@ Zero expected-value: $\E&lbrace;X&rbrace;=0$.</code></pre>
 <p>without whitespace on the left of the '<code>X</code>'.</p>
 <fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
 
-Generally you should not have to bother with this and can just ignore the <code>!#</code> case (in fact KaTeX does some processing of its own to avoid issues with whitespaces).
+Generally you should not have to bother with this, and can just ignore the <code>!#</code> case
+(in fact KaTeX does some processing of its own to avoid issues with whitespaces).
 
 </fieldset><h3 id="defining_commands_with_julia" ><a href="#defining_commands_with_julia"> Defining commands with Julia</a></h3><p>You can also define the behaviour of a LaTeX-like command with Julia code.
 This can be useful for more advanced processing and is
-covered on <a href="/layout-tester/syntax/utils/">a dedicated page</a>.</p>
+covered on <a href="/layout-tester/syntax/utils/#custom_lxfuns">a dedicated page</a>.</p>
 <h2 id="latex_like_environments" ><a href="#latex_like_environments"> LaTeX-like environments</a></h2><p>To accompany LaTeX-like commands, you can also define LaTeX-like environments in
 Franklin which allow defining a custom behaviour for a block of text.
 The general syntax is</p>
@@ -1788,7 +1858,7 @@ one or more <code>#...</code> to refer to the arguments.</p>
 </fieldset>
 
 </div><h3 id="defining_environments_with_julia" ><a href="#defining_environments_with_julia"> Defining environments with Julia</a></h3><p>As with commands, you can also define the behaviour of a LaTeX-like environment
-with Julia code, this is covered <a href="/layout-tester/syntax/utils/">on a dedicated page</a>.</p>
+with Julia code, this is covered <a href="/layout-tester/syntax/utils/#custom_envfuns">on a dedicated page</a>.</p>
 <h2 id="raw_content" ><a href="#raw_content"> Raw content</a></h2><p>For both HTML and LaTeX output, raw content allows to pass some content completely untouched to the final  stage of the processing (either the web-browser or the  LaTeX compiler) without Franklin  interfering.
 For those,  use <code>??? ... ???</code>:</p>
 <div class="trim">
@@ -1809,7 +1879,24 @@ For those,  use <code>??? ... ???</code>:</p>
 </ol>
 </fieldset>
 
+</div><fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
+
+If you want to show &#63;&#63;&#63; without this triggering a raw block, escape the question marks:<br><br><div class="trim">
+
+<fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">\?\?\?</code></pre>
+</fieldset>
+
 </div>
+
+
+
+<div class="trim">
+
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend>&#63;&#63;&#63;</fieldset>
+
+</div>
+
+</fieldset>
 
             <div id="fn-defs">
 <a id="fn-defs"></a>

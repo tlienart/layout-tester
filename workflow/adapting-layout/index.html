@@ -265,7 +265,34 @@ ol ul { padding-left: 1em; }
 
 ul ul { padding-left: 1em; }
 
-ul ol { padding -left: 1em; }
+ul ol { padding-left: 1em; }
+
+/*  ====================================================================================
+    CODE AND HLJS 
+ ==================================================================================== */
+
+
+#fn-defs {
+	width: 75%;
+	margin-top: 5em;
+	padding-top: 1em;
+	border-top: 1px solid var(--col-gray);
+	padding-bottom: 3em;
+}
+.fn-title {
+	font-size: var(--text-h2);
+	width: 100%;
+	display: block;
+	margin-bottom: .5em;
+}
+
+a.fn-hook-btn {
+	color: var(--col-light);
+	text-decoration: none;
+}
+a.fn-hook-btn:hover {
+	color: var(--col-dark);
+}
 
 /*  ====================================================================================
     CODE AND HLJS 
@@ -324,7 +351,8 @@ body { counter-reset: eqnum; }
     content: "(" counter(eqnum) ")";
     position: relative;
     float: right;
-    padding-right: 5px; }
+    padding-right: 5px;
+}
 
 .nonumber .katex-display::after {
   counter-increment: nothing;
