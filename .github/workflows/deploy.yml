@@ -13,10 +13,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: tlienart/xranklin-build-action@v3.2
         with:
-          # ADJUST THE FOLLOWING
           BRANCH: "devwip"
-          # if it's a personal site, use "" otherwise use the name of the repo
           BASE_URL_PREFIX: "layout-tester"
+          PYTHON_LIBS: "matplotlib pandas"
 
           # ===================================================================
           # DON'T CHANGE THE FOLLOWING UNLESS YOU HAVE GOOD REASONS TO

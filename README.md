@@ -24,7 +24,7 @@ linkcheck :8000 -e
 | syntax/basics |  ok (18/5/22) | |
 | syntax/extensions | ok (19/5/22) | |
 | syntax/code | ok (18/5/22) | |
-| syntax/code-2 | ok | (21/5/22) |
+| syntax/code-2 | ok (21/5/22) | |
 | syntax/page-variables |  | |
 | syntax/utils |  | |
 | extras/tags | | |
