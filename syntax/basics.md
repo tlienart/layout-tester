@@ -4,7 +4,7 @@ LAST REVISION: Jan 12, 2022  (full page ok)
 
 +++
 showtoc = true
-header = "Basics Markdown"
+header = "Markdown Basics"
 +++
 
 # Basic Markdown

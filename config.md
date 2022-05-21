@@ -62,12 +62,6 @@ a_global_variable = "hello from a global variable!"
 
 \newcommand{\emdash}{&#8212;}
 
-\newcommand{\lskip}{
-  ~~~
-  <div style="height:1em;"></div>
-  ~~~
-}
-
 \newcommand{\fieldset}[3]{
   ~~~
   <fieldset class="#1"><legend class="#1-legend">#2</legend>

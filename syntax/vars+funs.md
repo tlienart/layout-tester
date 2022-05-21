@@ -43,21 +43,28 @@ author_mug = "/assets/emmy.png"
 +++
 ```
 
-This might already give you a good idea but let's dive into the specifics.
+This might already give you a good idea but let's now dive into the specifics.
 
 ## Page variables basics
 
 ### Assignment
 
-Page variables can be defined on any page in a dedicated block fenced with '`+++`'.
+Page variables can be defined in any `*.md` file in a dedicated block fenced with '`+++`'.
 We'll call such a block a _def-block_ from now on.
-What is placed inside that block must be valid Julia code and will be evaluated
-as such, all assignments will be extracted.
+We will distinguish:
 
-There can be multiple such blocks anywhere on a page though, typically, there will
-only be one, at the top.
-Here's an example where we define two page variables `a` and `b`, page variables can be
-accessed from within the Markdown itself or in the HTML layout:
+* **global assignments** for any assignment in a def block in the `config.md` file,
+* **local assignments** for any assignment in a def block in another `*.md` file.
+
+We will get back to local and global contexts [a bit further](##local and global contexts).
+
+What is placed inside a def-block must be valid Julia code, and will be evaluated
+as such, all assignments will be extracted.
+There can be multiple (separate) def-blocks on a page though, usually, there will
+only be one, usually at the top of the page.
+
+Here's an example where we define two page variables `a` and `b`.
+The content of a page variable can then be accessed from within the Markdown itself or in the HTML layout:
 
 \showmd{
   +++
@@ -83,9 +90,9 @@ and use code to define variables:
 }
 \lskip
 
-### Usage
+### Insertions and HTML functions
 
-Page variables can be used with the following syntax:
+Page variables can be used with the following general syntax (in markdown files, HTML files, and layout HTML files):
 
 ```
 {{name_of_function name_of_var_1 ...}}
@@ -95,29 +102,75 @@ The case `{{name_of_var}}` is a shortcut for `{{fill name_of_var}}`.
 Note that if there is a clash between the name of a var and the name of a function, the function
 will be called with priority.
 
-The functions called in such a way are called HTML-functions or _hfuns_ for short and can have
+The functions called in such a way are called HTML-functions or _hfuns_ for short, and can have
 zero or more arguments.
-There are several core functions like `fill` and you can define your own as we will show
-[further](#hfuns).
+There are several core functions like `fill` (see also [the relevant section](##HTML functions and environments)),
+and you can define your own using the [utils file](/syntax/utils/).
 
 When inserting a page variable with `{{var_name}}` or `{{fill var_name}}`, the Julia function
-`repr` will be called on the value of `var_name` and that is what will effectively be included.
+`repr` will be called on the value of `var_name`, and that is what will effectively be included.
 For basic Julia types (`Int`, `String`, `Bool`, ...), this will typically look like what you
-would expect but for custom types that you would have defined or that are defined in a package,
+would expect. 
+For custom types that you would have defined, or that are defined in a package,
 you would have to consider what `repr(obj)` returns.
 
 \showmd{
   +++
-  a = true
-  b = [1,2,3]
-  c = Dict(:a => 5, :b => 7)
+  aa = true
+  bb = [1,2,3]
+  cc = Dict(:a => 5, :b => 7)
   +++
 
-  * a: {{a}}
-  * b: {{b}}
-  * c: {{c}}
+  * aa: {{aa}}
+  * bb: {{bb}}
+  * cc: {{cc}}
 }
-\lskip
+
+Observe that the output is placed "raw" (not in a HTML code block).
+
+\note{
+  Inside a code block, `{` and `}` are escaped which means that you cannot directly have insertions in those.
+  For instance:
+  \lskip
+  \showmd{
+    ```
+    {{aa}}
+    ```
+  }
+}
+
+While here we mostly showed you examples where the insertion was done in the Markdown (so that you could directly
+see the result), insertions are typically very useful in the `_layout`.
+For instance you may want to fill `<meta>` tags in your layout with information that you define in your `config.md`.
+
+For instance say that in your `config.md` you have
+
+```
++++
+site_author = "The Author"
+site_title = "The site title"
+site_descr  = "Description of the website"
++++
+```
+
+In the layout you might have
+
+```html
+...
+<head>
+  ...
+  <meta name="author" content="{{site_author}}">
+  <meta name="description" content="{{site_descr}}">
+  <meta name="twitter:title" content="{{site_title}}">
+  ...
+</head>
+...
+```
+
+See also [this article](https://css-tricks.com/essential-meta-tags-social-media/) on setting meta tags (a useful thing to do if you want your website to show up nicely on social media etc.).
+
+
+
 
 ### Local and global contexts
 
@@ -134,10 +187,11 @@ also the [next point](##cross page vars)).
 When a variable is defined at both levels, the local one takes precedence.
 
 
+
 \label{cross page vars}
 ### Accessing variables defined on another page
 
-You can fill the content of a page variable defined on another page with
+You can fill the content of a page variable defined on _another_ page with
 
 ```
 {{fill var_name relative_path}}
@@ -155,6 +209,31 @@ For instance both the current page and `/syntax/basics.md` define a variable `he
 
 The path is relative to the website folder.
 You can add a `/` at the start and a `.md` at the end but it's not required.
+
+
+### Multiple def-blocks
+
+Though you would typically have only one def-block with all your assignments, in the case where you
+find it convenient to have multiple ones on a page, it is important to understand that the page
+variable assignments are read in one pass, and that their eventual insertion is done in a later pass.
+
+This means that if you define a variable twice on the same page, the first assignment will be ignored.
+This is best seen with a small example:
+
+\showmd{
+  +++
+  var1 = 0
+  +++
+  * {{var1}}
+  +++
+  var1 = 1
+  +++
+  * {{var1}}
+}
+
+The def-blocks are all executed in a first pass (so that, in the example above, `var1 == 1`), and the
+insertion (resolution of the `{{...}}`) is done _after_ that, which is why the result is `1` both times.
+
 
 ## Default variables
 
@@ -176,7 +255,7 @@ You don't have to use or set any of those unless you find one useful.
 | `ignore_cache` | `Bool` | if `true` re-evaluate all the code on the page on first pass |
 | `mintoclevel` | `1` | minimum heading level to add to the table of contents |
 | `maxtoclevel` | `6` | maximum heading level to add to the table of contents |
-| `showall` | `true` | show the output of every executed code blocks |
+| `showall` | `true` | show the output of every auto-executed code blocks |
 | `fn_title` | `"Notes"` | heading of the footnotes section |
 
 \lskip
@@ -284,23 +363,6 @@ might be irrelevant for you.
 | `tags_prefix`  | `"tags"` | tags will be at `/tags/...`|
 | `tabs_tospaces`  | `2` | conversion tabs to spaces in list creation |
 
-
-Same as for local variables, there is a set of default global variables that are used by Franklin and
-which you should, generally, not set yourself though you might want to access them.
-
-| Variable name | Default value | Purpose / comment |
-| ------------- | ------------- | ------- |
-| `_offset_lxdefs` |  |  |
-| `_paths` |  |  |
-| `_idx_rpath` |  |  |
-| `_idx_ropath` |  |  |
-|`_utils_hfun_names` |  |  |
-|`_utils_lxfun_names` |  |  |
-|`_utils_envfun_names` |  |  |
-|`_utils_var_names` |  |  |
-|`_refrefs` |  |  |
-|`_bibrefs` |  |  |
-
 \\
 For legacy purposes, a number of these variables have aliases:
 
@@ -313,7 +375,7 @@ For legacy purposes, a number of these variables have aliases:
 | `website_title` | `rss_website_title` |
 | `website_description` | `rss_website_descr` |
 | `website_descr` | `rss_website_descr` |
-
+\lskip
 
 \label{hfuns}
 ## HTML functions and environments
@@ -494,7 +556,7 @@ derived iterator that you'd wish to go over:
 
 If the default functions and environments, possibly coupled with e-strings are
 not enough for your use case or are starting to feel a bit clunky, it's time
-to move on to [writing custom hfuns](/syntax/utils/).
+to move on to [writing custom hfuns](/syntax/utils/#custom_hfuns).
 
 This approach allows you to write `{{your_function p1 p2 ...}}` where
 `your_function` maps to a Julia function that you define and that produces a
