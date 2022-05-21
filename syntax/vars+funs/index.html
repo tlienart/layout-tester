@@ -294,6 +294,11 @@ a.fn-hook-btn:hover {
 	color: var(--col-dark);
 }
 
+.lskip {
+  display: block;
+  height: 1em;
+}
+
 /*  ====================================================================================
     CODE AND HLJS 
  ==================================================================================== */
@@ -1174,10 +1179,10 @@ Build-date: &lbrace;&lbrace;todays_date&rbrace;&rbrace;.</code></pre>
 
 <div class="trim">
 
-  <fieldset class="md-result"><legend class="md-result-legend">result</legend>Build-date: 2022-05-19.</fieldset>
+  <fieldset class="md-result"><legend class="md-result-legend">result</legend>Build-date: 2022-05-21.</fieldset>
 
 </div>
-<div style="height:1em;"></div><h3 id="usage" ><a href="#usage"> Usage</a></h3><p>Page variables can be used with the following syntax:</p>
+<div class="lskip"> </div><h3 id="usage" ><a href="#usage"> Usage</a></h3><p>Page variables can be used with the following syntax:</p>
 <pre><code class="julia">&lbrace;&lbrace;name_of_function name_of_var_1 ...&rbrace;&rbrace;</code></pre>
 <p>The case <code>&lbrace;&lbrace;name_of_var&rbrace;&rbrace;</code> is a shortcut for <code>&lbrace;&lbrace;fill name_of_var&rbrace;&rbrace;</code>.
 Note that if there is a clash between the name of a var and the name of a function, the function
@@ -1218,7 +1223,7 @@ c = Dict(:a =&gt; 5, :b =&gt; 7)
 </fieldset>
 
 </div>
-<div style="height:1em;"></div><h3 id="local_and_global_contexts" ><a href="#local_and_global_contexts"> Local and global contexts</a></h3><p>In a Franklin session there is a <em>global</em> (site-wide) context and a set of <em>local</em> (page-related)
+<div class="lskip"> </div><h3 id="local_and_global_contexts" ><a href="#local_and_global_contexts"> Local and global contexts</a></h3><p>In a Franklin session there is a <em>global</em> (site-wide) context and a set of <em>local</em> (page-related)
 contexts which are attached to it.
 Page variables can be assigned at both levels.
 You have already seen how to do so at a page-level by just adding a <code>+++...+++</code> block in
@@ -1256,7 +1261,7 @@ You can add a <code>/</code> at the start and a <code>.md</code> at the end but 
 <h2 id="default_variables" ><a href="#default_variables"> Default variables</a></h2><p>Franklin defines a number of page variables with default values that
 you can use and overwrite.
 You don't have to use or set any of those unless you find one useful.</p>
-<h3 id="local_variables" ><a href="#local_variables"> Local variables</a></h3><div style="height:1em;"></div><table class="pure-table">
+<h3 id="local_variables" ><a href="#local_variables"> Local variables</a></h3><div class="lskip"> </div><table class="pure-table">
 <thead>
 <th > Variable name </th>
 <th > Default value </th>
@@ -1315,7 +1320,7 @@ You don't have to use or set any of those unless you find one useful.</p>
 </tr>
 </tbody>
 </table>
-<div style="height:1em;"></div><p>The <code>slug</code> variable allows you to specify an explicit secondary output location
+<div class="lskip"> </div><p>The <code>slug</code> variable allows you to specify an explicit secondary output location
 for the page.
 For instance if you're currently working on a page <code>a/b/c.md</code>, the default output
 path will be such that the relevant page can be addressed at <code>/a/b/c/</code>.

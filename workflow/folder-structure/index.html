@@ -294,6 +294,11 @@ a.fn-hook-btn:hover {
 	color: var(--col-dark);
 }
 
+.lskip {
+  display: block;
+  height: 1em;
+}
+
 /*  ====================================================================================
     CODE AND HLJS 
  ==================================================================================== */
@@ -1210,7 +1215,7 @@ generating a file in the <code>__site/</code> folder and, ultimately, the corres
 <p>For URLs, recall that if we write <code>/foo/bar/</code> the browser resolves this as <code>/foo/bar/index.html</code> (so the source file is at <code>/foo/bar/index.html</code> but users can access the page at <code>/foo/bar/</code>).
 Also, if the <a href="/layout-tester/workflow/deployment/#setting_the_base_url_prefix"><code>base_url_prefix</code></a> is <code>&quot;PREFIX&quot;</code> then <code>/foo/bar/</code> will be <code>PREFIX/foo/bar/</code> online (in the table below we assume the prefix is <code>&quot;&quot;</code>).</p>
 <p>For <strong><code>.md</code></strong> and <strong><code>.html</code></strong> files:</p>
-<div style="height:1em;"></div><table class="pure-table">
+<div class="lskip"> </div><table class="pure-table">
 <thead>
 <th > Source </th>
 <th > <code>__site/</code> folder </th>
@@ -1249,10 +1254,10 @@ Also, if the <a href="/layout-tester/workflow/deployment/#setting_the_base_url_p
 </tr>
 </tbody>
 </table>
-<div style="height:1em;"></div><p>Observe that there is an ambiguity between a file placed at <code>foo.md</code> and <code>foo/index.md</code>.
+<div class="lskip"> </div><p>Observe that there is an ambiguity between a file placed at <code>foo.md</code> and <code>foo/index.md</code>.
 You should pick one of the two based on what makes most sense for your folder structure, but you should not use both simultaneously.</p>
 <p>For other files (images etc):</p>
-<div style="height:1em;"></div><table class="pure-table">
+<div class="lskip"> </div><table class="pure-table">
 <thead>
 <th > Source </th>
 <th > <code>__site/</code> folder </th>
@@ -1281,7 +1286,7 @@ You should pick one of the two based on what makes most sense for your folder st
 </tr>
 </tbody>
 </table>
-<div style="height:1em;"></div><p><strong>Note</strong>: in some cases you will want some paths to be kept <em>as is</em>. This can be done with the global page variable <code>keep_path</code>. For instance with things like Google Analytics, you may have to prove ownership of your site by placing a custom HTML file in a given location (see <a href="https://support.google.com/webmasters/answer/9008080#html_verification">this tutorial</a>).
+<div class="lskip"> </div><p><strong>Note</strong>: in some cases you will want some paths to be kept <em>as is</em>. This can be done with the global page variable <code>keep_path</code>. For instance with things like Google Analytics, you may have to prove ownership of your site by placing a custom HTML file in a given location (see <a href="https://support.google.com/webmasters/answer/9008080#html_verification">this tutorial</a>).
 For such cases you would indicate <code>keep_path=[&quot;the/path.html&quot;]</code> and Franklin would respect that:</p>
 <pre><code class="plaintext"># source
 the/path.html
@@ -1294,7 +1299,7 @@ the/path.html    # (instead of the/path/index.html)</code></pre>
 <p>Further to the global page variable <code>keep_path</code>, you can also use the page variable <code>slug</code> which
 offers you a way to indicate a secondary output path for a file thereby making it available at
 another URL. The table below should clarify this:</p>
-<div style="height:1em;"></div><table class="pure-table">
+<div class="lskip"> </div><table class="pure-table">
 <thead>
 <th > Source </th>
 <th > Slug </th>
@@ -1316,7 +1321,7 @@ another URL. The table below should clarify this:</p>
 </tr>
 </tbody>
 </table>
-<div style="height:1em;"></div><h2 id="css_and_js" ><a href="#css_and_js"> CSS and JS</a></h2><p>The files in the <code>_css/</code> and <code>_libs/</code> folder are copied over to <code>__site/css/</code> and
+<div class="lskip"> </div><h2 id="css_and_js" ><a href="#css_and_js"> CSS and JS</a></h2><p>The files in the <code>_css/</code> and <code>_libs/</code> folder are copied over to <code>__site/css/</code> and
 <code>__site/libs/</code> respectively.
 For instance, let's say that you have</p>
 <ul>
@@ -1331,7 +1336,7 @@ For instance, let's say that you have</p>
 <p>You can refer to them in your layout e.g. as:</p>
 <pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/layout.css&quot;&gt;
 &lt;script src=&quot;/libs/ui/menu.min.js&quot;&gt;&lt;/script&gt;</code></pre>
-<div style="height:1em;"></div><fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
+<div class="lskip"> </div><fieldset class="tip"><legend class="tip-legend">🚀 Tip</legend>
 
 You should not specify the base url prefix anywhere else than in your <code>config.md</code>.
 Franklin will automatically fix paths for you to take it into account.

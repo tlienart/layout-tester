@@ -294,6 +294,11 @@ a.fn-hook-btn:hover {
 	color: var(--col-dark);
 }
 
+.lskip {
+  display: block;
+  height: 1em;
+}
+
 /*  ====================================================================================
     CODE AND HLJS 
  ==================================================================================== */
@@ -1103,28 +1108,31 @@ website folder. For instance let's say you want to use <code>CSV</code> and <cod
 <pre><code class="julia-repl">julia&gt; using Pkg; Pkg.activate(&quot;path/to/website/folder&quot;)
 julia&gt; Pkg.add([&quot;CSV&quot;, &quot;DataFrames&quot;])</code></pre>
 <p>It's important your website folder has its dedicated environment.
-Especially if you use continuous integration (CI, e.g. GitHub Actions)
+Especially if you use continuous integration (CI, e.g. with GitHub Actions)
 to build and deploy the website as that CI will need a correct <code>Project.toml</code>
 to load the packages needed to properly build the website.</p>
+<p>Once that's in place, you can use packages as per usual in Julia:</p>
 <pre><code class="julia">using DataFrames
 df = DataFrame(A=1:4, B=[&quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;])</code></pre>
-<div class="code-output"><div class="data-frame"><p>4 rows × 2 columns</p><table class="data-frame"><thead><tr><th></th><th>A</th><th>B</th></tr><tr><th></th><th title="Int64">Int64</th><th title="String">String</th></tr></thead><tbody><tr><th>1</th><td>1</td><td>M</td></tr><tr><th>2</th><td>2</td><td>F</td></tr><tr><th>3</th><td>3</td><td>F</td></tr><tr><th>4</th><td>4</td><td>M</td></tr></tbody></table></div></div><div style="height:1em;"></div><h3 id="cache_and_packages" ><a href="#cache_and_packages"> Cache and packages</a></h3><p>If you start a new Julia session and have a page where some code uses a package
-(say <code>DataFrames</code>) and you add a new code block at the end of the page, only that
-code will be executed and, therefore, won't have access to <code>DataFrames</code> unless
-you re-evaluate the whole page <strong>or</strong> you explicitly add <code>using DataFrames</code> in that
+<div class="code-output"><div class="data-frame"><p>4 rows × 2 columns</p><table class="data-frame"><thead><tr><th></th><th>A</th><th>B</th></tr><tr><th></th><th title="Int64">Int64</th><th title="String">String</th></tr></thead><tbody><tr><th>1</th><td>1</td><td>M</td></tr><tr><th>2</th><td>2</td><td>F</td></tr><tr><th>3</th><td>3</td><td>F</td></tr><tr><th>4</th><td>4</td><td>M</td></tr></tbody></table></div></div><div class="lskip"> </div><h3 id="cache_and_packages" ><a href="#cache_and_packages"> Cache and packages</a></h3><p>If you start a new Julia session and have a page where some code uses a package
+(say <code>DataFrames</code>), and you add a new code block at the end of the page, only that
+code will be executed. 
+Therefore it won't have access to <code>DataFrames</code> <strong>unless</strong>
+you re-evaluate the whole page, or you explicitly add <code>using DataFrames</code> in that
 new cell (possibly with a <code># hide</code> if you don't want to show it multiple times).</p>
 <p>Alternatively, you can (same as when you encounter errors):</p>
 <ul>
 <li>set the current page to ignore the cache at the start of the server by setting
-the page variable <code>ignore_cache</code> to <code>true</code> and restart the server,</li>
+the page variable <code>ignore_cache</code> to <code>true</code>, and restart the server,</li>
 <li>clear the entire site cache.</li>
 </ul>
 <h2 id="environments" ><a href="#environments"> Environments</a></h2><p>It can be convenient to activate a specific environment for the code to be executed on a page.
-The <code>\activate&lbrace;some/path/&rbrace;</code> command allows you to specify a (unix-style) relative path to the website folder where a specific <code>Project.toml</code> file resides.
-Effectvely this will have the same effect as calling <code>Pkg.activate(...)</code> inside a code-cell.</p>
-<p>If you leave the path empty or just use a single <code>.</code> (<code>\activate&lbrace;&rbrace;</code> or <code>\activate&lbrace;.&rbrace;</code>), Franklin will try to activate the directory that contains the page being currently built.</p>
+The <code>\activate&lbrace;some/path/&rbrace;</code> command allows you to specify a (unix-style i.e. with '<code>/</code>') relative path
+to the website folder where a specific <code>Project.toml</code> file resides.
+Effectvely this will have the same effect as calling <code>Pkg.activate(...)</code> inside a code-cell on the page.</p>
+<p>If you leave the path empty or just use a single <code>.</code> (i.e. <code>\activate&lbrace;&rbrace;</code> or <code>\activate&lbrace;.&rbrace;</code>), Franklin will try to activate the directory that contains the page being currently built.</p>
 <p>All evaluated code cells following the <code>activate</code> command will be executed in the relevant environment.
-Whenever a page build is finished, the "parent" environment is re-activated (this would correspond to the website folder environment if there's a <code>Project.toml</code> file there, or just the Main environment otherwise).</p>
+Whenever a page build is finished, the <em>parent environment</em> is re-activated (this would correspond to the website folder environment if there's a <code>Project.toml</code> file there, or just the <code>Main</code> environment otherwise).</p>
 <p>For instance in the following scenario:</p>
 <pre><code class="julia">website
 ├── A
@@ -1137,19 +1145,24 @@ Whenever a page build is finished, the "parent" environment is re-activated (thi
 ├── _layout
 ├── ...
 └── index.md</code></pre>
-<p>you might have both <code>website/A/index.md</code> and <code>website/B/index.md</code> the command <code>\activate&lbrace;.&rbrace;</code>, which will activate respectively <code>website/A/Project.toml</code> and <code>website/B/Project.toml</code>.
+<p>you might have both <code>website/A/index.md</code>, and <code>website/B/index.md</code>, with the command <code>\activate&lbrace;.&rbrace;</code>, which will activate respectively <code>website/A/Project.toml</code>, and <code>website/B/Project.toml</code>.
 Once either <code>A</code> or <code>B</code> has finished building, the main environment at <code>website/Project.toml</code> will be re-activated.</p>
 <fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
 
-There are Julia-based limitations to switching environments within a single session, and which version of the packages will be used.Generally, assume that it is not possible to switch environment with different version compatibility requirements in terms of a given package.
-So for instance if you hope to use <code>MyPkg@0.5</code> on page <code>A.md</code> and <code>MyPkg@0.6</code> on page <code>B.md</code>, things might not work as you hope.To keep things easy, ensure that your website environment and page environments don't have version clashes.
+There are <a href="https://github.com/JuliaLang/julia/issues/35663">Julia-based limitations</a> when switching environments within a single session, specifically in terms
+of what version of the packages will be used.
+ <div class="lskip"> </div>
+Generally, assume that it is not possible to switch environment with different version compatibility requirements in terms of a given package.
+So for instance if you hope to use <code>MyPkg@0.5</code> on page <code>A.md</code> and <code>MyPkg@0.6</code> on page <code>B.md</code>, things might not work as you hope.
+ <div class="lskip"> </div>
+<strong>TLDR</strong>: to keep things easy, ensure that your website environment, and page environments don't have version clashes.
 
 </fieldset><h2 id="more_examples" ><a href="#more_examples"> More examples</a></h2><p>You'll find here a few toy examples of what can be done with executed
 code cells, hopefully it will give you some inspiration for what you might do with
 them yourself!</p>
 <h3 id="generating_a_table" ><a href="#generating_a_table"> Generating a table</a></h3><p>In this example we use code to generate the Markdown representation of a table and use
 <code>\mdshow</code> to show the result.
-You could combine such an example with <code>CSV</code> to read data from a file for instance.</p>
+You could combine such an example with the <a href="https://github.com/JuliaData/CSV.jl">CSV package</a> to read data from a file for instance.</p>
 <div class="trim">
 
 <fieldset class="md-input"><legend class="md-input-legend">markdown</legend><pre><code class="plaintext">```!ex-gen-table
@@ -1263,17 +1276,19 @@ println(&quot;@@&quot;)
 
 </div><p>The CSS corresponding to <code>ccols</code> is</p>
 <pre><code class="css">.ccols &lbrace;
-  margin-top:1.5em;
-  margin-bottom:1.5em;
-  margin-left:auto;
-  margin-right:auto;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  margin-left: auto;
+  margin-right: auto;
   width: 60%;
-  text-align: center;&rbrace;
+  text-align: center;
+&rbrace;
 .ccols svg &lbrace;
-  width:30px;&rbrace;</code></pre>
-<h3 id="team_cards" ><a href="#team_cards"> Team cards</a></h3><p>You may want to have a page with responsive team cards for instance where every card would
-follow the same layout but the content would be different.
-There are multiple ways you can do this with Franklin and a simple one below
+  width: 30px;
+&rbrace;</code></pre>
+<h3 id="team_cards" ><a href="#team_cards"> Team cards</a></h3><p>You may want to have a page with responsive team cards where every card would
+follow the same layout, but the content would be different.
+There are multiple ways you can do this with Franklin, and we show a simple one below
 (adapted from <a href="https://www.w3schools.com/howto/howto_css_team.asp">this tutorial</a>).
 The advantage of doing something like this is that it can help separate the content
 from the layout making both arguably easier to maintain.</p>
@@ -1423,35 +1438,45 @@ println(&quot;@@ @@&quot;) # end of cards + row
 
 </div><p>The CSS used here is</p>
 <pre><code class="css">.column &lbrace;
-  float:left;
-  width:30%;
-  margin-bottom:16px;
-  padding:0 8px; &rbrace;
+  float: left;
+  width: 30%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+&rbrace;
 @media (max-width:62rem) &lbrace;
   .column &lbrace;
-    width:45%;
-    display:block; &rbrace;
+    width: 45%;
+    display: block;
   &rbrace;
+&rbrace;
 @media (max-width:30rem)&lbrace;
   .column &lbrace;
-    width:95%;
-    display:block;&rbrace;
+    width: 95%;
+    display: block;
   &rbrace;
-.card &lbrace; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); &rbrace;
+&rbrace;
+.card &lbrace;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+&rbrace;
 .card img &lbrace;
-  padding-left:0;
-  width: 100%; &rbrace;
-.container &lbrace; padding: 0 16px; &rbrace;
-.container::after, .row::after&lbrace;
+  padding-left: 0;
+  width: 100%;
+&rbrace;
+.container &lbrace;
+  padding: 0 16px;
+&rbrace;
+.container::after, .row::after &lbrace;
   content: &quot;&quot;;
   clear: both;
-  display: table; &rbrace;
+  display: table;
+&rbrace;
 .title &lbrace; color: grey; &rbrace;
 .vitae &lbrace; margin-top: 0.5em; &rbrace;
 .email &lbrace;
   font-family: courier;
   margin-top: 0.5em;
-  margin-bottom: 0.5em; &rbrace;
+  margin-bottom: 0.5em;
+&rbrace;
 .button&lbrace;
   border: none;
   outline: 0;
@@ -1461,8 +1486,11 @@ println(&quot;@@ @@&quot;) # end of cards + row
   background-color: #000;
   text-align: center;
   cursor: pointer;
-  width: 100%; &rbrace;
-.button:hover&lbrace; background-color: #555; &rbrace;</code></pre>
+  width: 100%;
+&rbrace;
+.button:hover&lbrace;
+  background-color: #555;
+&rbrace;</code></pre>
 <h3 id="executing_python_code" ><a href="#executing_python_code"> Executing Python code</a></h3><p>Using <a href="https://github.com/JuliaPy/PyCall.jl">PyCall</a> you can evaluate Python code in Julia, and so you can do that in Franklin too.
 The simple example below shows how that can work (you could do something similar with <a href="https://github.com/JuliaInterop/RCall.jl">RCall</a> too).</p>
 <div class="trim">
@@ -1536,7 +1564,7 @@ Stacktrace:
 </code></pre></div></fieldset>
 
 </div><p>The <code>replace</code> line in the code block adds a <code>res = ...</code> before the last line
-so that the result can be shown, cf. the <a href="https://github.com/JuliaPy/PyCall.jl">PyCall</a> docs.</p>
+so that the result can be shown, cf. [PyCall docs].</p>
 <fieldset class="note"><legend class="note-legend">⚠️ Note</legend>
 
 It's up to you to make sure that <a href="https://github.com/JuliaPy/PyCall.jl">PyCall</a> works well in your Julia session and that

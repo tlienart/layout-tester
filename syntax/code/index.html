@@ -294,6 +294,11 @@ a.fn-hook-btn:hover {
 	color: var(--col-dark);
 }
 
+.lskip {
+  display: block;
+  height: 1em;
+}
+
 /*  ====================================================================================
     CODE AND HLJS 
  ==================================================================================== */
@@ -1156,7 +1161,7 @@ At the moment, only Julia code can be executed, though of course you can use
 This is <a href="/layout-tester/syntax/code-2/#executing_python_code">illustrated in the examples</a>.
 
 </fieldset>
-<div style="height:1em;"></div><h2 id="syntax_for_executable_code_blocks" ><a href="#syntax_for_executable_code_blocks"> Syntax for executable code blocks</a></h2><p>Beyond the syntax introduced briefly above, there are several other ways of indicating
+<div class="lskip"> </div><h2 id="syntax_for_executable_code_blocks" ><a href="#syntax_for_executable_code_blocks"> Syntax for executable code blocks</a></h2><p>Beyond the syntax introduced briefly above, there are several other ways of indicating
 that a fenced code block should be executed:</p>
 <ul>
 <li><code>&#96;&#96;&#96;</code><code>julia:name</code> &mdash; the language and the name of the block are explicit,</li>
@@ -1256,7 +1261,7 @@ randstring(5)
 <div class="trim">
 
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><pre><code class="julia">randstring(5)</code></pre>
-<div class="code-output"><pre><code class="code-result language-plaintext">"sFzDy"</code></pre></div></fieldset>
+<div class="code-output"><pre><code class="code-result language-plaintext">"ozSCP"</code></pre></div></fieldset>
 
 </div><div class="trim">
 
@@ -1278,7 +1283,7 @@ true
   <fieldset class="md-result"><legend class="md-result-legend">result</legend><div class="code-output"><pre><code class="code-stdout language-plaintext">12
 </code></pre><pre><code class="code-result language-plaintext">true</code></pre></div></fieldset>
 
-</div><div style="height:1em;"></div><h3 id="mock_lines" ><a href="#mock_lines"> Mock lines</a></h3><p>In some cases you might want to show a line of code without it being run.
+</div><div class="lskip"> </div><h3 id="mock_lines" ><a href="#mock_lines"> Mock lines</a></h3><p>In some cases you might want to show a line of code without it being run.
 The example below should make this clearer:</p>
 <pre><code class="julia">data = fetch(&quot;./tests/data.txt&quot;) # &lt;-- depends on your setup
 data = fetch(&quot;/user/$name/api&quot;)  # &lt;-- what the user should do
@@ -1701,7 +1706,7 @@ y = @. sin(exp(x)) * sinc(x)
 figure(figsize=(6, 4))
 plot(x, y)
 gcf()</code></pre>
-<div class="code-output"><pre><code class="code-stderr language-plaintext">LoadError: InitError: PyCall.PyError("PyImport_ImportModule\n\nThe Python package matplotlib could not be imported by pyimport. Usually this means\nthat you did not install matplotlib in the Python version being used by PyCall.\n\nPyCall is currently configured to use the Python version at:\n\n/usr/bin/python3\n\nand you should use whatever mechanism you usually use (apt-get, pip, conda,\netcetera) to install the Python package containing the matplotlib module.\n\nOne alternative is to re-configure PyCall to use a different Python\nversion on your system: set ENV[\"PYTHON\"] to the path/name of the python\nexecutable you want to use, run Pkg.build(\"PyCall\"), and re-launch Julia.\n\nAnother alternative is to configure PyCall to use a Julia-specific Python\ndistribution via the Conda.jl package (which installs a private Anaconda\nPython distribution), which has the advantage that packages can be installed\nand kept up-to-date via Julia.  As explained in the PyCall documentation,\nset ENV[\"PYTHON\"]=\"\", run Pkg.build(\"PyCall\"), and re-launch Julia. Then,\nTo install the matplotlib module, you can use `pyimport_conda(\"matplotlib\", PKG)`,\nwhere PKG is the Anaconda package that contains the module matplotlib,\nor alternatively you can use the Conda package directly (via\n`using Conda` followed by `Conda.add` etcetera).\n\n", PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x00007f9f3297ade0), PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x00007f9f50587900), PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x0000000000000000))
+<div class="code-output"><pre><code class="code-stderr language-plaintext">LoadError: InitError: PyCall.PyError("PyImport_ImportModule\n\nThe Python package matplotlib could not be imported by pyimport. Usually this means\nthat you did not install matplotlib in the Python version being used by PyCall.\n\nPyCall is currently configured to use the Python version at:\n\n/usr/bin/python3\n\nand you should use whatever mechanism you usually use (apt-get, pip, conda,\netcetera) to install the Python package containing the matplotlib module.\n\nOne alternative is to re-configure PyCall to use a different Python\nversion on your system: set ENV[\"PYTHON\"] to the path/name of the python\nexecutable you want to use, run Pkg.build(\"PyCall\"), and re-launch Julia.\n\nAnother alternative is to configure PyCall to use a Julia-specific Python\ndistribution via the Conda.jl package (which installs a private Anaconda\nPython distribution), which has the advantage that packages can be installed\nand kept up-to-date via Julia.  As explained in the PyCall documentation,\nset ENV[\"PYTHON\"]=\"\", run Pkg.build(\"PyCall\"), and re-launch Julia. Then,\nTo install the matplotlib module, you can use `pyimport_conda(\"matplotlib\", PKG)`,\nwhere PKG is the Anaconda package that contains the module matplotlib,\nor alternatively you can use the Conda package directly (via\n`using Conda` followed by `Conda.add` etcetera).\n\n", PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x00007fa33ef95de0), PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x00007fa36f2dd900), PyCall.PyObject(Ptr{PyCall.PyObject_struct} @0x0000000000000000))
 Stacktrace:
   [1] pyimport(name::String)
     @ PyCall ~/.julia/packages/PyCall/7a7w0/src/PyCall.jl:550
@@ -1728,7 +1733,7 @@ Stacktrace:
  [12] include_string
     @ ./loading.jl:1180 [inlined]
  [13] #61
-    @ ~/.julia/packages/Xranklin/NwRZK/src/context/code/notebook_code.jl:178 [inlined]
+    @ ~/.julia/packages/Xranklin/GaiXX/src/context/code/notebook_code.jl:178 [inlined]
  [14] (::IOCapture.var"#3#5"{DataType, Xranklin.var"#61#62"{Module, String}, Task, IOContext{Base.PipeEndpoint}, IOContext{Base.PipeEndpoint}, Base.PipeEndpoint, Base.PipeEndpoint})()
     @ IOCapture ~/.julia/packages/IOCapture/sXY71/src/IOCapture.jl:118
  [15] with_logstate(f::Function, logstate::Any)
@@ -1740,11 +1745,11 @@ Stacktrace:
  [18] capture
     @ ~/.julia/packages/IOCapture/sXY71/src/IOCapture.jl:75 [inlined]
  [19] _eval_code_cell(mdl::Module, code::String, cell_name::String)
-    @ Xranklin ~/.julia/packages/Xranklin/NwRZK/src/context/code/notebook_code.jl:177
+    @ Xranklin ~/.julia/packages/Xranklin/GaiXX/src/context/code/notebook_code.jl:177
  [20] eval_code_cell!(ctx::Xranklin.LocalContext, cell_code::SubString{String}, cell_name::String; imgdir_html::String, imgdir_latex::String, force::Bool, indep::Bool)
-    @ Xranklin ~/.julia/packages/Xranklin/NwRZK/src/context/code/notebook_code.jl:114
+    @ Xranklin ~/.julia/packages/Xranklin/GaiXX/src/context/code/notebook_code.jl:114
  [21] html_code_block(b::FranklinParser.Block, lc::Xranklin.LocalContext)
-    @ Xranklin ~/.julia/packages/Xranklin/NwRZK/src/convert/markdown/rules/code.jl:242</code></pre></div><p>Note that it's the figure object that is showable as SVG in PyPlot and so we must do
+    @ Xranklin ~/.julia/packages/Xranklin/GaiXX/src/convert/markdown/rules/code.jl:242</code></pre></div><p>Note that it's the figure object that is showable as SVG in PyPlot and so we must do
 <code>gcf()</code> here to have it be the effective result of the cell and have the plot shown.</p>
 <h3 id="html_show" ><a href="#html_show"> HTML show</a></h3><p>Some packages define objects with dedicated <code>show</code> methods for <code>MIME&quot;text/html&quot;</code>,
 in that case the corresponding <code>show</code> method is called and the HTML shown.
@@ -1757,7 +1762,7 @@ df = DataFrame(
     gender = [&quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;M&quot;]
   )
 )</code></pre>
-<div class="code-output"><div class="data-frame"><p>4 rows × 3 columns</p><table class="data-frame"><thead><tr><th></th><th>names</th><th>age</th><th>gender</th></tr><tr><th></th><th title="String">String</th><th title="Int64">Int64</th><th title="String">String</th></tr></thead><tbody><tr><th>1</th><td>Vlad</td><td>50</td><td>M</td></tr><tr><th>2</th><td>Martha</td><td>34</td><td>F</td></tr><tr><th>3</th><td>Hasan</td><td>23</td><td>M</td></tr><tr><th>4</th><td>Carl</td><td>42</td><td>M</td></tr></tbody></table></div></div><div style="height:1em;"></div><h3 id="custom_show" ><a href="#custom_show"> Custom show</a></h3><p>If you have defined a custom <code>html_show(r)</code> in your <code>Utils</code> that accepts an object of the type
+<div class="code-output"><div class="data-frame"><p>4 rows × 3 columns</p><table class="data-frame"><thead><tr><th></th><th>names</th><th>age</th><th>gender</th></tr><tr><th></th><th title="String">String</th><th title="Int64">Int64</th><th title="String">String</th></tr></thead><tbody><tr><th>1</th><td>Vlad</td><td>50</td><td>M</td></tr><tr><th>2</th><td>Martha</td><td>34</td><td>F</td></tr><tr><th>3</th><td>Hasan</td><td>23</td><td>M</td></tr><tr><th>4</th><td>Carl</td><td>42</td><td>M</td></tr></tbody></table></div></div><div class="lskip"> </div><h3 id="custom_show" ><a href="#custom_show"> Custom show</a></h3><p>If you have defined a custom <code>html_show(r)</code> in your <code>Utils</code> that accepts an object of the type
 of the result of a code block and returns a string, then that will be used to represent the
 result on the page.</p>
 <p>For instance in the <code>utils.jl</code> for the present website, we've defined</p>
@@ -1787,7 +1792,7 @@ Utils.Foo(1)
 Remember that you can refer to any object defined in <code>utils.jl</code> with the syntax <code>Utils.$name_of_object</code>.
 
 </fieldset>
-<div style="height:1em;"></div><h3 id="showing_the_output_as_markdown/html" ><a href="#showing_the_output_as_markdown/html"> Showing the output as Markdown/HTML</a></h3><p>In some cases it can be convenient to use a code block to generate some markdown (resp. HTML).
+<div class="lskip"> </div><h3 id="showing_the_output_as_markdown/html" ><a href="#showing_the_output_as_markdown/html"> Showing the output as Markdown/HTML</a></h3><p>In some cases it can be convenient to use a code block to generate some markdown (resp. HTML).
 One way is to define a <a href="/layout-tester/syntax/utils/">utils function</a> but you can also use the <code>\mdshow</code> (resp. <code>\htmlshow</code>) command
 which interprets the output of <code>stdout</code> and the string representation of the result as Markdown.</p>
 <p>Here's a simple illustration:</p>
@@ -1874,7 +1879,7 @@ Stacktrace:
 </code></pre></div></fieldset>
 
 </div>
-<div style="height:1em;"></div><a href="/layout-tester/syntax/code-2/">Next page</a>
+<div class="lskip"> </div><a href="/layout-tester/syntax/code-2/">Next page</a>
 
             
 
