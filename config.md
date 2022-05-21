@@ -150,3 +150,5 @@ a_global_variable = "hello from a global variable!"
 
 
 \newcommand{\kbd}[1]{ ~~~<kbd>#1</kbd>~~~ }
+
+\newcommand{\lskip}{@@lskip @@}

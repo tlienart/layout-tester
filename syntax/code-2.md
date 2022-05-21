@@ -21,9 +21,11 @@ julia> Pkg.add(["CSV", "DataFrames"])
 ```
 
 It's important your website folder has its dedicated environment.
-Especially if you use continuous integration (CI, e.g. GitHub Actions)
+Especially if you use continuous integration (CI, e.g. with GitHub Actions)
 to build and deploy the website as that CI will need a correct `Project.toml`
 to load the packages needed to properly build the website.
+
+Once that's in place, you can use packages as per usual in Julia:
 
 ```!
 using DataFrames
@@ -35,27 +37,29 @@ df = DataFrame(A=1:4, B=["M", "F", "F", "M"])
 ### Cache and packages
 
 If you start a new Julia session and have a page where some code uses a package
-(say `DataFrames`) and you add a new code block at the end of the page, only that
-code will be executed and, therefore, won't have access to `DataFrames` unless
-you re-evaluate the whole page **or** you explicitly add `using DataFrames` in that
+(say `DataFrames`), and you add a new code block at the end of the page, only that
+code will be executed. 
+Therefore it won't have access to `DataFrames` **unless**
+you re-evaluate the whole page, or you explicitly add `using DataFrames` in that
 new cell (possibly with a `# hide` if you don't want to show it multiple times).
 
 Alternatively, you can (same as when you encounter errors):
 
 * set the current page to ignore the cache at the start of the server by setting
-the page variable `ignore_cache` to `true` and restart the server,
+the page variable `ignore_cache` to `true`, and restart the server,
 * clear the entire site cache.
 
 ## Environments
 
 It can be convenient to activate a specific environment for the code to be executed on a page.
-The `\activate{some/path/}` command allows you to specify a (unix-style) relative path to the website folder where a specific `Project.toml` file resides.
-Effectvely this will have the same effect as calling `Pkg.activate(...)` inside a code-cell.
+The `\activate{some/path/}` command allows you to specify a (unix-style i.e. with '`/`') relative path
+to the website folder where a specific `Project.toml` file resides.
+Effectvely this will have the same effect as calling `Pkg.activate(...)` inside a code-cell on the page.
 
-If you leave the path empty or just use a single `.` (`\activate{}` or `\activate{.}`), Franklin will try to activate the directory that contains the page being currently built.
+If you leave the path empty or just use a single `.` (i.e. `\activate{}` or `\activate{.}`), Franklin will try to activate the directory that contains the page being currently built.
 
 All evaluated code cells following the `activate` command will be executed in the relevant environment.
-Whenever a page build is finished, the "parent" environment is re-activated (this would correspond to the website folder environment if there's a `Project.toml` file there, or just the Main environment otherwise).
+Whenever a page build is finished, the _parent environment_ is re-activated (this would correspond to the website folder environment if there's a `Project.toml` file there, or just the `Main` environment otherwise).
 
 For instance in the following scenario:
 
@@ -73,16 +77,17 @@ website
 └── index.md
 ```
 
-you might have both `website/A/index.md` and `website/B/index.md` the command `\activate{.}`, which will activate respectively `website/A/Project.toml` and `website/B/Project.toml`.
+you might have both `website/A/index.md`, and `website/B/index.md`, with the command `\activate{.}`, which will activate respectively `website/A/Project.toml`, and `website/B/Project.toml`.
 Once either `A` or `B` has finished building, the main environment at `website/Project.toml` will be re-activated.
 
 \note{
-  There are Julia-based limitations to switching environments within a single session, and which version of the packages will be used.
-
+  There are [Julia-based limitations](https://github.com/JuliaLang/julia/issues/35663) when switching environments within a single session, specifically in terms
+  of what version of the packages will be used.
+   \lskip
   Generally, assume that it is not possible to switch environment with different version compatibility requirements in terms of a given package.
   So for instance if you hope to use `MyPkg@0.5` on page `A.md` and `MyPkg@0.6` on page `B.md`, things might not work as you hope.
-
-  To keep things easy, ensure that your website environment and page environments don't have version clashes.
+   \lskip
+  **TLDR**: to keep things easy, ensure that your website environment, and page environments don't have version clashes.
 }
 
 
@@ -96,7 +101,7 @@ them yourself!
 
 In this example we use code to generate the Markdown representation of a table and use
 `\mdshow` to show the result.
-You could combine such an example with `CSV` to read data from a file for instance.
+You could combine such an example with the [CSV package](https://github.com/JuliaData/CSV.jl) to read data from a file for instance.
 
 \showmd{
   ```!ex-gen-table
@@ -160,21 +165,23 @@ The CSS corresponding to `ccols` is
 
 ```css
 .ccols {
-  margin-top:1.5em;
-  margin-bottom:1.5em;
-  margin-left:auto;
-  margin-right:auto;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  margin-left: auto;
+  margin-right: auto;
   width: 60%;
-  text-align: center;}
+  text-align: center;
+}
 .ccols svg {
-  width:30px;}
+  width: 30px;
+}
 ```
 
 ### Team cards
 
-You may want to have a page with responsive team cards for instance where every card would
-follow the same layout but the content would be different.
-There are multiple ways you can do this with Franklin and a simple one below
+You may want to have a page with responsive team cards where every card would
+follow the same layout, but the content would be different.
+There are multiple ways you can do this with Franklin, and we show a simple one below
 (adapted from [this tutorial](https://www.w3schools.com/howto/howto_css_team.asp)).
 The advantage of doing something like this is that it can help separate the content
 from the layout making both arguably easier to maintain.
@@ -292,35 +299,45 @@ The CSS used here is
 
 ```css
 .column {
-  float:left;
-  width:30%;
-  margin-bottom:16px;
-  padding:0 8px; }
+  float: left;
+  width: 30%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
 @media (max-width:62rem) {
   .column {
-    width:45%;
-    display:block; }
+    width: 45%;
+    display: block;
   }
+}
 @media (max-width:30rem){
   .column {
-    width:95%;
-    display:block;}
+    width: 95%;
+    display: block;
   }
-.card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); }
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
 .card img {
-  padding-left:0;
-  width: 100%; }
-.container { padding: 0 16px; }
-.container::after, .row::after{
+  padding-left: 0;
+  width: 100%;
+}
+.container {
+  padding: 0 16px;
+}
+.container::after, .row::after {
   content: "";
   clear: both;
-  display: table; }
+  display: table;
+}
 .title { color: grey; }
 .vitae { margin-top: 0.5em; }
 .email {
   font-family: courier;
   margin-top: 0.5em;
-  margin-bottom: 0.5em; }
+  margin-bottom: 0.5em;
+}
 .button{
   border: none;
   outline: 0;
@@ -330,8 +347,11 @@ The CSS used here is
   background-color: #000;
   text-align: center;
   cursor: pointer;
-  width: 100%; }
-.button:hover{ background-color: #555; }
+  width: 100%;
+}
+.button:hover{
+  background-color: #555;
+}
 ```
 
 ### Executing Python code
@@ -376,7 +396,7 @@ The simple example below shows how that can work (you could do something similar
 }
 
 The `replace` line in the code block adds a `res = ...` before the last line
-so that the result can be shown, cf. the [PyCall] docs.
+so that the result can be shown, cf. [PyCall docs].
 
 \note{
   It's up to you to make sure that [PyCall] works well in your Julia session and that
