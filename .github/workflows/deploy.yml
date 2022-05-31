@@ -11,6 +11,7 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v2
+      # https://github.com/tlienart/xranklin-build-action/tags
       - uses: tlienart/xranklin-build-action@v3.2
         with:
           BRANCH: "devwip"
