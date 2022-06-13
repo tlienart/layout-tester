@@ -233,6 +233,12 @@ small screens.
 </style>
 <!-- ===================================================================== -->
 
+<link rel="stylesheet" href="https://files.stork-search.net/releases/v1.5.0/basic.css" />
+<style>
+	/* problem of Z-index or something, somehow the menu gets displayed above */
+</style>
+
+
 <!-- Menu button -->
 <a href="#menu" id="menuLink" class="menu-link">
 	<div class="v-spacer-menulink"></div>
@@ -252,10 +258,16 @@ small screens.
 
 	<div class="pure-menu">
 		<div id="menu-top">
-			<form id="lunrSearchForm" name="lunrSearchForm">
+			<!-- <form id="lunrSearchForm" name="lunrSearchForm">
 				<input class="search-input" name="q" placeholder="Search the docs..." type="text">
 				<input type="submit" value="🔍" formaction="/search/index.html">
-			</form>
+			</form> -->
+			<input data-stork="stork" />
+			<div data-stork="stork-output"></div>
+			<script src="https://files.stork-search.net/releases/v1.5.0/stork.js"></script>
+			<script>
+			    stork.register("stork", "/assets/stork-search.st");
+			</script>
 		</div>
 
 		<div class="v-spacer-menulist"></div>
