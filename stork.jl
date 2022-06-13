@@ -6,24 +6,26 @@ success(`curl -L $addr -o stork`)
 success(`chmod +x stork`)
 run(`./stork --version`)
 
-# stork config
-wd = pwd()
-try
-	cd("__site")
-	for (root, dirs, files) in walkdir(".")
-		if any(x -> startswith(root, x), ["libs", "css", "assets"])
-			continue
-		end
-		f = filter(endswith(".html"), files)
-		isempty(f) && continue
+error("NO NEED TO GO FURTHER")
 
-		for file in f
-			s = read(joinpath(root, file), String)
-			
-		end
-finally
-	cd(wd)
-end
+# stork config
+# wd = pwd()
+# try
+# 	cd("__site")
+# 	for (root, dirs, files) in walkdir(".")
+# 		if any(x -> startswith(root, x), ["libs", "css", "assets"])
+# 			continue
+# 		end
+# 		f = filter(endswith(".html"), files)
+# 		isempty(f) && continue
+#
+# 		for file in f
+# 			s = read(joinpath(root, file), String)
+#
+# 		end
+# finally
+# 	cd(wd)
+# end
 
 # wd = pwd()
 # try
