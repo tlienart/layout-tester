@@ -17,7 +17,8 @@ jobs:
           BRANCH: "devwip"
           BASE_URL_PREFIX: "layout-tester"
           PYTHON_LIBS: "matplotlib pandas"
-          PYTHON_POST: "include(\"stork.jl\")"
+          # make this post later
+          JULIA_PRE: "include(\"stork.jl\")"
 
           # ===================================================================
           # DON'T CHANGE THE FOLLOWING UNLESS YOU HAVE GOOD REASONS TO
